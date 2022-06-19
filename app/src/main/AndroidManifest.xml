@@ -14,7 +14,31 @@
         android:theme="@style/Theme.PatientHelper"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".UserProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".VarificationCodeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RestPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Select_illActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LookingForActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SignUpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Splash"
+            android:exported="false" />
+        <activity
+            android:name=".activitys.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
