@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Final-Project.iml" filepath="$PROJECT_DIR$/.idea/Final-Project.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Patient_Helper.iml" filepath="$PROJECT_DIR$/.idea/modules/Patient_Helper.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Patient_Helper.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Patient_Helper.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Patient_Helper.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Patient_Helper.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Patient_Helper.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Patient_Helper.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Patient_Helper.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Patient_Helper.app.unitTest.iml" />
     </modules>
   </component>
 </project>
