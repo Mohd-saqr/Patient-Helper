@@ -30,7 +30,7 @@
             android:name=".activitys.Select_illActivity"
             android:exported="false" />
         <activity
-            android:name=".activitys.LookingForActivity"
+            android:name=".activitys.Splash"
             android:exported="false" />
         <activity
             android:name=".activitys.SignUpActivity"
@@ -39,7 +39,7 @@
             android:name=".activitys.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".activitys.Splash"
+            android:name=".activitys.LookingForActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

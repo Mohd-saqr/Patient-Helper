@@ -6,4 +6,44 @@
     android:layout_height="match_parent"
     tools:context=".activitys.LookingForActivity">
 
+    <TextView
+        android:id="@+id/Looking_For_TextView"
+        android:layout_width="299dp"
+        android:layout_height="106dp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:text="What you are Looking for ?"
+        android:textAlignment="center"
+        android:textSize="@dimen/_30sdp"
+        app:layout_constraintBottom_toTopOf="@+id/spinner_looking_for"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <Spinner
+        android:id="@+id/spinner_looking_for"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="0.201"
+        android:entries="@array/chose"
+        app:layout_constraintBottom_toTopOf="@+id/submit_looking_for"
+        app:layout_constraintTop_toBottomOf="@+id/Looking_For_TextView"
+        tools:ignore="MissingConstraints" />
+
+
+    <Button
+        android:id="@+id/submit_looking_for"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:text="Submit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_looking_for" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
