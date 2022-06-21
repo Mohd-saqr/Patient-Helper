@@ -13,9 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PatientHelper"
         tools:targetApi="31" >
-        <activity
-            android:name=".Posts_Row"
-            android:exported="false" />
+
         <activity
             android:name=".activitys.community"
             android:exported="false" />
@@ -42,15 +40,17 @@
             android:exported="false" />
         <activity
             android:name=".activitys.Splash"
-            android:exported="false" />
-        <activity
-            android:name=".activitys.MainActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".activitys.MainActivity"
+            android:exported="false" >
+
         </activity>
     </application>
 
