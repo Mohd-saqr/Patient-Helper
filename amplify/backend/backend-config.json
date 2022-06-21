@@ -1,6 +1,6 @@
 {
   "api": {
-    "patianthelper": {
+    "finalproject": {
       "service": "AppSync",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
@@ -18,7 +18,7 @@
     }
   },
   "auth": {
-    "patianthelper90cb3cf8": {
+    "finalproject0be01f59": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
@@ -45,14 +45,21 @@
       }
     }
   },
+  "function": {
+    "S3Triggerbb5020ef": {
+      "service": "Lambda",
+      "providerPlugin": "awscloudformation",
+      "build": true
+    }
+  },
   "storage": {
-    "s3504a2c4e": {
+    "s376c341ba": {
       "service": "S3",
       "providerPlugin": "awscloudformation",
       "dependsOn": [
         {
           "category": "function",
-          "resourceName": "S3Triggerfaa17fca",
+          "resourceName": "S3Triggerbb5020ef",
           "attributes": [
             "Name",
             "Arn",
@@ -60,13 +67,6 @@
           ]
         }
       ]
-    }
-  },
-  "function": {
-    "S3Triggerfaa17fca": {
-      "service": "Lambda",
-      "providerPlugin": "awscloudformation",
-      "build": true
     }
   }
 }

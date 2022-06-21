@@ -4,15 +4,18 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/M.2070/Desktop/Final project/test/Final-Project/app/src/main/res/drawable/round_text_input.xml" value="0.2705" />
+        <entry key="..\:/Users/M.2070/Desktop/Final project/test/Final-Project/app/src/main/res/layout/activity_community.xml" value="0.358695652173913" />
         <entry key="..\:/Users/M.2070/Desktop/Final project/test/Final-Project/app/src/main/res/layout/activity_login.xml" value="0.358695652173913" />
         <entry key="..\:/Users/M.2070/Desktop/Final project/test/Final-Project/app/src/main/res/layout/activity_looking_for.xml" value="0.358695652173913" />
         <entry key="..\:/Users/M.2070/Desktop/Final project/test/Final-Project/app/src/main/res/layout/activity_main.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/M.2070/Desktop/Final project/test/Final-Project/app/src/main/res/layout/activity_posts_row.xml" value="0.35260416666666666" />
         <entry key="..\:/Users/M.2070/Desktop/Final project/test/Final-Project/app/src/main/res/layout/activity_rest_password.xml" value="0.35260416666666666" />
         <entry key="..\:/Users/M.2070/Desktop/Final project/test/Final-Project/app/src/main/res/layout/activity_select_ill.xml" value="0.358695652173913" />
         <entry key="..\:/Users/M.2070/Desktop/Final project/test/Final-Project/app/src/main/res/layout/activity_sign_up.xml" value="0.358695652173913" />
         <entry key="..\:/Users/M.2070/Desktop/Final project/test/Final-Project/app/src/main/res/layout/activity_splash.xml" value="0.358695652173913" />
         <entry key="..\:/Users/M.2070/Desktop/Final project/test/Final-Project/app/src/main/res/layout/activity_user_profile.xml" value="0.358695652173913" />
         <entry key="..\:/Users/M.2070/Desktop/Final project/test/Final-Project/app/src/main/res/layout/activity_varification_code.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/M.2070/Desktop/Final project/test/Final-Project/app/src/main/res/layout/posts_row.xml" value="0.358695652173913" />
       </map>
     </option>
   </component>

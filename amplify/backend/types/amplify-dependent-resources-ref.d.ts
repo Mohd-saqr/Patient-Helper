@@ -1,13 +1,13 @@
 export type AmplifyDependentResourcesAttributes = {
     "api": {
-        "patianthelper": {
+        "finalproject": {
             "GraphQLAPIKeyOutput": "string",
             "GraphQLAPIIdOutput": "string",
             "GraphQLAPIEndpointOutput": "string"
         }
     },
     "auth": {
-        "patianthelper90cb3cf8": {
+        "finalproject0be01f59": {
             "IdentityPoolId": "string",
             "IdentityPoolName": "string",
             "UserPoolId": "string",
@@ -17,18 +17,18 @@ export type AmplifyDependentResourcesAttributes = {
             "AppClientID": "string"
         }
     },
-    "storage": {
-        "s3504a2c4e": {
-            "BucketName": "string",
-            "Region": "string"
-        }
-    },
     "function": {
-        "S3Triggerfaa17fca": {
+        "S3Triggerbb5020ef": {
             "Name": "string",
             "Arn": "string",
             "Region": "string",
             "LambdaExecutionRole": "string"
+        }
+    },
+    "storage": {
+        "s376c341ba": {
+            "BucketName": "string",
+            "Region": "string"
         }
     }
 }

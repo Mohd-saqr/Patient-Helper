@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "serviceConfiguration": {
+    "apiName": "finalproject",
+    "serviceName": "AppSync",
+    "gqlSchemaPath": "/mnt/c/Users/M.2070/Desktop/Final project/test/Final-Project/amplify/backend/api/finalproject/schema.graphql",
+    "defaultAuthType": {
+      "mode": "API_KEY",
+      "expirationTime": 7
+    }
+  }
+}
