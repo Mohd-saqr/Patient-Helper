@@ -1,6 +1,6 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "{\"createdOn\":\"Linux\",\"createdBy\":\"Amplify\",\"createdWith\":\"8.3.1\",\"stackType\":\"function-Lambda\",\"metadata\":{}}",
+  "Description": "{\"createdOn\":\"Linux\",\"createdBy\":\"Amplify\",\"createdWith\":\"8.5.1\",\"stackType\":\"function-Lambda\",\"metadata\":{}}",
   "Parameters": {
     "env": {
       "Type": "String"
@@ -34,12 +34,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "S3Triggerfaa17fca",
+            "S3Triggerbb5020ef",
             {
               "Fn::Join": [
                 "",
                 [
-                  "S3Triggerfaa17fca",
+                  "S3Triggerbb5020ef",
                   "-",
                   {
                     "Ref": "env"
@@ -80,12 +80,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "S3Triggerfaa17fcaLambdaRolefaa17fca",
+            "S3Triggerbb5020efLambdaRolebb5020ef",
             {
               "Fn::Join": [
                 "",
                 [
-                  "S3Triggerfaa17fcaLambdaRolefaa17fca",
+                  "S3Triggerbb5020efLambdaRolebb5020ef",
                   "-",
                   {
                     "Ref": "env"

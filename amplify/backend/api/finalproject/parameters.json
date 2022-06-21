@@ -1,5 +1,5 @@
 {
-  "AppSyncApiName": "patianthelper",
+  "AppSyncApiName": "finalproject",
   "DynamoDBBillingMode": "PAY_PER_REQUEST",
   "DynamoDBEnableServerSideEncryption": false
 }
