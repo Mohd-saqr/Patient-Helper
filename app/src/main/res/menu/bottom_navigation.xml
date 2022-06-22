@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Home"
+        android:id="@+id/home_fragment"
+        android:icon="@drawable/home_vector_assest"/>
+    <item android:title="Community"
+        android:id="@+id/community_fragment"
+        android:icon="@drawable/community_vector_assest"/>
+    <item android:title="Drugs conflict"
+        android:id="@+id/drugs_conflicts_fragment"
+        android:icon="@drawable/drug_conflict_vector_assest"/>
+    <item android:title="Profile"
+        android:id="@+id/profile_fragment"
+        android:icon="@drawable/profile_vector_assest"/>
+
+
+</menu>

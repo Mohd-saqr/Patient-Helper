@@ -13,4 +13,14 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="FabStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">end|bottom</item>
+        <item name="srcCompat">@drawable/outline_cloud_upload_24</item>
+        <item name="backgroundTint">#009688</item>
+        <item name="tint">@color/white</item>
+        <item name="useCompatPadding">true</item>
+    </style>
 </resources>
