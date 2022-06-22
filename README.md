@@ -1,4 +1,4 @@
-# Pharmacy Helper
+# Patient Helper
 
 ## Team Members
 
