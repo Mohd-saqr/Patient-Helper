@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_graph"
+    app:startDestination="@id/home_fragment">
+    <fragment
+        android:id="@+id/home_fragment"
+        android:name="com.patient.patienthelper.fragment.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/drugs_conflicts_fragment"
+        android:name="com.patient.patienthelper.fragment.DrugsConflictsFragment"
+        android:label="fragment_drugs_conflicts"
+        tools:layout="@layout/fragment_drugs_conflicts" />
+    <fragment
+        android:id="@+id/profile_fragment"
+        android:name="com.patient.patienthelper.fragment.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/community_fragment"
+        android:name="com.patient.patienthelper.fragment.CommunityFragment"
+        android:label="fragment_community"
+        tools:layout="@layout/fragment_community" />
+</navigation>
