@@ -7,3 +7,21 @@ type Todo @model {
   name: String!
   description: String
 }
+type Post @model {
+  id: ID!
+  body: String!
+  create_at:AWSDateTime!
+  create_by: String!
+  user_id:Int
+  comments:[Comment] @hasMany
+
+}
+
+type Comment @model {
+  id: ID!
+  body: String!
+  create_at:AWSDateTime!
+  create_by:String!
+  post: Post @hasOne
+
+}
