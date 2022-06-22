@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 
 import com.amplifyframework.AmplifyException;
@@ -14,6 +15,8 @@ import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
 import com.patient.patienthelper.R;
 
 public class Splash extends AppCompatActivity {
+    // to handle splash
+    Handler splashHandler= new Handler();
 
     private static final String TAG = Splash.class.getSimpleName();
 
@@ -22,8 +25,14 @@ public class Splash extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         initializeAws();
-        startActivity(new Intent(this, SignUpActivity.class));
+        splashDelay();
+        startActivity(new Intent(this, LoginActivity.class));
 
+
+    }
+    // this method for display the splash for a few seconds
+    public void splashDelay(){
+        splashHandler.postDelayed(() -> finish(),3000);
     }
 
 
