@@ -1,4 +1,7 @@
 {
+  "providers": [
+    "awscloudformation"
+  ],
   "projectName": "FinalProject",
   "version": "3.1",
   "frontend": "android",
@@ -6,8 +9,5 @@
     "config": {
       "ResDir": "app/src/main/res"
     }
-  },
-  "providers": [
-    "awscloudformation"
-  ]
+  }
 }
