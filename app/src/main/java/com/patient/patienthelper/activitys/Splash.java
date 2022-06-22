@@ -32,7 +32,7 @@ public class Splash extends AppCompatActivity {
     }
     // this method for display the splash for a few seconds
     public void splashDelay(){
-        splashHandler.postDelayed(() -> finish(),3000);
+        splashHandler.postDelayed(() -> finish(),10000);
     }
 
 
@@ -43,10 +43,10 @@ public class Splash extends AppCompatActivity {
      */
     private void initializeAws() {
         try {
-            Amplify.configure(getApplicationContext());
             Amplify.addPlugin(new AWSApiPlugin());
             Amplify.addPlugin(new AWSCognitoAuthPlugin());
             Amplify.addPlugin(new AWSS3StoragePlugin());
+            Amplify.configure(getApplicationContext());
             Log.i(TAG, "Initialized Amplify");
         } catch (AmplifyException error) {
             Log.e(TAG, "Could not initialize Amplify", error);
