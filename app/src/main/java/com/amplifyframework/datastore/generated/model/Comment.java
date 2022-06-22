@@ -1,7 +1,7 @@
 package com.amplifyframework.datastore.generated.model;
 
 import com.amplifyframework.core.model.temporal.Temporal;
-import com.amplifyframework.core.model.annotations.HasMany;
+import com.amplifyframework.core.model.annotations.HasOne;
 
 import java.util.List;
 import java.util.UUID;
@@ -17,23 +17,23 @@ import com.amplifyframework.core.model.query.predicate.QueryField;
 
 import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
-/** This is an auto generated class representing the Post type in your schema. */
+/** This is an auto generated class representing the Comment type in your schema. */
 @SuppressWarnings("all")
-@ModelConfig(pluralName = "Posts")
-public final class Post implements Model {
-  public static final QueryField ID = field("Post", "id");
-  public static final QueryField BODY = field("Post", "body");
-  public static final QueryField CREATE_AT = field("Post", "create_at");
-  public static final QueryField CREATE_BY = field("Post", "create_by");
-  public static final QueryField USER_ID = field("Post", "user_id");
+@ModelConfig(pluralName = "Comments")
+public final class Comment implements Model {
+  public static final QueryField ID = field("Comment", "id");
+  public static final QueryField BODY = field("Comment", "body");
+  public static final QueryField CREATE_AT = field("Comment", "create_at");
+  public static final QueryField CREATE_BY = field("Comment", "create_by");
+  public static final QueryField COMMENT_POST_ID = field("Comment", "commentPostId");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String", isRequired = true) String body;
   private final @ModelField(targetType="AWSDateTime", isRequired = true) Temporal.DateTime create_at;
   private final @ModelField(targetType="String", isRequired = true) String create_by;
-  private final @ModelField(targetType="Int") Integer user_id;
-  private final @ModelField(targetType="Comment") @HasMany(associatedWith = "post", type = Comment.class) List<Comment> comments = null;
+  private final @ModelField(targetType="Post") @HasOne(associatedWith = "id", type = Post.class) Post post = null;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
+  private final @ModelField(targetType="ID") String commentPostId;
   public String getId() {
       return id;
   }
@@ -50,12 +50,8 @@ public final class Post implements Model {
       return create_by;
   }
   
-  public Integer getUserId() {
-      return user_id;
-  }
-  
-  public List<Comment> getComments() {
-      return comments;
+  public Post getPost() {
+      return post;
   }
   
   public Temporal.DateTime getCreatedAt() {
@@ -66,12 +62,16 @@ public final class Post implements Model {
       return updatedAt;
   }
   
-  private Post(String id, String body, Temporal.DateTime create_at, String create_by, Integer user_id) {
+  public String getCommentPostId() {
+      return commentPostId;
+  }
+  
+  private Comment(String id, String body, Temporal.DateTime create_at, String create_by, String commentPostId) {
     this.id = id;
     this.body = body;
     this.create_at = create_at;
     this.create_by = create_by;
-    this.user_id = user_id;
+    this.commentPostId = commentPostId;
   }
   
   @Override
@@ -81,14 +81,14 @@ public final class Post implements Model {
       } else if(obj == null || getClass() != obj.getClass()) {
         return false;
       } else {
-      Post post = (Post) obj;
-      return ObjectsCompat.equals(getId(), post.getId()) &&
-              ObjectsCompat.equals(getBody(), post.getBody()) &&
-              ObjectsCompat.equals(getCreateAt(), post.getCreateAt()) &&
-              ObjectsCompat.equals(getCreateBy(), post.getCreateBy()) &&
-              ObjectsCompat.equals(getUserId(), post.getUserId()) &&
-              ObjectsCompat.equals(getCreatedAt(), post.getCreatedAt()) &&
-              ObjectsCompat.equals(getUpdatedAt(), post.getUpdatedAt());
+      Comment comment = (Comment) obj;
+      return ObjectsCompat.equals(getId(), comment.getId()) &&
+              ObjectsCompat.equals(getBody(), comment.getBody()) &&
+              ObjectsCompat.equals(getCreateAt(), comment.getCreateAt()) &&
+              ObjectsCompat.equals(getCreateBy(), comment.getCreateBy()) &&
+              ObjectsCompat.equals(getCreatedAt(), comment.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), comment.getUpdatedAt()) &&
+              ObjectsCompat.equals(getCommentPostId(), comment.getCommentPostId());
       }
   }
   
@@ -99,9 +99,9 @@ public final class Post implements Model {
       .append(getBody())
       .append(getCreateAt())
       .append(getCreateBy())
-      .append(getUserId())
       .append(getCreatedAt())
       .append(getUpdatedAt())
+      .append(getCommentPostId())
       .toString()
       .hashCode();
   }
@@ -109,14 +109,14 @@ public final class Post implements Model {
   @Override
    public String toString() {
     return new StringBuilder()
-      .append("Post {")
+      .append("Comment {")
       .append("id=" + String.valueOf(getId()) + ", ")
       .append("body=" + String.valueOf(getBody()) + ", ")
       .append("create_at=" + String.valueOf(getCreateAt()) + ", ")
       .append("create_by=" + String.valueOf(getCreateBy()) + ", ")
-      .append("user_id=" + String.valueOf(getUserId()) + ", ")
       .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
-      .append("updatedAt=" + String.valueOf(getUpdatedAt()))
+      .append("updatedAt=" + String.valueOf(getUpdatedAt()) + ", ")
+      .append("commentPostId=" + String.valueOf(getCommentPostId()))
       .append("}")
       .toString();
   }
@@ -133,8 +133,8 @@ public final class Post implements Model {
    * @param id the id of the existing item this instance will represent
    * @return an instance of this model with only ID populated
    */
-  public static Post justId(String id) {
-    return new Post(
+  public static Comment justId(String id) {
+    return new Comment(
       id,
       null,
       null,
@@ -148,7 +148,7 @@ public final class Post implements Model {
       body,
       create_at,
       create_by,
-      user_id);
+      commentPostId);
   }
   public interface BodyStep {
     CreateAtStep body(String body);
@@ -166,9 +166,9 @@ public final class Post implements Model {
   
 
   public interface BuildStep {
-    Post build();
+    Comment build();
     BuildStep id(String id);
-    BuildStep userId(Integer userId);
+    BuildStep commentPostId(String commentPostId);
   }
   
 
@@ -177,17 +177,17 @@ public final class Post implements Model {
     private String body;
     private Temporal.DateTime create_at;
     private String create_by;
-    private Integer user_id;
+    private String commentPostId;
     @Override
-     public Post build() {
+     public Comment build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
         
-        return new Post(
+        return new Comment(
           id,
           body,
           create_at,
           create_by,
-          user_id);
+          commentPostId);
     }
     
     @Override
@@ -212,8 +212,8 @@ public final class Post implements Model {
     }
     
     @Override
-     public BuildStep userId(Integer userId) {
-        this.user_id = userId;
+     public BuildStep commentPostId(String commentPostId) {
+        this.commentPostId = commentPostId;
         return this;
     }
     
@@ -229,12 +229,12 @@ public final class Post implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String body, Temporal.DateTime createAt, String createBy, Integer userId) {
+    private CopyOfBuilder(String id, String body, Temporal.DateTime createAt, String createBy, String commentPostId) {
       super.id(id);
       super.body(body)
         .createAt(createAt)
         .createBy(createBy)
-        .userId(userId);
+        .commentPostId(commentPostId);
     }
     
     @Override
@@ -253,8 +253,8 @@ public final class Post implements Model {
     }
     
     @Override
-     public CopyOfBuilder userId(Integer userId) {
-      return (CopyOfBuilder) super.userId(userId);
+     public CopyOfBuilder commentPostId(String commentPostId) {
+      return (CopyOfBuilder) super.commentPostId(commentPostId);
     }
   }
   
