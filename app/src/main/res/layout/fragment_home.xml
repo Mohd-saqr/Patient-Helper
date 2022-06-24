@@ -1,29 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@drawable/today_quote"
     android:layout_height="match_parent"
+    android:layout_marginBottom="@dimen/_24sdp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragment.HomeFragment">
 
-    <TextView
-        android:id="@+id/welcoming"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello from home fragment"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/top_card_view"
+        style="@style/carViewTheme"
+        android:layout_marginTop="130dp"
+        android:backgroundTint="#ddf1ff"
+        app:layout_constraintBottom_toTopOf="@+id/find_drug_button"
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeWidth="1dp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="5dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:orientation="vertical">
+
+            <ProgressBar
+                android:id="@+id/advice_loading_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                />
+            <TextView
+                android:id="@+id/text_advice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:gravity="left|right"
+                android:justificationMode="inter_word"
+                android:lineSpacingExtra="5dp"
+                android:padding="4dp"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+<!--android:text="from the popular St John\'s Wort and ginkgo biloba to garlic, ginger, ginseng and feverfew – can cause increased bleeding during surgery, warn surgeons. It may be wise to stop taking all medication, including herbal supplements, at least two weeks before surgery, and inform your surgeon about your herbal use."-->
 
     <Button
         android:id="@+id/find_drug_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/welcoming"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="#9ee0ff"
+        android:text="Find drug"
+        app:layout_constraintTop_toBottomOf="@+id/top_card_view"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:text="Find drug"/>
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
