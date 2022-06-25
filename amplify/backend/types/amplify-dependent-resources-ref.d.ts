@@ -17,16 +17,8 @@ export type AmplifyDependentResourcesAttributes = {
             "AppClientID": "string"
         }
     },
-    "function": {
-        "S3Triggerbb5020ef": {
-            "Name": "string",
-            "Arn": "string",
-            "Region": "string",
-            "LambdaExecutionRole": "string"
-        }
-    },
     "storage": {
-        "s376c341ba": {
+        "s36f10368f": {
             "BucketName": "string",
             "Region": "string"
         }

@@ -1,17 +1,13 @@
 package com.patient.patienthelper.fragment;
 
+import static com.amazonaws.mobile.auth.core.internal.util.ThreadUtils.runOnUiThread;
+
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.Fragment;
-
 import android.text.Html;
 import android.text.InputType;
 import android.util.Log;
@@ -22,14 +18,24 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
 
 import com.amplifyframework.core.Amplify;
 import com.patient.patienthelper.R;
+import com.patient.patienthelper.activitys.ChangePasswordActivity;
+import com.patient.patienthelper.activitys.DeleteAccountActivity;
+import com.patient.patienthelper.activitys.EditProfileActivity;
+import com.patient.patienthelper.activitys.LoginActivity;
 import com.patient.patienthelper.activitys.MainActivity;
 
 import java.io.File;
-import java.util.Objects;
 
 /*
  * A simple {@link Fragment} subclass.
@@ -39,13 +45,15 @@ import java.util.Objects;
 public class ProfileFragment extends Fragment {
 
     private ListView listView;
-    private TextView textView;
     private ImageView profileImage;
+    private TextView userFullName;
     private String downloadedImagePath;
-    private final String[] itemList = {" Edit Profile", " Change password", " Delete account", ""};
+    private ProgressBar profilePageProgressBar;
+    private final String[] itemList = {" Edit Profile", " Change password", " Sign out", " Delete account"};
     private final String[] subItemsList = {
             "        Change name, age, male and email",
             "        Change current password",
+            "        Sign out from this or all device",
             "        Delete your account"};
     private static final String TAG = MainActivity.class.getSimpleName() + " Profile Fragment";
 
@@ -54,6 +62,7 @@ public class ProfileFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    @SuppressLint("SdCardPath")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -61,19 +70,21 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         findAllViewById(view);
         setListView();
+        imageDownload();
         return view;
     }
 
     private void findAllViewById(View view) {
-        listView = (ListView) view.findViewById(R.id.profile_list_views);
-        //textView = (TextView) view.findViewById(R.id.user_welcoming_profile);
+        listView = view.findViewById(R.id.profile_list_views);
+        userFullName = (TextView) view.findViewById(R.id.user_full_name);
         profileImage = view.findViewById(R.id.img_profile);
+        profilePageProgressBar = view.findViewById(R.id.profile_page_progress_bar);
     }
 
     @SuppressLint("SdCardPath")
     private void imageDownload() {
         downloadedImagePath = "/data/data/com.patient.patienthelper/files/";
-        File file = new File(downloadedImagePath);
+        File file = new File(getContext().getFilesDir() + "/"+"userProfile"+".jpg");
         Log.i(TAG, "imageDownload: is the file exist -> " + file.exists());
         if (!file.exists()) {
             Amplify.Storage.downloadFile(
@@ -81,27 +92,28 @@ public class ProfileFragment extends Fragment {
                     TODO
                     Add the image code
                      */
-                    "currentTask.getTaskImageCode()",
+                    "ghanem97outlookcom",
                     file,
                     result -> {
                         Log.i(TAG, "The root path is: " + requireContext().getFilesDir());
                         Log.i(TAG, "Successfully downloaded: " + result.getFile().getName());
 
                         downloadedImagePath = result.getFile().getPath();
+                        showTheImageInThePage(file);
                     },
                     error -> Log.e(TAG, "Download Failure", error)
             );
+        }else {
+            showTheImageInThePage(file);
         }
     }
 
-    private void showTheImageInThePage() {
+    private void showTheImageInThePage(File file) {
 
-        /*
-        TODO
-        Add the image code
-         */
-        Bitmap bMap = BitmapFactory.decodeFile(downloadedImagePath + "currentTask.getTaskImageCode()" + ".jpg");
-        profileImage.setImageBitmap(bMap);
+        if (file != null) {
+            Bitmap bitmap = BitmapFactory.decodeFile(file.getPath());
+            profileImage.setImageBitmap(bitmap);
+        }
     }
 
     private void setListView() {
@@ -128,13 +140,17 @@ public class ProfileFragment extends Fragment {
                 switch (position) {
                     case 0:
                         subItem.setText(subItemsList[position]);
-                        name.setCompoundDrawablesWithIntrinsicBounds(R.drawable.profile_vector_assest, 0, 0, 0);
+                        name.setCompoundDrawablesWithIntrinsicBounds(R.drawable.edit_profile_vector_asset, 0, 0, 0);
                         break;
                     case 1:
                         subItem.setText(subItemsList[position]);
                         name.setCompoundDrawablesWithIntrinsicBounds(R.drawable.password_vector_asset, 0, 0, 0);
                         break;
                     case 2:
+                        subItem.setText(subItemsList[position]);
+                        name.setCompoundDrawablesWithIntrinsicBounds(R.drawable.logout,0,0,0);
+                        break;
+                    case 3:
                         subItem.setText(subItemsList[position]);
                         name.setCompoundDrawablesWithIntrinsicBounds(R.drawable.delete_vector_asset, 0, 0, 0);
                         break;
@@ -149,49 +165,60 @@ public class ProfileFragment extends Fragment {
 
             switch (i) {
                 case 0:
-//                    navigateToEditPage();
+                    navigateToEditProfilePage();
                     break;
                 case 1:
-//                    navigateToResetPasswordPage();
+                    navigateToChangePasswordPage();
                     break;
                 case 2:
-                    deleteAccountAlertDialog();
+                    signOut();
+                    break;
+                case 3:
+                    navigateToDeleteAccountActivity();
                     break;
                 default:
             }
         });
     }
 
-    private void deleteAccountAlertDialog() {
-        /*
-        https://stackoverflow.com/questions/33437398/how-to-change-textcolor-in-alertdialog
-        how to change the text color in alert dialog
-        */
-        String random = randomString() + "";
-        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-        final EditText edittext = new EditText(getContext());
-        edittext.setInputType(InputType.TYPE_CLASS_NUMBER);
-        alert.setMessage("Are you sure to delete your account?\n\nEnter " + random + " To confirm");
-        alert.setTitle(Html.fromHtml("<font color='#FF0000'>Warning!</font>"));
+    private void navigateToEditProfilePage(){
 
-        alert.setView(edittext);
+        Intent intent = new Intent(getContext(), EditProfileActivity.class);
+        startActivity(intent);
 
-        alert.setPositiveButton(Html.fromHtml("<font color='#FF0000'>ok</font>"), (dialog, whichButton) -> {
-            if (edittext.getText().toString().equals(random + "")) {
-                //deleteAccount();
-//                navigateToLoginPage();
-//                finish();
-            } else {
-                deleteAccountAlertDialog();
-            }
-        });
-
-        alert.setNegativeButton("cancel", (dialog, whichButton) -> onResume());
-
-        alert.show();
     }
 
-    private int randomString() {
-        return (int) (Math.random() * (5000 - 2000) + 1) + 2000;
+    private void navigateToChangePasswordPage(){
+        startActivity(new Intent(getContext(), ChangePasswordActivity.class));
+    }
+
+    private void signOut() {
+        profilePageProgressBar.setVisibility(View.VISIBLE);
+        Amplify.Auth.signOut(
+                () -> {
+                    Log.i(TAG, "Signed out successfully");
+                    navigateToLoginPage();
+                },
+                error -> {
+                    Log.e(TAG, error.toString());
+                    runOnUiThread(() -> {
+                        profilePageProgressBar.setVisibility(View.INVISIBLE);
+                        Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+                        onResume();
+                    });
+                }
+        );
+    }
+
+    private void navigateToLoginPage() {
+        runOnUiThread(() -> {
+            profilePageProgressBar.setVisibility(View.INVISIBLE);
+            startActivity(new Intent(getContext(), LoginActivity.class));
+            getActivity().finish();
+        });
+    }
+    private void navigateToDeleteAccountActivity(){
+
+        startActivity(new Intent(getContext(), DeleteAccountActivity.class));
     }
 }
