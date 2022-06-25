@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activitys.DeleteAccountActivity">
+
+    <RelativeLayout
+        android:id="@+id/title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="@drawable/back_arrow" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:text="Delete Account"
+            android:textAllCaps="true"
+            android:textSize="@dimen/_20sdp" />
+
+    </RelativeLayout>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/delete_account_result_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_20sdp"
+        app:layout_constraintTop_toBottomOf="@+id/title_layout">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/warning_text_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_50sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:src="@drawable/warning_delete_account" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:text="Deleting your account will"
+                    android:textColor="@color/red" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/first_warning"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/warning_text_layout"
+                android:layout_marginStart="@dimen/_70sdp"
+                android:drawableStart="@drawable/social_bg_black_dot"
+                android:text="  Delete your account from Patient Helper"
+
+                />
+
+            <TextView
+                android:id="@+id/second_warning"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/first_warning"
+                android:layout_marginStart="@dimen/_70sdp"
+                android:drawableStart="@drawable/social_bg_black_dot"
+                android:text="  Erase your Posts"
+
+                />
+
+            <TextView
+                android:id="@+id/third_warning"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/second_warning"
+                android:layout_marginStart="@dimen/_70sdp"
+                android:drawableStart="@drawable/social_bg_black_dot"
+                android:text="  Delete All your information"
+
+                />
+
+            <TextView
+                android:id="@+id/forth_warning"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/third_warning"
+                android:layout_marginStart="@dimen/_70sdp"
+                android:layout_marginBottom="@dimen/_20sdp"
+                android:drawableStart="@drawable/social_bg_black_dot"
+                android:text="  Delete you from all community pages" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/ensure_password_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_20sdp"
+        app:layout_constraintTop_toBottomOf="@+id/delete_account_result_card">
+
+        <TextView
+            android:layout_width="@dimen/_230sdp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:gravity="center_horizontal"
+            android:text="To delete your account, confirm your password"
+
+            />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:hint="Password">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/password_delete_account_page"
+                android:layout_width="@dimen/_250sdp"
+                android:layout_height="@dimen/_45sdp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_40sdp"
+                android:layout_marginBottom="@dimen/_20sdp"
+                android:inputType="textPassword"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/delete_account_btn"
+        android:layout_width="@dimen/_280sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_marginTop="@dimen/_50sdp"
+        android:background="@drawable/round_text_input"
+        android:backgroundTint="@color/red"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="Delete Account"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ensure_password_card" />
+</androidx.constraintlayout.widget.ConstraintLayout>

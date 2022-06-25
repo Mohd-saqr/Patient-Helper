@@ -11,9 +11,8 @@ type Todo @model {
 type Post @model {
   id: ID!
   body: String!
-  create_at:AWSDateTime!
   create_by: String!
-  user_id:Int
+  user_id:String!
   comments:[Comment] @hasMany
 
 }

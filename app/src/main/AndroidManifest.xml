@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.patient.patienthelper" >
+    package="com.patient.patienthelper">
 
     <application
-        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -13,8 +12,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PatientHelper"
-        tools:targetApi="31" >
-
+        android:usesCleartextTraffic="true"
+        tools:targetApi="31">
+        <activity
+            android:name=".activitys.DeleteAccountActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activitys.ChangePasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activitys.EditProfileActivity"
+            android:exported="false" />
         <activity
             android:name=".activitys.community"
             android:exported="false" />
@@ -32,12 +40,12 @@
             android:exported="false" />
         <activity
             android:name=".activitys.Splash"
-            android:exported="true" >
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".activitys.SignUpActivity"
@@ -47,14 +55,10 @@
             android:exported="false" />
         <activity
             android:name=".activitys.LookingForActivity"
-            android:exported="false" >
-
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".activitys.MainActivity"
-            android:exported="false" >
-
-        </activity>
+            android:exported="false" />
     </application>
 
 </manifest>
