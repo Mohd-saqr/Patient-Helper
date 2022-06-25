@@ -4,7 +4,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activitys.SignUpActivity">
+    tools:context=".activitys.SignUpActivity"
+    >
+
+    <RelativeLayout
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:layout_gravity="center_horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/cardView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/img_prof"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/profile_bg"
+
+            android:padding="3dp"
+            android:scaleType="centerInside"
+            app:srcCompat="@drawable/ic_person" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_add"
+            style="@style/FabStyle"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            />
+    </RelativeLayout>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
@@ -138,20 +171,12 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 android:fontFamily="@font/poppinsbold"
                 android:gravity="center"
-                android:text="SIGNIN"
+                android:text="SIGNUP"
                 android:textColor="@color/white"
                 android:textSize="22dp" />
 
         </RelativeLayout>
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_200sdp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_login_back" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
