@@ -5,17 +5,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activitys.community">
+<!--  <ScrollView-->
+<!--      android:layout_width="wrap_content"-->
+<!--      android:layout_height="wrap_content">-->
+<!--      -->
+<!--  </ScrollView>-->
 
 
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+<!--    <ProgressBar-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        android:visibility="invisible"-->
+<!--        android:id="@+id/progress_com"/>-->
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/_1sdp"
+        app:indicatorColor="@color/purple_700"
+        app:indeterminateAnimationType="disjoint"
+        android:id="@+id/progress_com"
+        android:visibility="invisible"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="invisible"
-        android:id="@+id/progress_com"/>
+        android:indeterminate="true"
+        android:layout_height="@dimen/_50sdp" />
 
 
 
@@ -26,14 +44,18 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="@dimen/_10sdp"
-        app:layout_constraintStart_toStartOf="parent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+
+    app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
         <com.google.android.material.textfield.TextInputEditText
+
             android:id="@+id/post_body"
+            style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_60sdp"
             android:layout_margin="@dimen/_5sdp"
-            android:background="@color/white"
+
             android:hint="Write Something"/>
 
 
@@ -44,6 +66,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Post"
+
+        android:textSize="@dimen/_10sdp"
+        android:gravity="center"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+        app:icon="@drawable/write"
+        app:iconGravity="textStart"
+        app:iconPadding="@dimen/_10sdp"
+
         android:layout_marginHorizontal="@dimen/_10sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.894"
