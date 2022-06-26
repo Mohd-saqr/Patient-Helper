@@ -10,6 +10,8 @@ public class UserLogIn {
     private String id;
     private String email;
     private Boolean email_verified ;
+    private Boolean firstLogIn =true ;
+    private String status;
 
     private  String imageId;
 
@@ -104,6 +106,22 @@ public class UserLogIn {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Boolean getFirstLogIn() {
+        return firstLogIn;
+    }
+
+    public void setFirstLogIn(Boolean firstLogIn) {
+        this.firstLogIn = firstLogIn;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @Override

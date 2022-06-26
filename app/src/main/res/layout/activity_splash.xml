@@ -5,6 +5,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activitys.Splash"
-    android:background="@drawable/splash_screen">
+    >
+<TextView
+    android:id="@+id/welcoming"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:textSize="@dimen/_24sdp"
+    android:textStyle="bold"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    android:layout_marginVertical="@dimen/_10sdp"
+    android:textColor="#4C7277"
+    android:fontFamily="@font/poppinsmedium"
+    android:text="Welcome To patient Helper "/>
+    <com.airbnb.lottie.LottieAnimationView
+        app:layout_constraintTop_toBottomOf="@id/welcoming"
+        android:layout_width="match_parent"
+        android:id="@+id/animation"
+        android:layout_height="@dimen/_350sdp"
+
+        app:lottie_loop="true"
+        app:lottie_autoPlay="true"
+        app:lottie_rawRes="@raw/doctor"/>
+    <com.airbnb.lottie.LottieAnimationView
+        app:layout_constraintTop_toBottomOf="@id/animation"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_70sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        app:lottie_loop="true"
+        app:lottie_autoPlay="true"
+        app:lottie_rawRes="@raw/loading"/>
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

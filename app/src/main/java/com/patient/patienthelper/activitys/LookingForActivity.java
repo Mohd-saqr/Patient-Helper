@@ -16,10 +16,12 @@ import android.widget.TextView;
 
 import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.core.Amplify;
+import com.google.gson.Gson;
 import com.patient.patienthelper.R;
 import com.patient.patienthelper.api.Disease;
 import com.patient.patienthelper.api.GetApi;
 import com.patient.patienthelper.helperClass.MySharedPreferences;
+import com.patient.patienthelper.helperClass.UserLogIn;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,17 +39,27 @@ public class LookingForActivity extends AppCompatActivity {
     Spinner sp;
     private static final String TAG = "";
     MySharedPreferences preferences;
+    UserLogIn userLogIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_looking_for);
         findViews();
+        preferences = new MySharedPreferences(this);
+        getData();
         SpinnerSelected();
-        preferences.putString("testClass","this is my class");
-        preferences.apply();
 
 
+    }
+
+    private void getData() {
+
+        if (preferences.contains("userLog")) {
+            Gson gson = new Gson();
+            userLogIn = gson.fromJson(preferences.getString("userLog", "noData"), UserLogIn.class);
+
+        }
     }
 
     public void findViews() {
@@ -58,47 +70,37 @@ public class LookingForActivity extends AppCompatActivity {
     public void SpinnerSelected() {
 
 
-        String Selected = String.valueOf(sp.getSelectedItem());
+        button.setOnClickListener(v -> {
+            String Selected = String.valueOf(sp.getSelectedItem());
+            if (Selected.equals("Patient")) {
+                saveData("Patient");
+                Intent i = new Intent(this, Select_illActivity.class);
+                startActivity(i);
 
-        shared();
+            } else if (Selected.equals("Drug conflict")) {
+                saveData("Drug conflict");
+                Intent i = new Intent(this, MainActivity.class);
+                startActivity(i);
+            } else {
+                saveData("another");
+                Intent i = new Intent(this, MainActivity.class);
+                startActivity(i);
+            }
 
-        if (Selected.equals("Patient")) {
+        });
 
-            System.out.println(Selected);
 
-            Log.i(TAG, "onCreate: " + Selected);
-
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(getApplicationContext(), Select_illActivity.class);
-                    startActivity(intent);
-                }
-            });
-        } else if (Selected.equals("Drug conflict")) {
-            System.out.println(Selected);
-            Log.i(TAG, "onCreate: " + Selected);
-
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent1 = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent1);
-                }
-            });
-        }
     }
 
-    private void shared() {
-         preferences = new MySharedPreferences(this);
-        String SelectedSpinner = preferences.getString("testClass", "no data");
-        System.out.println(SelectedSpinner);
+    private void saveData(String status) {
+
+        Gson gson = new Gson();
+        String serializedObject = gson.toJson(userLogIn);
+        preferences.putString("userLog", serializedObject);
+        preferences.putBoolean("FirstLog", false);
+        preferences.putString("userStatus",status);
+        preferences.apply();
     }
-
-
-
-
-
 
 
 }

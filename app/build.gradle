@@ -41,7 +41,7 @@ dependencies {
     implementation 'com.intuit.sdp:sdp-android:1.1.0'
 
     // image picker library
-    implementation 'com.github.dhaval2404:imagepicker:2.1'
+    implementation 'com.github.Drjacky:ImagePicker:2.1.16'
 
 
     // api gradle
@@ -60,5 +60,10 @@ dependencies {
     implementation 'com.amplifyframework:aws-storage-s3:1.35.4'
     implementation 'com.amplifyframework:aws-auth-cognito:1.35.4'
     implementation 'com.amplifyframework:aws-api:1.35.4'
+
+    ///animation library
+
+    implementation 'com.airbnb.android:lottie:5.2.0'
+
 
 }

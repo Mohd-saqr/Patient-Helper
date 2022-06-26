@@ -17,6 +17,9 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
@@ -25,9 +28,13 @@ import com.amplifyframework.auth.AuthUserAttribute;
 import com.amplifyframework.auth.AuthUserAttributeKey;
 import com.amplifyframework.auth.options.AuthSignUpOptions;
 import com.amplifyframework.core.Amplify;
+import com.github.drjacky.imagepicker.ImagePicker;
+import com.github.drjacky.imagepicker.constant.ImageProvider;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.patient.patienthelper.R;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -36,6 +43,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
+import kotlin.jvm.internal.Intrinsics;
 
 public class SignUpActivity extends AppCompatActivity {
     Context context = this ;
@@ -53,13 +64,15 @@ public class SignUpActivity extends AppCompatActivity {
     private static String passwordSignupString;
     private FloatingActionButton addPhoto ;
     private AppCompatImageView imageView ;
-    public  final static int REQUEST_CODE=123;
+
     private File file ;
     OutputStream os;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
         callingIntent = getIntent();
 
         inflateViews();
@@ -143,37 +156,28 @@ public class SignUpActivity extends AppCompatActivity {
     }
     // pick an image from gallery
     private  void imagePicker(){
-//        ImagePicker.with(this)
-//                .crop()	    			//Crop image(Optional), Check Customization for more option
-//                .compress(1024)			//Final image size will be less than 1 MB(Optional)
-//                .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
-//                .start(123);
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType("image/*");
+        ImagePicker.Companion.with(this)
+                .crop()
+                .cropOval()
+                .maxResultSize(512,512,true)
+                .provider(ImageProvider.BOTH) //Or bothCameraGallery()
+                .createIntentFromDialog((Function1)(new Function1(){
+                    public Object invoke(Object var1) {
+                        this.invoke((Intent) var1);
+                        return Unit.INSTANCE;
+                    }
 
-
-        startActivityForResult(intent, REQUEST_CODE);
+                    public final void invoke(@NotNull Intent it) {
+                        Intrinsics.checkNotNullParameter(it, "it");
+                        launcher.launch(it);
+                    }
+                }));
 
     }
     // to accept the data from image picker
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Uri uri = data.getData();
-        if (resultCode != Activity.RESULT_OK) {
-            Toast.makeText(this, "Upload Failed", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if (requestCode == REQUEST_CODE) {// Get photo picker response for single select.
-            convertBitmapToFile(uri);
 
 
-            // Do stuff with the photo/video URI.
-        }
-        Bitmap bMap = BitmapFactory.decodeFile(String.valueOf(file));
-        imageView.setImageBitmap(bMap);
-    }
+
     private void convertBitmapToFile(Uri currentUri) {
 
         try {
@@ -236,5 +240,18 @@ public class SignUpActivity extends AppCompatActivity {
         }
         return result;
     }
+
+
+
+    ActivityResultLauncher<Intent>   launcher =
+                registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), (ActivityResult result) -> {
+                    if (result.getResultCode() == RESULT_OK) {
+                        Uri uri = result.getData().getData();
+                        imageView.setImageURI(uri);
+                    } else if (result.getResultCode() == ImagePicker.RESULT_ERROR) {
+                        // Use ImagePicker.Companion.getError(result.getData()) to show an error
+                    }
+                });
+
 
 }

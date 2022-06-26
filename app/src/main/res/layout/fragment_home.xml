@@ -34,6 +34,19 @@
                 android:layout_gravity="center_horizontal"
                 />
             <TextView
+                android:id="@+id/desise_title"
+                android:visibility="invisible"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:gravity="left|right"
+                android:justificationMode="inter_word"
+                android:lineSpacingExtra="5dp"
+                android:padding="4dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="@dimen/_18sdp" />
+            <TextView
                 android:id="@+id/text_advice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

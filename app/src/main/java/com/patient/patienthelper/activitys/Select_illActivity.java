@@ -4,15 +4,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.patient.patienthelper.R;
 import com.patient.patienthelper.adapters.RecyclerAdapter;
 import com.patient.patienthelper.api.Disease;
 import com.patient.patienthelper.api.GetApi;
+import com.patient.patienthelper.helperClass.MySharedPreferences;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,10 +31,12 @@ public class Select_illActivity extends AppCompatActivity {
     RecyclerView recyclerview;
     RecyclerAdapter recyclerAdapter;
     ProgressBar progressBar;
+    MySharedPreferences mySharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_ill);
+        mySharedPreferences = new MySharedPreferences(this);
         findViewById();
         setAdapter();
         // set visibility for progress bar
@@ -79,7 +84,11 @@ public class Select_illActivity extends AppCompatActivity {
     }
     private void  setAdapter(){
         recyclerAdapter = new RecyclerAdapter(apiData,disease->{
-            Toast.makeText(this, disease.getDisease_name(), Toast.LENGTH_SHORT).show();
+            Gson gson = new Gson();
+            String diseaseGson=gson.toJson(disease);
+            mySharedPreferences.putString("userDisease",diseaseGson);
+            mySharedPreferences.apply();
+            startActivity(new Intent(this,MainActivity.class));
         });
 
         recyclerview.setAdapter(recyclerAdapter);

@@ -3,5 +3,6 @@
     <string-array name="chose">
         <item>Patient</item>
         <item>Drug conflict</item>
+        <item>another</item>
     </string-array>
 </resources>

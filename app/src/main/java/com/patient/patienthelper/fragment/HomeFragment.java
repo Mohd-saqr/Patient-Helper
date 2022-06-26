@@ -1,5 +1,6 @@
 package com.patient.patienthelper.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,10 +15,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.patient.patienthelper.R;
+import com.patient.patienthelper.activitys.DrugActivity;
 import com.patient.patienthelper.activitys.MainActivity;
 import com.patient.patienthelper.api.Advice;
+import com.patient.patienthelper.api.Disease;
 import com.patient.patienthelper.api.GetApi;
+import com.patient.patienthelper.helperClass.MySharedPreferences;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,8 +41,11 @@ public class HomeFragment extends Fragment {
 
     private Button findDrug;
     private TextView todayAdvice;
+    private TextView desName;
     private final List<Advice> adviceListApi = new ArrayList<>();
     private ProgressBar adviceLoading;
+    private MySharedPreferences sharedPreferences;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,11 +56,34 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        sharedPreferences= new MySharedPreferences(getContext());
+
         findAllViewById(view);
         fetchDataFromApi();
+        checkStatus();
+
+
         setOnClickListener();
+
         // Inflate the layout for this fragment
         return view;
+    }
+
+    private void updateUri(String checkStatus) {
+        if (checkStatus.equals("Patient")){
+            desName.setVisibility(View.VISIBLE);
+            Gson gson = new Gson();
+          Disease disease=  gson.fromJson(getDesisName(),Disease.class);
+
+            todayAdvice.setText(disease.getDescription_t());
+
+            desName.setText(disease.getDisease_name());
+        }else {
+            getDesisName();
+            desName.setVisibility(View.INVISIBLE);
+            getAdviceToHomePage(adviceListApi);
+
+        }
     }
 
     private void fetchDataFromApi(){
@@ -63,7 +94,8 @@ public class HomeFragment extends Fragment {
                 public void onResponse(@NonNull Call<List<Advice>> call, @NonNull Response<List<Advice>> response) {
                     assert response.body() != null;
                     adviceListApi.addAll(response.body());
-                    getAdviceToHomePage(adviceListApi);
+                    updateUri(checkStatus());
+
                     Log.i("Main Activity", "the advices list size is from onResponse -> "+adviceListApi.size());
                     hideProgressBar();
                 }
@@ -81,6 +113,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void findAllViewById(View view){
+        desName=view.findViewById(R.id.desise_title);
         findDrug = view.findViewById(R.id.find_drug_button);
         todayAdvice = view.findViewById(R.id.text_advice);
         adviceLoading = view.findViewById(R.id.advice_loading_progress);
@@ -96,8 +129,8 @@ public class HomeFragment extends Fragment {
 
     private void setOnClickListener(){
         findDrug.setOnClickListener(view -> {
-            Toast.makeText(getActivity(), randomString()+"", Toast.LENGTH_SHORT).show();
-            fetchDataFromApi();
+            Intent i = new Intent(getContext(), DrugActivity.class);
+            startActivity(i);
         });
     }
 
@@ -114,5 +147,13 @@ public class HomeFragment extends Fragment {
 
     private int randomString(){
         return (int)(Math.random() * (49) + 1) ;
+    }
+
+    private String checkStatus(){
+
+        return sharedPreferences.getString("userStatus","another");
+    }
+    private String getDesisName(){
+        return sharedPreferences.getString("userDisease","another");
     }
 }

@@ -22,6 +22,20 @@
 <!--        android:visibility="invisible"-->
 <!--        android:id="@+id/progress_com"/>-->
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/loading_com"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_70sdp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+
+        app:lottie_loop="true"
+        app:lottie_autoPlay="true"
+        app:lottie_rawRes="@raw/loading"/>
+
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:layout_width="match_parent"
         android:layout_marginTop="@dimen/_1sdp"
