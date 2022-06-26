@@ -16,27 +16,35 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/img_prof"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_centerHorizontal="true"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/profile_bg"
+            app:cardCornerRadius="@dimen/_100sdp"
+           >
 
-            android:padding="3dp"
-            android:scaleType="centerInside"
-            app:srcCompat="@drawable/ic_person" />
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/img_prof"
+                android:layout_width="@dimen/_150sdp"
+                android:layout_height="@dimen/_150sdp"
+                android:layout_centerHorizontal="true"
+                android:scaleType="centerCrop"
+                android:src="@color/browser_actions_bg_grey"
+                />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_add"
-            style="@style/FabStyle"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            />
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_add"
+                style="@style/FabStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="64dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+
+        </androidx.cardview.widget.CardView>
+
+
     </RelativeLayout>
 
     <androidx.cardview.widget.CardView

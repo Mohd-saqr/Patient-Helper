@@ -15,15 +15,12 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
-import com.amplifyframework.core.model.query.QuerySortBy;
-import com.amplifyframework.core.model.query.QuerySortOrder;
-import com.amplifyframework.core.model.temporal.Temporal;
 import com.amplifyframework.datastore.generated.model.Post;
 import com.google.gson.Gson;
 import com.patient.patienthelper.R;
@@ -35,7 +32,6 @@ import com.patient.patienthelper.helperClass.UserLogIn;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -50,8 +46,9 @@ public class CommunityFragment extends Fragment {
     List<Post> apiData= new ArrayList<>();
     Button post;
     EditText postBody;
-    ProgressBar progressBar;
     UserLogIn userLogIn;
+    LottieAnimationView loading;
+
 
     private Handler mHandler = new Handler(Looper.getMainLooper());
 
@@ -131,15 +128,16 @@ public class CommunityFragment extends Fragment {
                     .createBy(userLogIn.getFullName())
                     .userId(userLogIn.getId())
                     .build();
-            progressBar.setVisibility(View.VISIBLE);
+            loading.setVisibility(View.VISIBLE);
             Amplify.API.mutate(ModelMutation.create(post),res->{
-                progressBar.setVisibility(View.INVISIBLE);
+
 
 
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
                         postBody.setText("");
+                        loading.setVisibility(View.INVISIBLE);
                         onResume();
                     }
                 });
@@ -158,7 +156,7 @@ public class CommunityFragment extends Fragment {
     private void findViewById(View view) {
         post =view.findViewById(R.id.btn_post);
         postBody =view.findViewById(R.id.post_body);
-        progressBar=view.findViewById(R.id.progress_com);
+        loading =view.findViewById(R.id.loading_com);
     }
 
     private void fetchData() {
@@ -197,7 +195,7 @@ public class CommunityFragment extends Fragment {
 
     @Override
     public void onResume() {
-        progressBar.setVisibility(View.VISIBLE);
+        loading.setVisibility(View.VISIBLE);
         apiData.clear();
         Amplify.API.query(ModelQuery.list(Post.class), res->{
             for (Post post:res.getData()){
@@ -212,7 +210,7 @@ public class CommunityFragment extends Fragment {
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    progressBar.setVisibility(View.INVISIBLE);
+                    loading.setVisibility(View.INVISIBLE);
                     recyclerAdapter.notifyDataSetChanged();
                 }
             });

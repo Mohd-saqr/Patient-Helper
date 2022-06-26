@@ -62,6 +62,9 @@
         <activity
             android:name=".activitys.MainActivity"
             android:exported="false" />
+        <activity
+            android:name=".activitys.DrugActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

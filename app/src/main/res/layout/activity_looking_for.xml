@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".activitys.LookingForActivity">
 
+
     <TextView
         android:id="@+id/Looking_For_TextView"
         android:layout_width="299dp"
@@ -22,24 +23,26 @@
 
     <Spinner
         android:id="@+id/spinner_looking_for"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="0.201"
         android:entries="@array/chose"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@+id/submit_looking_for"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Looking_For_TextView"
+        app:layout_constraintVertical_bias="0.201"
         tools:ignore="MissingConstraints" />
-
 
     <Button
         android:id="@+id/submit_looking_for"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/_150sdp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/_10sdp"
         android:text="Submit"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
