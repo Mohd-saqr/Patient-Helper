@@ -7,27 +7,31 @@
     tools:context=".activitys.community">
 
 
-    <ImageView
-        android:id="@+id/back_icon"
-        android:layout_width="@dimen/_30sdp"
-        android:layout_height="@dimen/_30sdp"
-        android:src="@drawable/back_arrow"
-        android:layout_margin="@dimen/_5sdp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="invisible"
+        android:id="@+id/progress_com"/>
+
+
+
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/post_input_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/back_icon"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/_10sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/post_body"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_80sdp"
+            android:layout_height="@dimen/_60sdp"
             android:layout_margin="@dimen/_5sdp"
             android:background="@color/white"
             android:hint="Write Something"/>
@@ -46,11 +50,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/post_input_layout" />
 
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rc_posts"
+        android:layout_marginHorizontal="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_40sdp"
         app:layout_constraintTop_toBottomOf="@id/btn_post"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_380sdp"
+        android:layout_height="@dimen/_350sdp"
+        android:layout_marginBottom="@dimen/_80sdp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:layout_editor_absoluteX="-12dp"

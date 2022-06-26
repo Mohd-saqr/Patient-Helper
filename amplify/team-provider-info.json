@@ -14,12 +14,6 @@
     "categories": {
       "auth": {
         "finalproject0be01f59": {}
-      },
-      "function": {
-        "S3Triggerbb5020ef": {
-          "deploymentBucketName": "amplify-finalproject-dev-00227-deployment",
-          "s3Key": "amplify-builds/S3Triggerbb5020ef-392b54794a4671517756-build.zip"
-        }
       }
     }
   }

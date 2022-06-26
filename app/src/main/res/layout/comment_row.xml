@@ -18,40 +18,43 @@
 
             android:layout_height="wrap_content">
             <ImageView
-                android:id="@+id/user_image"
+                android:id="@+id/user_image_com"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
 
-                android:layout_width="@dimen/_50sdp"
-                android:layout_height="@dimen/_50sdp"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
                 android:src="@drawable/user_image"
                 android:layout_margin="@dimen/_5sdp"/>
 
             <TextView
-                android:id="@+id/username"
+                android:id="@+id/username_com"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Username"
-                app:layout_constraintStart_toEndOf="@id/user_image"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_margin="@dimen/_5sdp"
-                android:textSize="@dimen/_12sdp"/>
+                android:layout_marginStart="16dp"
+                android:text="Username"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/user_image_com"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.129" />
 
             <TextView
-                android:id="@+id/text_view_post_date"
+                android:id="@+id/text_view_com_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="15/5/2022 10:19:02 PM"
-                app:layout_constraintTop_toBottomOf="@id/username"
-                app:layout_constraintStart_toEndOf="@id/user_image"
+                app:layout_constraintTop_toBottomOf="@id/username_com"
+                app:layout_constraintStart_toEndOf="@id/user_image_com"
+
                 android:layout_marginHorizontal="@dimen/_5sdp"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/text_view_post_body"
+            android:id="@+id/text_view_com_body"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Sometimes it pays to stay in bed on Monday, rather than spending the rest of the week debugging Monday’s code"
@@ -62,12 +65,7 @@
             android:background="#E3E0E0"
             android:textColor="#373535"/>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_comment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/_5sdp"
-            android:text="Comments"/>
+
 
 
 
