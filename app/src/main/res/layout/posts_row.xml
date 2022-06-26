@@ -2,6 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+android:background="#E8E6E6"
+    android:layout_marginBottom="@dimen/_15sdp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
@@ -10,6 +12,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
         android:orientation="vertical">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -33,6 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Username"
+                android:textColor="@color/black"
                 app:layout_constraintStart_toEndOf="@id/user_image"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -59,15 +63,17 @@
             android:outlineAmbientShadowColor="@color/black"
             android:padding="@dimen/_5sdp"
             android:layout_marginHorizontal="@dimen/_5sdp"
-            android:background="#E3E0E0"
             android:textColor="#373535"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
             android:layout_marginHorizontal="@dimen/_5sdp"
             android:text="Comments"/>
+
 
 
 

@@ -1,10 +1,12 @@
 package com.patient.patienthelper.activitys;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -77,6 +79,7 @@ public class CommentsActivity extends AppCompatActivity {
     private void postComment(){
 
         postComment.setOnClickListener(v->{
+            hideKeyboard(this);
             progressBar.setVisibility(View.VISIBLE);
             String commentBodyStr=CommentBody.getText().toString();
             Comment comment = Comment.builder()
@@ -90,6 +93,8 @@ public class CommentsActivity extends AppCompatActivity {
                 fetchData();
                runOnUiThread(() -> {
                    progressBar.setVisibility(View.INVISIBLE);
+                   CommentBody.setText("");
+
                });
             },err->{
                 Toast.makeText(this, err.toString(), Toast.LENGTH_SHORT).show();
@@ -151,6 +156,17 @@ public class CommentsActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerview.setLayoutManager(layoutManager);
         recyclerview.setAdapter(recyclerAdapter);
+    }
+
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
 

@@ -4,16 +4,28 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:visibility="invisible"
+<!--    <ProgressBar-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        android:visibility="invisible"-->
 
-        android:id="@+id/progress_bar_comment_ac"/>
+<!--        android:id="@+id/progress_bar_comment_ac"/>-->
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/_1sdp"
+        app:indicatorColor="@color/purple_700"
+        app:indeterminateAnimationType="disjoint"
+        android:id="@+id/progress_bar_comment_ac"
+        android:visibility="invisible"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:indeterminate="true"
+        android:layout_height="@dimen/_50sdp" />
 
     <TextView
         android:id="@+id/text_view_no_comment"
@@ -31,14 +43,14 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/comment_rc"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_480sdp"
+        android:layout_height="@dimen/_450sdp"
         android:layout_marginTop="@dimen/_30sdp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.755" />
 
     <LinearLayout
         android:id="@+id/linearLayout2"
