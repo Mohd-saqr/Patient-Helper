@@ -57,4 +57,21 @@ public class GetApi {
         ApiMethod apiMethod = retrofit.create(ApiMethod.class);
         return apiMethod.listAdvice();
     }
+
+
+    public static Call<List<Conflicts>> getConflicts() throws IOException {
+
+        /**
+         * using the  retrofit library to fetch data from api
+         *          to use this call just call GetApi.getDisease()
+         *          look at lookingForActivity at get api method
+         */
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://patientapi2022.herokuapp.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ApiMethod apiMethod = retrofit.create(ApiMethod.class);
+        return apiMethod.listConflicts();
+    }
 }
