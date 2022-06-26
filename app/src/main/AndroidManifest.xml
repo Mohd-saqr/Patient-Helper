@@ -18,6 +18,9 @@
             android:name=".activitys.DeleteAccountActivity"
             android:exported="false" />
         <activity
+            android:name=".activitys.CommentsActivity"
+            android:exported="false" />
+        <activity
             android:name=".activitys.ChangePasswordActivity"
             android:exported="false" />
         <activity

@@ -1,7 +1,7 @@
 package com.amplifyframework.datastore.generated.model;
 
-import com.amplifyframework.core.model.temporal.Temporal;
 import com.amplifyframework.core.model.annotations.HasMany;
+import com.amplifyframework.core.model.temporal.Temporal;
 
 import java.util.List;
 import java.util.UUID;
@@ -23,14 +23,12 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 public final class Post implements Model {
   public static final QueryField ID = field("Post", "id");
   public static final QueryField BODY = field("Post", "body");
-  public static final QueryField CREATE_AT = field("Post", "create_at");
   public static final QueryField CREATE_BY = field("Post", "create_by");
   public static final QueryField USER_ID = field("Post", "user_id");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String", isRequired = true) String body;
-  private final @ModelField(targetType="AWSDateTime", isRequired = true) Temporal.DateTime create_at;
   private final @ModelField(targetType="String", isRequired = true) String create_by;
-  private final @ModelField(targetType="Int") Integer user_id;
+  private final @ModelField(targetType="String", isRequired = true) String user_id;
   private final @ModelField(targetType="Comment") @HasMany(associatedWith = "post", type = Comment.class) List<Comment> comments = null;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
@@ -42,15 +40,11 @@ public final class Post implements Model {
       return body;
   }
   
-  public Temporal.DateTime getCreateAt() {
-      return create_at;
-  }
-  
   public String getCreateBy() {
       return create_by;
   }
   
-  public Integer getUserId() {
+  public String getUserId() {
       return user_id;
   }
   
@@ -66,10 +60,9 @@ public final class Post implements Model {
       return updatedAt;
   }
   
-  private Post(String id, String body, Temporal.DateTime create_at, String create_by, Integer user_id) {
+  private Post(String id, String body, String create_by, String user_id) {
     this.id = id;
     this.body = body;
-    this.create_at = create_at;
     this.create_by = create_by;
     this.user_id = user_id;
   }
@@ -84,7 +77,6 @@ public final class Post implements Model {
       Post post = (Post) obj;
       return ObjectsCompat.equals(getId(), post.getId()) &&
               ObjectsCompat.equals(getBody(), post.getBody()) &&
-              ObjectsCompat.equals(getCreateAt(), post.getCreateAt()) &&
               ObjectsCompat.equals(getCreateBy(), post.getCreateBy()) &&
               ObjectsCompat.equals(getUserId(), post.getUserId()) &&
               ObjectsCompat.equals(getCreatedAt(), post.getCreatedAt()) &&
@@ -97,7 +89,6 @@ public final class Post implements Model {
     return new StringBuilder()
       .append(getId())
       .append(getBody())
-      .append(getCreateAt())
       .append(getCreateBy())
       .append(getUserId())
       .append(getCreatedAt())
@@ -112,7 +103,6 @@ public final class Post implements Model {
       .append("Post {")
       .append("id=" + String.valueOf(getId()) + ", ")
       .append("body=" + String.valueOf(getBody()) + ", ")
-      .append("create_at=" + String.valueOf(getCreateAt()) + ", ")
       .append("create_by=" + String.valueOf(getCreateBy()) + ", ")
       .append("user_id=" + String.valueOf(getUserId()) + ", ")
       .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
@@ -138,7 +128,6 @@ public final class Post implements Model {
       id,
       null,
       null,
-      null,
       null
     );
   }
@@ -146,38 +135,35 @@ public final class Post implements Model {
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
       body,
-      create_at,
       create_by,
       user_id);
   }
   public interface BodyStep {
-    CreateAtStep body(String body);
-  }
-  
-
-  public interface CreateAtStep {
-    CreateByStep createAt(Temporal.DateTime createAt);
+    CreateByStep body(String body);
   }
   
 
   public interface CreateByStep {
-    BuildStep createBy(String createBy);
+    UserIdStep createBy(String createBy);
+  }
+  
+
+  public interface UserIdStep {
+    BuildStep userId(String userId);
   }
   
 
   public interface BuildStep {
     Post build();
     BuildStep id(String id);
-    BuildStep userId(Integer userId);
   }
   
 
-  public static class Builder implements BodyStep, CreateAtStep, CreateByStep, BuildStep {
+  public static class Builder implements BodyStep, CreateByStep, UserIdStep, BuildStep {
     private String id;
     private String body;
-    private Temporal.DateTime create_at;
     private String create_by;
-    private Integer user_id;
+    private String user_id;
     @Override
      public Post build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -185,34 +171,27 @@ public final class Post implements Model {
         return new Post(
           id,
           body,
-          create_at,
           create_by,
           user_id);
     }
     
     @Override
-     public CreateAtStep body(String body) {
+     public CreateByStep body(String body) {
         Objects.requireNonNull(body);
         this.body = body;
         return this;
     }
     
     @Override
-     public CreateByStep createAt(Temporal.DateTime createAt) {
-        Objects.requireNonNull(createAt);
-        this.create_at = createAt;
-        return this;
-    }
-    
-    @Override
-     public BuildStep createBy(String createBy) {
+     public UserIdStep createBy(String createBy) {
         Objects.requireNonNull(createBy);
         this.create_by = createBy;
         return this;
     }
     
     @Override
-     public BuildStep userId(Integer userId) {
+     public BuildStep userId(String userId) {
+        Objects.requireNonNull(userId);
         this.user_id = userId;
         return this;
     }
@@ -229,10 +208,9 @@ public final class Post implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String body, Temporal.DateTime createAt, String createBy, Integer userId) {
+    private CopyOfBuilder(String id, String body, String createBy, String userId) {
       super.id(id);
       super.body(body)
-        .createAt(createAt)
         .createBy(createBy)
         .userId(userId);
     }
@@ -243,17 +221,12 @@ public final class Post implements Model {
     }
     
     @Override
-     public CopyOfBuilder createAt(Temporal.DateTime createAt) {
-      return (CopyOfBuilder) super.createAt(createAt);
-    }
-    
-    @Override
      public CopyOfBuilder createBy(String createBy) {
       return (CopyOfBuilder) super.createBy(createBy);
     }
     
     @Override
-     public CopyOfBuilder userId(Integer userId) {
+     public CopyOfBuilder userId(String userId) {
       return (CopyOfBuilder) super.userId(userId);
     }
   }

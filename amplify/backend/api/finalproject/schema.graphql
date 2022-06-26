@@ -20,7 +20,6 @@ type Post @model {
 type Comment @model {
   id: ID!
   body: String!
-  create_at:AWSDateTime!
   create_by:String!
   post: Post @hasOne
 
