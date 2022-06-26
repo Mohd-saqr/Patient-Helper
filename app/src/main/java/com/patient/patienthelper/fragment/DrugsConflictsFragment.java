@@ -141,14 +141,22 @@ public class DrugsConflictsFragment extends Fragment {
                     "There is interaction between these two drugs",
                     Toast.LENGTH_SHORT);
             View toastView = toast.getView();
-//            toastView.setBackgroundResource(R.drawable.toast_drawable);
+
+//  //          toastView.setBackgroundResource(R.drawable.toast_drawable);
+
+       //     toastView.setBackgroundResource(R.drawable.toast_drawable);
+
             toast.show();
         } else {
             Toast toast = Toast.makeText(getContext(),
                     "There is no interaction , Its fine",
                     Toast.LENGTH_SHORT);
             View toastView = toast.getView();
-//            toastView.setBackgroundResource(R.drawable.toast_drawablea);
+
+//  //          toastView.setBackgroundResource(R.drawable.toast_drawablea);
+
+   ///         toastView.setBackgroundResource(R.drawable.toast_drawablea);
+
             toast.show();
 
         }
