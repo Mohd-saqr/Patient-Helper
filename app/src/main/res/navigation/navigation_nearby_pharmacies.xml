@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_nearby_pharmacies"
+    app:startDestination="@id/nearby_pharmacies_list_view_Fragment">
+
+    <fragment
+        android:id="@+id/nearby_pharmacies_list_view_Fragment"
+        android:name="com.patient.patienthelper.fragment.NearbyPharmaciesListViewFragment"
+        android:label="fragment_nearby_pharmacies_list_view"
+        tools:layout="@layout/fragment_nearby_pharmacies_list_view" />
+    <fragment
+        android:id="@+id/nearby_pharmacies_map_view_fragment"
+        android:name="com.patient.patienthelper.fragment.NearbyPharmaciesMapViewFragment"
+        android:label="fragment_nearby_pharmacies_map_view"
+        tools:layout="@layout/fragment_nearby_pharmacies_map_view" />
+</navigation>
