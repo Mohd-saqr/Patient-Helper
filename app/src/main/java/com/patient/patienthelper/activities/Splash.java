@@ -1,4 +1,4 @@
-package com.patient.patienthelper.activitys;
+package com.patient.patienthelper.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,14 +6,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.View;
 
 import com.amplifyframework.AmplifyException;
 import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.patient.patienthelper.R;
 import com.patient.patienthelper.api.Disease;

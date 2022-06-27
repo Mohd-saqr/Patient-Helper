@@ -1,4 +1,4 @@
-package com.patient.patienthelper.activitys;
+package com.patient.patienthelper.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,11 +6,11 @@ import android.os.Bundle;
 
 import com.patient.patienthelper.R;
 
-public class UserProfileActivity extends AppCompatActivity {
+public class RestPasswordActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_profile);
+        setContentView(R.layout.activity_rest_password);
     }
 }

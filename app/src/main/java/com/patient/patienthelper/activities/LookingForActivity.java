@@ -1,37 +1,16 @@
-package com.patient.patienthelper.activitys;
+package com.patient.patienthelper.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.PrecomputedText;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 
-import com.amplifyframework.api.graphql.model.ModelMutation;
-import com.amplifyframework.core.Amplify;
 import com.google.gson.Gson;
 import com.patient.patienthelper.R;
-import com.patient.patienthelper.api.Disease;
-import com.patient.patienthelper.api.GetApi;
 import com.patient.patienthelper.helperClass.MySharedPreferences;
 import com.patient.patienthelper.helperClass.UserLogIn;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.xml.transform.Result;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class LookingForActivity extends AppCompatActivity {
 

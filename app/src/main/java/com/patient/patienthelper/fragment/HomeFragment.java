@@ -17,8 +17,8 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.patient.patienthelper.R;
-import com.patient.patienthelper.activitys.DrugActivity;
-import com.patient.patienthelper.activitys.MainActivity;
+import com.patient.patienthelper.activities.DrugActivity;
+import com.patient.patienthelper.activities.NearbyPharmaciesActivity;
 import com.patient.patienthelper.api.Advice;
 import com.patient.patienthelper.api.Disease;
 import com.patient.patienthelper.api.GetApi;
@@ -39,6 +39,7 @@ import retrofit2.Response;
  */
 public class HomeFragment extends Fragment {
 
+    private TextView textView;
     private Button findDrug;
     private TextView todayAdvice;
     private TextView desName;
@@ -117,6 +118,7 @@ public class HomeFragment extends Fragment {
         findDrug = view.findViewById(R.id.find_drug_button);
         todayAdvice = view.findViewById(R.id.text_advice);
         adviceLoading = view.findViewById(R.id.advice_loading_progress);
+        textView = view.findViewById(R.id.text_for_test);
     }
 
     private void showProgressBar(){
@@ -131,6 +133,9 @@ public class HomeFragment extends Fragment {
         findDrug.setOnClickListener(view -> {
             Intent i = new Intent(getContext(), DrugActivity.class);
             startActivity(i);
+        });
+        textView.setOnClickListener(view -> {
+            startActivity(new Intent(getContext(), NearbyPharmaciesActivity.class));
         });
     }
 

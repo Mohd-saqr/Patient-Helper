@@ -8,14 +8,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.text.Html;
-import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -24,16 +21,18 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.amplifyframework.core.Amplify;
+import com.google.gson.Gson;
 import com.patient.patienthelper.R;
-import com.patient.patienthelper.activitys.ChangePasswordActivity;
-import com.patient.patienthelper.activitys.DeleteAccountActivity;
-import com.patient.patienthelper.activitys.EditProfileActivity;
-import com.patient.patienthelper.activitys.LoginActivity;
-import com.patient.patienthelper.activitys.MainActivity;
+import com.patient.patienthelper.activities.ChangePasswordActivity;
+import com.patient.patienthelper.activities.DeleteAccountActivity;
+import com.patient.patienthelper.activities.EditProfileActivity;
+import com.patient.patienthelper.activities.LoginActivity;
+import com.patient.patienthelper.activities.MainActivity;
+import com.patient.patienthelper.helperClass.MySharedPreferences;
+import com.patient.patienthelper.helperClass.UserLogIn;
 
 import java.io.File;
 
@@ -42,15 +41,20 @@ import java.io.File;
  * Use the {@link ProfileFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+@SuppressLint({"SdCardPath","SetTextI18n"})
 public class ProfileFragment extends Fragment {
-
+/*
+activitys
+ */
     private ListView listView;
     private ImageView profileImage;
     private TextView userFullName;
-    private String downloadedImagePath;
+    private static String imageToDownloadKey;
     private ProgressBar profilePageProgressBar;
-    private final String[] itemList = {" Edit Profile", " Change password", " Sign out", " Delete account"};
+    private final String[] itemList = {" My Posts"," My Drugs"," Edit Profile", " Change password", " Sign out", " Delete account"};
     private final String[] subItemsList = {
+            "        See all your posts",
+            "        Manage all your drugs activities",
             "        Change name, age, male and email",
             "        Change current password",
             "        Sign out from this or all device",
@@ -69,6 +73,7 @@ public class ProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         findAllViewById(view);
+        getCurrentUserImageKey();
         setListView();
         imageDownload();
         return view;
@@ -77,28 +82,31 @@ public class ProfileFragment extends Fragment {
     private void findAllViewById(View view) {
         listView = view.findViewById(R.id.profile_list_views);
         userFullName = (TextView) view.findViewById(R.id.user_full_name);
-        profileImage = view.findViewById(R.id.img_profile);
+        profileImage = view.findViewById(R.id.prfile_page_img);
         profilePageProgressBar = view.findViewById(R.id.profile_page_progress_bar);
     }
 
-    @SuppressLint("SdCardPath")
+    private void getCurrentUserImageKey() {
+        UserLogIn userLogIn ;
+        MySharedPreferences mySharedPreferences = new MySharedPreferences(getContext());
+        if (mySharedPreferences.contains("userLog")) {
+            Gson gson = new Gson();
+            userLogIn = gson.fromJson(mySharedPreferences.getString("userLog", "noData"), UserLogIn.class);
+            imageToDownloadKey = userLogIn.getEmail().replace(".", "").replace("@", "").replace("_", "");
+            userFullName.setText(userLogIn.getFirstName()+" "+userLogIn.getLastName());
+        }
+    }
     private void imageDownload() {
-        downloadedImagePath = "/data/data/com.patient.patienthelper/files/";
+
         File file = new File(getContext().getFilesDir() + "/"+"userProfile"+".jpg");
         Log.i(TAG, "imageDownload: is the file exist -> " + file.exists());
         if (!file.exists()) {
             Amplify.Storage.downloadFile(
-                    /*
-                    TODO
-                    Add the image code
-                     */
-                    "ghanem97outlookcom",
+                    imageToDownloadKey,
                     file,
                     result -> {
-                        Log.i(TAG, "The root path is: " + requireContext().getFilesDir());
+                        Log.i(TAG, "The root path is: " + getContext().getFilesDir());
                         Log.i(TAG, "Successfully downloaded: " + result.getFile().getName());
-
-                        downloadedImagePath = result.getFile().getPath();
                         showTheImageInThePage(file);
                     },
                     error -> Log.e(TAG, "Download Failure", error)
@@ -140,17 +148,25 @@ public class ProfileFragment extends Fragment {
                 switch (position) {
                     case 0:
                         subItem.setText(subItemsList[position]);
-                        name.setCompoundDrawablesWithIntrinsicBounds(R.drawable.edit_profile_vector_asset, 0, 0, 0);
+                        name.setCompoundDrawablesWithIntrinsicBounds(R.drawable.post_vector_asset, 0, 0, 0);
                         break;
                     case 1:
                         subItem.setText(subItemsList[position]);
-                        name.setCompoundDrawablesWithIntrinsicBounds(R.drawable.password_vector_asset, 0, 0, 0);
+                        name.setCompoundDrawablesWithIntrinsicBounds(R.drawable.profile_page_pill_vector, 0, 0, 0);
                         break;
                     case 2:
                         subItem.setText(subItemsList[position]);
-                        name.setCompoundDrawablesWithIntrinsicBounds(R.drawable.logout,0,0,0);
+                        name.setCompoundDrawablesWithIntrinsicBounds(R.drawable.edit_profile_vector_asset, 0, 0, 0);
                         break;
                     case 3:
+                        subItem.setText(subItemsList[position]);
+                        name.setCompoundDrawablesWithIntrinsicBounds(R.drawable.password_vector_asset, 0, 0, 0);
+                        break;
+                    case 4:
+                        subItem.setText(subItemsList[position]);
+                        name.setCompoundDrawablesWithIntrinsicBounds(R.drawable.logout,0,0,0);
+                        break;
+                    case 5:
                         subItem.setText(subItemsList[position]);
                         name.setCompoundDrawablesWithIntrinsicBounds(R.drawable.delete_vector_asset, 0, 0, 0);
                         break;
@@ -165,15 +181,19 @@ public class ProfileFragment extends Fragment {
 
             switch (i) {
                 case 0:
-                    navigateToEditProfilePage();
                     break;
                 case 1:
-                    navigateToChangePasswordPage();
                     break;
                 case 2:
-                    signOut();
+                    navigateToEditProfilePage();
                     break;
                 case 3:
+                    navigateToChangePasswordPage();
+                    break;
+                case 4:
+                    signOut();
+                    break;
+                case 5:
                     navigateToDeleteAccountActivity();
                     break;
                 default:

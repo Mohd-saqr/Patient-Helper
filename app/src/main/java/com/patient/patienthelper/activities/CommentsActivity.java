@@ -1,4 +1,4 @@
-package com.patient.patienthelper.activitys;
+package com.patient.patienthelper.activities;
 
 import android.app.Activity;
 import android.content.Intent;

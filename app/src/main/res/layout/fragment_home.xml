@@ -73,5 +73,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         />
+    <TextView
+        android:id="@+id/text_for_test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Go to nearby pharmacies"
+        app:layout_constraintTop_toBottomOf="@id/find_drug_button"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:textColor="#0019FA"
+        android:textSize="@dimen/_15sdp"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

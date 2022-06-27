@@ -24,7 +24,7 @@ import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Post;
 import com.google.gson.Gson;
 import com.patient.patienthelper.R;
-import com.patient.patienthelper.activitys.CommentsActivity;
+import com.patient.patienthelper.activities.CommentsActivity;
 import com.patient.patienthelper.adapters.RecyclerAdapterPost;
 import com.patient.patienthelper.helperClass.MySharedPreferences;
 import com.patient.patienthelper.helperClass.UserLogIn;
