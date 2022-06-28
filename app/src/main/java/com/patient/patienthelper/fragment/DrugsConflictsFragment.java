@@ -1,40 +1,53 @@
 package com.patient.patienthelper.fragment;
+
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
+
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Spinner;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
+
 import com.patient.patienthelper.R;
 import com.patient.patienthelper.api.Conflicts;
 import com.patient.patienthelper.api.GetApi;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class DrugsConflictsFragment extends Fragment {
-
-    private static final String TAG = "";
-    private Button check;
-    private Spinner D1;
-    private Spinner D2;
-    private final List<Conflicts> ConflictsListApi = new ArrayList<>();
+    Button check;
+    final List<Conflicts> ConflictsListApi = new ArrayList<>();
     ArrayList<String> DrugsConflicts = new ArrayList<>();
     ArrayList<String> Drugs = new ArrayList<>();
-
+    TextView textview;
+    TextView textview1;
     String d1;
     String d2;
+    ArrayList<String> arrayList;
+    ArrayList<String> arrayList1;
+
+    Dialog dialog;
 
     public DrugsConflictsFragment() {
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,43 +57,156 @@ public class DrugsConflictsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_drugs_conflicts, container, false);
-        findViews(view);
 
         try {
-            addItemsOnSpinner();
             addItemsOnSpinner1();
+            addItemsOnSpinner();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+        check = view.findViewById(R.id.Check);
         check.setOnClickListener(v -> toast(checkconflict()));
-        return view;
-    }
 
-    private void findViews(View view) {
-        check = (Button) view.findViewById(R.id.Check);
-        D1 = view.findViewById(R.id.Drug1);
-        D2 = view.findViewById(R.id.Drug2);
+        // assign variable
+        textview = view.findViewById(R.id.testView);
+        textview1 = view.findViewById(R.id.testView1);
+
+        // initialize array list
+        arrayList = new ArrayList<>();
+        arrayList1 = new ArrayList<>();
+        arrayList.addAll(Drugs);
+        arrayList1.addAll(DrugsConflicts);
+
+
+        textview.setOnClickListener(v -> {
+            // Initialize dialog
+            dialog = new Dialog(getContext());
+
+            // set custom dialog
+            dialog.setContentView(R.layout.dialog_searchable_spinner);
+
+            // set custom height and width
+            dialog.getWindow().setLayout(650, 800);
+
+            // set transparent background
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+            // show dialog
+            dialog.show();
+
+            // Initialize and assign variable
+            EditText editText = dialog.findViewById(R.id.edit_text);
+            ListView listView = dialog.findViewById(R.id.list_view);
+
+            // Initialize array adapter
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, arrayList);
+
+            // set adapter
+            listView.setAdapter(adapter);
+            editText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    adapter.getFilter().filter(s);
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                }
+            });
+
+            listView.setOnItemClickListener((parent, view1, position, id) -> {
+                // when item selected from list
+                // set selected item on textView
+                textview.setText(adapter.getItem(position));
+
+                // Dismiss dialog
+                dialog.dismiss();
+            });
+        });
+
+
+        textview1.setOnClickListener(v -> {
+            // Initialize dialog
+            dialog = new Dialog(getContext());
+
+            // set custom dialog
+            dialog.setContentView(R.layout.dialog_searchable_spinner);
+
+            // set custom height and width
+            dialog.getWindow().setLayout(650, 800);
+
+            // set transparent background
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+            // show dialog
+            dialog.show();
+
+            // Initialize and assign variable
+            EditText editText = dialog.findViewById(R.id.edit_text);
+            ListView listView = dialog.findViewById(R.id.list_view);
+
+            // Initialize array adapter
+            ArrayAdapter<String> adapter1 = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, arrayList1);
+
+            // set adapter
+            listView.setAdapter(adapter1);
+            editText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    adapter1.getFilter().filter(s);
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                }
+            });
+
+            listView.setOnItemClickListener((parent, view12, position, id) -> {
+                // when item selected from list
+                // set selected item on textView
+                textview1.setText(adapter1.getItem(position));
+
+                // Dismiss dialog
+                dialog.dismiss();
+            });
+        });
+        return view;
     }
 
     public void addItemsOnSpinner1() throws IOException {
         GetApi.getConflicts().enqueue(new Callback<List<Conflicts>>() {
             private static final String TAG = "";
+
             @Override
             public void onResponse(Call<List<Conflicts>> call, Response<List<Conflicts>> response) {
                 ConflictsListApi.addAll(response.body());
                 Log.i(TAG, "API: " + ConflictsListApi.get(0).toString());
 
-                if (ConflictsListApi != null && ConflictsListApi.size() > 0) {
+                if (ConflictsListApi.size() > 0) {
                     for (int i = 0; i < ConflictsListApi.size(); i++) {
-                        Drugs.add(ConflictsListApi.get(i).getDrug());
+                        arrayList.add(ConflictsListApi.get(i).getDrug());
                     }
                     ArrayAdapter<String> spinnerArrayAdapter1 = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item);
                     spinnerArrayAdapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
                     spinnerArrayAdapter1.addAll(Drugs);
-                    D1.setAdapter(spinnerArrayAdapter1);
+//                    D1.setAdapter(spinnerArrayAdapter1);
 
                 }
             }
+
             @Override
             public void onFailure(Call<List<Conflicts>> call, Throwable t) {
                 Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
@@ -88,28 +214,31 @@ public class DrugsConflictsFragment extends Fragment {
         });
     }
 
+
     public void addItemsOnSpinner() throws IOException {
         GetApi.getConflicts().enqueue(new Callback<List<Conflicts>>() {
             private static final String TAG = "";
+
             @Override
             public void onResponse(Call<List<Conflicts>> call, Response<List<Conflicts>> response) {
                 ConflictsListApi.addAll(response.body());
                 Log.i(TAG, "API: " + ConflictsListApi.get(0).toString());
 
-                if (ConflictsListApi != null && ConflictsListApi.size() > 0) {
+                if (ConflictsListApi.size() > 0) {
                     for (int i = 0; i < ConflictsListApi.size(); i++) {
                         for (int j = 0; j < ConflictsListApi.get(i).getConflicts_drugs().size(); j++) {
-                            DrugsConflicts.add(ConflictsListApi.get(i).getConflicts_drugs().get(j));
+                            arrayList1.add(ConflictsListApi.get(i).getConflicts_drugs().get(j));
                         }
 
                     }
                     ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item);
                     spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
                     spinnerArrayAdapter.addAll(DrugsConflicts);
-                    D2.setAdapter(spinnerArrayAdapter);
+//                    D2.setAdapter(spinnerArrayAdapter);
 
                 }
             }
+
             @Override
             public void onFailure(Call<List<Conflicts>> call, Throwable t) {
                 Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
@@ -119,8 +248,8 @@ public class DrugsConflictsFragment extends Fragment {
 
 
     public boolean checkconflict() {
-        d1 = String.valueOf(D1.getSelectedItem());
-        d2 = String.valueOf(D2.getSelectedItem());
+        d1 = textview.getText().toString();
+        d2 = textview1.getText().toString();
         boolean bool = false;
         for (int i = 0; i < ConflictsListApi.size(); i++) {
             if (ConflictsListApi.get(i).getDrug().equals(d1)) {
@@ -135,35 +264,23 @@ public class DrugsConflictsFragment extends Fragment {
     }
 
     public void toast(boolean bool) {
-        Toast toast;
         if (bool) {
 
-            toast = Toast.makeText(getContext(),
+            Toast toast = Toast.makeText(getContext(),
                     "There is interaction between these two drugs",
                     Toast.LENGTH_SHORT);
-            View toastView = toast.getView();
-
-//  //          toastView.setBackgroundResource(R.drawable.toast_drawable);
-
-//            toastView.setBackgroundResource(R.drawable.toast_drawable);
-//            toastView.setBackgroundResource(R.drawable.toast_drawable123);
-
-
+//            View toastView = toast.getView();
+            toast.show();
         } else {
-            toast = Toast.makeText(getContext(),
+            Toast toast = Toast.makeText(getContext(),
                     "There is no interaction , Its fine",
                     Toast.LENGTH_SHORT);
-            View toastView = toast.getView();
-
-//            toastView.setBackgroundResource(R.drawable.toast_drawablea);
-
-//            toastView.setBackgroundResource(R.drawable.toast_drawablea);
+//            View toastView = toast.getView();
+            toast.show();
 
         }
-        toast.show();
 
     }
-
 
 }
 
