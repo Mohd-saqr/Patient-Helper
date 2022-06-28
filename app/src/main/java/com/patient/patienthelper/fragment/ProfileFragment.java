@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,6 +60,9 @@ activitys
             "        Change current password",
             "        Sign out from this or all device",
             "        Delete your account"};
+
+    File file;
+    Handler handler = new Handler();
     private static final String TAG = MainActivity.class.getSimpleName() + " Profile Fragment";
 
     @Override
@@ -79,6 +83,20 @@ activitys
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getCurrentUserImageKey();
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+
+    }
+
     private void findAllViewById(View view) {
         listView = view.findViewById(R.id.profile_list_views);
         userFullName = (TextView) view.findViewById(R.id.user_full_name);
@@ -94,11 +112,12 @@ activitys
             userLogIn = gson.fromJson(mySharedPreferences.getString("userLog", "noData"), UserLogIn.class);
             imageToDownloadKey = userLogIn.getEmail().replace(".", "").replace("@", "").replace("_", "");
             userFullName.setText(userLogIn.getFirstName()+" "+userLogIn.getLastName());
+            System.out.println(userLogIn.getFirstName()+userLogIn.getLastName()+"99999***");
         }
     }
     private void imageDownload() {
 
-        File file = new File(getContext().getFilesDir() + "/"+"userProfile"+".jpg");
+         file = new File(getContext().getFilesDir() + "/"+"userProfile"+".jpg");
         Log.i(TAG, "imageDownload: is the file exist -> " + file.exists());
         if (!file.exists()) {
             Amplify.Storage.downloadFile(
@@ -107,7 +126,15 @@ activitys
                     result -> {
                         Log.i(TAG, "The root path is: " + getContext().getFilesDir());
                         Log.i(TAG, "Successfully downloaded: " + result.getFile().getName());
-                        showTheImageInThePage(file);
+
+                          handler.post(new Runnable() {
+                              @Override
+                              public void run() {
+                                  System.out.println("testImage Donlad");
+                                  showTheImageInThePage(file);
+                              }
+                          });
+
                     },
                     error -> Log.e(TAG, "Download Failure", error)
             );
@@ -121,7 +148,9 @@ activitys
         if (file != null) {
             Bitmap bitmap = BitmapFactory.decodeFile(file.getPath());
             profileImage.setImageBitmap(bitmap);
+            System.out.println(file.getPath()+"plapla");
         }
+
     }
 
     private void setListView() {

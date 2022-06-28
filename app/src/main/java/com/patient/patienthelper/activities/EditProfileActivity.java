@@ -114,10 +114,12 @@ public class EditProfileActivity extends AppCompatActivity {
         saveInfoBtn.setOnClickListener(view -> {
             if (isUserUploadNewImage) {
                 deleteImageFromS3();
-                uploadImage();
+
+
             }
             getAllAsString();
             editUserInfo();
+
         });
         backBtn.setOnClickListener(view -> {
             backToProfileFragment();
@@ -177,8 +179,15 @@ public class EditProfileActivity extends AppCompatActivity {
                         Log.i(TAG, "The root path is: " + this.getFilesDir());
                         Log.i(TAG, "Successfully downloaded: " + result.getFile().getName());
 
-                        downloadedImagePath = result.getFile().getPath();
-                        showTheImageInThePage(file);
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                downloadedImagePath = result.getFile().getPath();
+                                showTheImageInThePage(file);
+                            }
+                        });
+
                     },
                     error -> Log.e(TAG, "Download Failure", error)
             );
@@ -214,6 +223,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 file,
                 result -> {
                     Log.i(TAG, "Successfully uploaded: " + result.getKey());
+
                 },
                 storageFailure -> Log.e(TAG, "Upload failed", storageFailure)
         );
@@ -227,6 +237,8 @@ public class EditProfileActivity extends AppCompatActivity {
                         fileToDelete = new File(this.getFilesDir() + "/"+"userProfile"+".jpg");
                         if (fileToDelete.delete()){
                             Log.i(TAG, "deleteImageFromS3: The local file deleted -> true");
+                            uploadImage();
+
                         }
                         Log.i(TAG, "Image successfully deleted "+success.getKey());
                     },

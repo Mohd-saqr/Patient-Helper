@@ -6,9 +6,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.amplifyframework.auth.AuthUserAttribute;
+import com.amplifyframework.auth.AuthUserAttributeKey;
+import com.amplifyframework.core.Amplify;
 import com.google.gson.Gson;
 import com.patient.patienthelper.R;
 import com.patient.patienthelper.adapters.RecyclerAdapter;
@@ -83,15 +87,39 @@ public class Select_illActivity extends AppCompatActivity {
     }
     private void  setAdapter(){
         recyclerAdapter = new RecyclerAdapter(apiData,disease->{
+
+            setUserStatus(disease.getDisease_name());
             Gson gson = new Gson();
-            String diseaseGson=gson.toJson(disease);
-            mySharedPreferences.putString("userDisease",diseaseGson);
+            mySharedPreferences.remove("userDisease");
+            mySharedPreferences.putString("userDisease",gson.toJson(disease));
             mySharedPreferences.apply();
-            startActivity(new Intent(this,MainActivity.class));
+            finish();
+            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+
+
+
         });
 
         recyclerview.setAdapter(recyclerAdapter);
         recyclerview.setLayoutManager(new LinearLayoutManager(this) {
         });
+    }
+
+    public void setUserStatus(String status1){
+        ArrayList<AuthUserAttribute> attributes = new ArrayList<>();
+        attributes.add(new AuthUserAttribute(AuthUserAttributeKey.custom("custom:user_disease"), status1));
+        Amplify.Auth.updateUserAttributes(
+                attributes,
+                result -> {
+                    Log.i("TAG", "Result: " + result);
+
+                },
+                error -> {
+                    Log.e("TAG", "update failed", error);
+                    runOnUiThread(() -> {
+
+                    });
+                }
+        );
     }
 }
