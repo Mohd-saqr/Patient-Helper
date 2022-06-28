@@ -23,6 +23,7 @@ import com.patient.patienthelper.api.Advice;
 import com.patient.patienthelper.api.Disease;
 import com.patient.patienthelper.api.GetApi;
 import com.patient.patienthelper.helperClass.MySharedPreferences;
+import com.patient.patienthelper.helperClass.UserLogIn;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -46,12 +47,26 @@ public class HomeFragment extends Fragment {
     private final List<Advice> adviceListApi = new ArrayList<>();
     private ProgressBar adviceLoading;
     private MySharedPreferences sharedPreferences;
+    UserLogIn userLogIn;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+//        getActivity().finish();
+//        getActivity(). overridePendingTransition(0, 0);
+//        startActivity(getActivity().getIntent());
+//        getActivity().  overridePendingTransition(0, 0);
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+
+        }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,9 +81,12 @@ public class HomeFragment extends Fragment {
 
         setOnClickListener();
 
+
         // Inflate the layout for this fragment
         return view;
     }
+
+
 
     private void updateUri(String checkStatus) {
         if (checkStatus.equals("Patient")){
@@ -80,11 +98,12 @@ public class HomeFragment extends Fragment {
 
             desName.setText(disease.getDisease_name());
         }else {
-            getDesisName();
+
             desName.setVisibility(View.INVISIBLE);
             getAdviceToHomePage(adviceListApi);
 
         }
+
     }
 
     private void fetchDataFromApi(){
@@ -99,6 +118,7 @@ public class HomeFragment extends Fragment {
 
                     Log.i("Main Activity", "the advices list size is from onResponse -> "+adviceListApi.size());
                     hideProgressBar();
+
                 }
                 @Override
                 public void onFailure(@NonNull Call<List<Advice>> call, @NonNull Throwable t) {
@@ -155,8 +175,10 @@ public class HomeFragment extends Fragment {
     }
 
     private String checkStatus(){
-
-        return sharedPreferences.getString("userStatus","another");
+        Gson gson = new Gson();
+        userLogIn=gson.fromJson(sharedPreferences.getString("userLog",null),UserLogIn.class);
+        System.out.println(userLogIn.getStatus()+"999999999999");
+        return  userLogIn.getStatus() ;
     }
     private String getDesisName(){
         return sharedPreferences.getString("userDisease","another");

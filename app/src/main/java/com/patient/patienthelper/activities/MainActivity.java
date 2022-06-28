@@ -23,6 +23,10 @@ public class MainActivity extends AppCompatActivity {
         findAllViewById();
 
         setUpTheBottomNavigationMovement();
+//        finish();
+//       overridePendingTransition(0, 0);
+//        startActivity(getIntent());
+//         overridePendingTransition(0, 0);
 
     }
 
@@ -35,7 +39,15 @@ public class MainActivity extends AppCompatActivity {
         //enable the swap between the fragments by set up the nav controller
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+
+    }
 }
+
 
 /*
  * How to create a bottom navigation view

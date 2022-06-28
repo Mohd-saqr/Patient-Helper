@@ -34,20 +34,13 @@ public class LookingForActivity extends AppCompatActivity {
         setContentView(R.layout.activity_looking_for);
         findViews();
         preferences = new MySharedPreferences(this);
-        getData();
+
         SpinnerSelected();
 
 
     }
 
-    private void getData() {
 
-        if (preferences.contains("userLog")) {
-            Gson gson = new Gson();
-            userLogIn = gson.fromJson(preferences.getString("userLog", "noData"), UserLogIn.class);
-
-        }
-    }
 
     public void findViews() {
         button = findViewById(R.id.submit_looking_for);
@@ -99,12 +92,12 @@ public class LookingForActivity extends AppCompatActivity {
      );
  }
     private void saveData(String status) {
-
         Gson gson = new Gson();
+    userLogIn = gson.fromJson(preferences.getString("userLog",null),UserLogIn.class);
+        userLogIn.setStatus(status);
+
         String serializedObject = gson.toJson(userLogIn);
         preferences.putString("userLog", serializedObject);
-        preferences.putBoolean("FirstLog", false);
-        preferences.putString("userStatus",status);
         preferences.apply();
     }
 

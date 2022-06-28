@@ -1,10 +1,12 @@
 package com.patient.patienthelper.activities;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
@@ -17,8 +19,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.amplifyframework.AmplifyException;
+import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.auth.AuthUserAttribute;
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.core.Amplify;
+import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 import com.patient.patienthelper.R;
@@ -41,14 +47,16 @@ public class LoginActivity extends AppCompatActivity {
     private String emailString;
     private String passwordString;
     LottieAnimationView loading;
-
+    UserLogIn userLogIn;
     MySharedPreferences mySharedPreferences;
 
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+//        initializeAws();
         mySharedPreferences = new MySharedPreferences(this);
         inflateViews();
         setUPButton();
@@ -62,10 +70,11 @@ public class LoginActivity extends AppCompatActivity {
         loginBtn = findViewById(R.id.login_button);
         signupBtn = findViewById(R.id.create_account_button);
         deviceRememberCheckBox = findViewById(R.id.remember_device_checkBox);
-        loading=findViewById(R.id.loading);
+        loading = findViewById(R.id.loading);
     }
 
     // method to hold Listeners
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void setUPButton() {
 
         signupBtn.setOnClickListener(view -> {
@@ -91,6 +100,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     //    validate email
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void loginButtonAction() {
 
         if (TextUtils.isEmpty(emailString) || !emailString.contains("@")) {
@@ -118,6 +128,7 @@ public class LoginActivity extends AppCompatActivity {
 
 //    setup aws login
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void login() {
 
 
@@ -135,15 +146,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         savePasswordSharedPreferences();
 
-                        runOnUiThread(()->{
-                            if (checkFirstLogin()){
-                                loading.setVisibility(View.INVISIBLE);
-                                startActivity(new Intent(LoginActivity.this, LookingForActivity.class));
-                            }else{
-                                loading.setVisibility(View.INVISIBLE);
-                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                            }
-                        });
+
                     } else {
 
                         runOnUiThread(() -> {
@@ -168,9 +171,11 @@ public class LoginActivity extends AppCompatActivity {
                 () -> Log.i(TAG, "Remember device succeeded"),
                 error -> Log.e(TAG, "Remember device failed with error " + error)
         );
+
     }
 
     //    Fetch Current User Attributes to use them later
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void onlineFetchCurrentUserAttributes() {
 
         Amplify.Auth.fetchUserAttributes(
@@ -179,6 +184,16 @@ public class LoginActivity extends AppCompatActivity {
                     Log.i(TAG, "User attributes = " + attributes);
                     userAttributes = attributes;
                     saveUserData();
+                    runOnUiThread(() -> {
+
+                        if (checkFirstLogin()) {
+                            loading.setVisibility(View.INVISIBLE);
+                            startActivity(new Intent(LoginActivity.this, LookingForActivity.class));
+                        } else {
+                            loading.setVisibility(View.INVISIBLE);
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        }
+                    });
                 },
                 error -> Log.e(TAG, "Failed to fetch user attributes.", error)
         );
@@ -203,21 +218,55 @@ public class LoginActivity extends AppCompatActivity {
 //    }
 
     private void saveUserData() {
-        String fullName = userAttributes.get(2).getValue() + " " + userAttributes.get(3).getValue();
+
+        System.out.println(userAttributes + "oooooooooooooo");
+
+
+        String fullName = userAttributes.get(3).getValue() + " " + userAttributes.get(5).getValue();
+        String diseaseName=userAttributes.get(4).getValue();
         String id = userAttributes.get(0).getValue();
-        String email = userAttributes.get(4).getValue();
-        String imageId = email + ".jpg";
         Boolean email_verified = userAttributes.get(1).getValue().equals("true");
-        UserLogIn userLogIn = new UserLogIn(fullName, fullName, id, email, email_verified, imageId, userAttributes.get(2).getValue(), userAttributes.get(3).getValue(), passwordString);
+        String firstName = userAttributes.get(3).getValue();
+        String lastName = userAttributes.get(5).getValue();
+        String email = userAttributes.get(6).getValue();
+        String status = userAttributes.get(2).getValue();
+        Boolean firstLogin = status.equals("test");
+        String imageId = email.replace("@", "")
+                .replace("_", "").replace("-", "")
+                .replace(".", "") + "jpg";
+
+        userLogIn = new UserLogIn(fullName, firstName, firstName, lastName, id, email, email_verified, firstLogin, status, imageId,diseaseName);
+        System.out.println(userLogIn);
+//        User attributes = [AuthUserAttribute {key=AuthUserAttributeKey
+//    {attributeKey=sub}, value=2c96687f-cbea-424c-81a0-195bea94e5e8},
+//        AuthUserAttribute {key=AuthUserAttributeKey {attributeKey=email_verified}, value=true},
+//        AuthUserAttribute {key=AuthUserAttributeKey {attributeKey=custom:status1}, value=Drug conflict},
+//        AuthUserAttribute {key=AuthUserAttributeKey {attributeKey=name}, value=cghbdcgdf},
+//        AuthUserAttribute {key=AuthUserAttributeKey {attributeKey=custom:user_disease}, value=null},
+//        AuthUserAttribute {key=AuthUserAttributeKey {attributeKey=family_name}, value=fdgfdgdfgd},
+//        AuthUserAttribute {key=AuthUserAttributeKey {attributeKey=email}, value=hashemsmadi98@gmail.com}]
+
+
         final Gson gson = new Gson();
         String serializedObject = gson.toJson(userLogIn);
         mySharedPreferences.putString("userLog", serializedObject);
+
         mySharedPreferences.apply();
     }
 
     private Boolean checkFirstLogin() {
-        return mySharedPreferences.getBoolean("FirstLog", true);
+        return userLogIn.getFirstLogIn();
     }
 
-
+//    private void initializeAws() {
+//        try {
+//            Amplify.addPlugin(new AWSApiPlugin());
+//            Amplify.addPlugin(new AWSCognitoAuthPlugin());
+//            Amplify.addPlugin(new AWSS3StoragePlugin());
+//            Amplify.configure(getApplicationContext());
+//            Log.i(TAG, "Initialized Amplify");
+//        } catch (AmplifyException error) {
+//            Log.e(TAG, "Could not initialize Amplify", error);
+//        }
+//    }
 }

@@ -135,31 +135,32 @@ public class DrugsConflictsFragment extends Fragment {
     }
 
     public void toast(boolean bool) {
-        if (bool == true) {
+        Toast toast;
+        if (bool) {
 
-            Toast toast = Toast.makeText(getContext(),
+            toast = Toast.makeText(getContext(),
                     "There is interaction between these two drugs",
                     Toast.LENGTH_SHORT);
             View toastView = toast.getView();
 
 //  //          toastView.setBackgroundResource(R.drawable.toast_drawable);
 
-       //     toastView.setBackgroundResource(R.drawable.toast_drawable);
+//            toastView.setBackgroundResource(R.drawable.toast_drawable);
+//            toastView.setBackgroundResource(R.drawable.toast_drawable123);
 
-            toast.show();
+
         } else {
-            Toast toast = Toast.makeText(getContext(),
+            toast = Toast.makeText(getContext(),
                     "There is no interaction , Its fine",
                     Toast.LENGTH_SHORT);
             View toastView = toast.getView();
 
-//  //          toastView.setBackgroundResource(R.drawable.toast_drawablea);
+//            toastView.setBackgroundResource(R.drawable.toast_drawablea);
 
-   ///         toastView.setBackgroundResource(R.drawable.toast_drawablea);
-
-            toast.show();
+//            toastView.setBackgroundResource(R.drawable.toast_drawablea);
 
         }
+        toast.show();
 
     }
 

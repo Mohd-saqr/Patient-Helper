@@ -53,6 +53,9 @@
             android:name=".activities.Select_illActivity"
             android:exported="false" />
         <activity
+            android:name=".activities.PharmacyDetailsActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.Splash"
             android:exported="true">
             <intent-filter>

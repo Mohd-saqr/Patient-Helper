@@ -100,6 +100,10 @@ public class SignUpActivity extends AppCompatActivity {
         attributes.add(new AuthUserAttribute(AuthUserAttributeKey.name(), firstNameSignupString));
         attributes.add(new AuthUserAttribute(AuthUserAttributeKey.familyName(), lastNameSignupString));
 
+        attributes.add(new AuthUserAttribute(AuthUserAttributeKey.custom("custom:status1"), "test"));
+        attributes.add(new AuthUserAttribute(AuthUserAttributeKey.custom("custom:user_disease"), "test"));
+
+
         Log.i(TAG, "setUPpSignUpButton: "+ emailSignupString+".........."+passwordSignupString);
 
         Amplify.Auth.signUp(
@@ -118,7 +122,9 @@ public class SignUpActivity extends AppCompatActivity {
 
                     });
                     imageToUploadKey=emailSignup.getText().toString();
-                    uploadImage();
+                    if (file!=null) {
+                        uploadImage();
+                    }
                 },
                 error -> {
                     Log.e(TAG, "Sign up failed", error);
