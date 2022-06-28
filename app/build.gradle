@@ -68,6 +68,15 @@ dependencies {
     ///animation library
 
     implementation 'com.airbnb.android:lottie:5.2.0'
+}
+def getApiKey() {
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    return properties.getProperty("Places_API_key");
+}
 
-
+android {
+    defaultConfig {
+        buildConfigField "String", "PLACES_API_kEY", "\"" + getApiKey() + "\""
+    }
 }

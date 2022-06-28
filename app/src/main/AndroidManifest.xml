@@ -10,6 +10,10 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
+
 
     <application
         android:allowBackup="true"
@@ -24,6 +28,9 @@
         tools:targetApi="31">
         <activity
             android:name=".activities.NearbyPharmaciesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.PharmacyDetailsActivity"
             android:exported="false" />
         <activity
             android:name=".activities.DeleteAccountActivity"
@@ -53,9 +60,6 @@
             android:name=".activities.Select_illActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.PharmacyDetailsActivity"
-            android:exported="false" />
-        <activity
             android:name=".activities.Splash"
             android:exported="true">
             <intent-filter>
@@ -83,11 +87,9 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
         <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
-        <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="${MAPS_API_KEY}${Places_API_key}"/>
+            android:value="${places_api_key}"
+            />
     </application>
 
 </manifest>

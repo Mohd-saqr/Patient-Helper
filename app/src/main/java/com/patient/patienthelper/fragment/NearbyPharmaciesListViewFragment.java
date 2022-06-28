@@ -2,16 +2,20 @@ package com.patient.patienthelper.fragment;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -20,12 +24,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.patient.patienthelper.BuildConfig;
 import com.patient.patienthelper.R;
+import com.patient.patienthelper.activities.MainActivity;
 import com.patient.patienthelper.activities.NearbyPharmaciesActivity;
 import com.patient.patienthelper.activities.PharmacyDetailsActivity;
 import com.patient.patienthelper.adapters.RecyclerAdapterPharmacy;
@@ -56,9 +62,12 @@ public class NearbyPharmaciesListViewFragment extends Fragment {
     private double currentLat = 0, currentLong = 0;
     private String apiKey;
     private static List<HashMap<String, String>> listResultToSave;
-    private ProgressBar loading;
     private static List<Pharmacy> pharmacies = new ArrayList<>();
     private SwipeRefreshLayout swipeContainer;
+    private LottieAnimationView loading;
+    private ImageView backBtn;
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -83,22 +92,27 @@ public class NearbyPharmaciesListViewFragment extends Fragment {
 
         loading.setVisibility(View.VISIBLE);
 
+
         initializeFusedLocationProviderClient();
 
         askLocationPermission();
 
         onRefreshPullListener();
 
+        setOnClickListener();
+
         // Inflate the layout for this fragment
         return view;
     }
 
     private void findAllViewById(View view) {
-        apiKey = BuildConfig.Places_API_key;
+        apiKey = BuildConfig.places_api_key;
         recyclerview = view.findViewById(R.id.nearby_pharmacies_recycler_view);
-        loading = view.findViewById(R.id.pharmacies_list_progress_bar);
+        loading = view.findViewById(R.id.loading_in_pharmacies_list);
         swipeContainer = view.findViewById(R.id.swipe_refresh_layout);
+        backBtn = view.findViewById(R.id.ivBack);
     }
+
 
 
     private void initializeFusedLocationProviderClient() {
@@ -109,14 +123,30 @@ public class NearbyPharmaciesListViewFragment extends Fragment {
     private void askLocationPermission() {
         //check permission
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            //when permission granted
-            //call method
-            getCurrentLocation();
+            if (isLocationEnabled()) {
+                //when permission granted
+                //call method
+                getCurrentLocation();
+            }else {
+                Toast.makeText(getContext(), "Please turn on your location....", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(intent);
+            }
         } else {
             //when permission denied
             //request permission
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
         }
+    }
+
+
+    private boolean isLocationEnabled() {
+
+        LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
+                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
     }
 
     private void getCurrentLocation() {
@@ -238,6 +268,7 @@ public class NearbyPharmaciesListViewFragment extends Fragment {
     }
 
     private class ParserTask extends AsyncTask<String, Integer, List<HashMap<String, String>>> {
+
         private Pharmacy pharmacy;
 
         @Override
@@ -260,28 +291,32 @@ public class NearbyPharmaciesListViewFragment extends Fragment {
                 for (int i = 0; i < listResultToSave.size(); i++) {
                     if (listResultToSave.get(i).isEmpty())
                         continue;
-                    pharmacy = new Pharmacy();
-
-                    pharmacy.setName(listResultToSave.get(i).get("name"));
-                    pharmacy.setLat(Double.parseDouble(listResultToSave.get(i).get("lat")));
-                    pharmacy.setLng(Double.parseDouble(listResultToSave.get(i).get("lng")));
-                    pharmacy.setOpen(listResultToSave.get(i).get("open_now"));
-                    pharmacy.setRating(Double.parseDouble(listResultToSave.get(i).get("rating")));
+                    pharmacy = new Pharmacy(listResultToSave.get(i).get("place_id"),listResultToSave.get(i).get("name"),listResultToSave.get(i).get("open_now"));
                     pharmacies.add(pharmacy);
+
                 }
-                getActivity().runOnUiThread(() -> {
-                    getPharmaciesListToListFragment(pharmacies);
-                    recyclerAdapterPharmacy.notifyDataSetChanged();
-                    loading.setVisibility(View.INVISIBLE);
-                });
+                Log.i(TAG, "doInBackground: getPharmaciesListToListFragment size -> " + pharmacies.size());
+
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
             //return map list
             return null;
         }
+
+        @Override
+        protected void onPostExecute(List<HashMap<String, String>> hashMaps) {
+            super.onPostExecute(hashMaps);
+
+            getActivity().runOnUiThread(() -> {
+                getPharmaciesListToListFragment(pharmacies);
+                recyclerAdapterPharmacy.notifyDataSetChanged();
+                loading.setVisibility(View.INVISIBLE);
+            });
+        }
     }
+
 
 
 
@@ -293,24 +328,19 @@ public class NearbyPharmaciesListViewFragment extends Fragment {
         Log.i(TAG, "getPharmaciesListToListFragment: pharmacyListParam size -> "+pharmacyListParam.size());
         recyclerAdapterPharmacy = new RecyclerAdapterPharmacy(pharmacyListParam, position -> {
             Intent intent = new Intent(getContext(), PharmacyDetailsActivity.class);
-            intent.putExtra("Name", pharmacyListParam.get(position).getName());
-            intent.putExtra("Latitude", pharmacyListParam.get(position).getLat());
-            intent.putExtra("Longitude", pharmacyListParam.get(position).getLng());
-            intent.putExtra("Open", pharmacyListParam.get(position).getIsOpen());
-            intent.putExtra("Rating", pharmacyListParam.get(position).getRating());
-
+            intent.putExtra("Id", pharmacyListParam.get(position).getId());
+            intent.putExtra("IsOpen", pharmacyListParam.get(position).getIsOpen());
+            intent.putExtra("userLatitude", currentLat);
+            intent.putExtra("userLongitude", currentLong);
             startActivity(intent);
         });
-
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(
                 getContext(),
                 LinearLayoutManager.VERTICAL,
                 false);
-
         recyclerview.setLayoutManager(linearLayoutManager);
         recyclerview.setAdapter(recyclerAdapterPharmacy);
-
     }
 
     private void onRefreshPullListener() {
@@ -321,6 +351,12 @@ public class NearbyPharmaciesListViewFragment extends Fragment {
                 onResume();
                 swipeContainer.setRefreshing(false);
             }
+        });
+    }
+
+    private void setOnClickListener(){
+        backBtn.setOnClickListener(view -> {
+            startActivity(new Intent(getContext(), MainActivity.class));
         });
     }
 }
