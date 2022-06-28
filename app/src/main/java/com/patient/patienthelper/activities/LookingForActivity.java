@@ -4,13 +4,21 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import com.amplifyframework.auth.AuthUserAttribute;
+import com.amplifyframework.auth.AuthUserAttributeKey;
+import com.amplifyframework.core.Amplify;
 import com.google.gson.Gson;
 import com.patient.patienthelper.R;
 import com.patient.patienthelper.helperClass.MySharedPreferences;
 import com.patient.patienthelper.helperClass.UserLogIn;
+
+import java.util.ArrayList;
 
 public class LookingForActivity extends AppCompatActivity {
 
@@ -53,15 +61,19 @@ public class LookingForActivity extends AppCompatActivity {
             String Selected = String.valueOf(sp.getSelectedItem());
             if (Selected.equals("Patient")) {
                 saveData("Patient");
+                setUserStatus("Patient");
                 Intent i = new Intent(this, Select_illActivity.class);
                 startActivity(i);
 
             } else if (Selected.equals("Drug conflict")) {
                 saveData("Drug conflict");
+                setUserStatus("Drug conflict");
                 Intent i = new Intent(this, MainActivity.class);
                 startActivity(i);
             } else {
                 saveData("another");
+                setUserStatus("another");
+
                 Intent i = new Intent(this, MainActivity.class);
                 startActivity(i);
             }
@@ -70,7 +82,22 @@ public class LookingForActivity extends AppCompatActivity {
 
 
     }
+ public void setUserStatus(String status1){
+     ArrayList<AuthUserAttribute> attributes = new ArrayList<>();
+     attributes.add(new AuthUserAttribute(AuthUserAttributeKey.custom("custom:status1"), status1));
+     Amplify.Auth.updateUserAttributes(
+             attributes,
+             result -> {
+                 Log.i(TAG, "Result: " + result);
+             },
+             error -> {
+                 Log.e(TAG, "update failed", error);
+                 runOnUiThread(() -> {
 
+                 });
+             }
+     );
+ }
     private void saveData(String status) {
 
         Gson gson = new Gson();
