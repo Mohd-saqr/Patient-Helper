@@ -91,7 +91,7 @@ public class NearbyPharmaciesMapViewFragment extends Fragment {
 
     private void findAllViewById(View view) {
 
-        apiKey = BuildConfig.Places_API_key;
+        apiKey = BuildConfig.PLACES_API_kEY;
         spType = view.findViewById(R.id.sp_type);
         loading = view.findViewById(R.id.loading_in_pharmacies_map);
         supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.google_map);
