@@ -24,7 +24,9 @@
         android:theme="@style/Theme.PatientHelper"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-
+        <activity
+            android:name=".activities.TestActivity"
+            android:exported="false" />
         <activity
             android:name=".activities.NearbyPharmaciesActivity"
             android:exported="false" />

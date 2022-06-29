@@ -54,7 +54,7 @@ public class MyPosts extends AppCompatActivity {
             intent.putExtra("Post",post);
             intent.putExtra("PostCreatedAt",Post.getCreatedAt().format());
             startActivity(intent);
-        });
+        },this);
         recyclerView.setAdapter(recyclerAdapterPost);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
