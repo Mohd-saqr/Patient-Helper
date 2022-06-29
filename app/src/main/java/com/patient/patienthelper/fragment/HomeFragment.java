@@ -90,13 +90,15 @@ public class HomeFragment extends Fragment {
 
     private void updateUri(String checkStatus) {
         if (checkStatus.equals("Patient")){
-            desName.setVisibility(View.VISIBLE);
-            Gson gson = new Gson();
-          Disease disease=  gson.fromJson(getDesisName(),Disease.class);
 
-            todayAdvice.setText(disease.getDescription_t());
+                desName.setVisibility(View.VISIBLE);
+                Gson gson = new Gson();
+                Disease disease = gson.fromJson(getDesisName(), Disease.class);
 
-            desName.setText(disease.getDisease_name());
+                todayAdvice.setText(disease.getDescription_t());
+
+                desName.setText(disease.getDisease_name());
+
         }else {
 
             desName.setVisibility(View.INVISIBLE);
@@ -179,6 +181,7 @@ public class HomeFragment extends Fragment {
         userLogIn=gson.fromJson(sharedPreferences.getString("userLog",null),UserLogIn.class);
         System.out.println(userLogIn.getStatus()+"999999999999");
         return  userLogIn.getStatus() ;
+
     }
     private String getDesisName(){
         return sharedPreferences.getString("userDisease","another");

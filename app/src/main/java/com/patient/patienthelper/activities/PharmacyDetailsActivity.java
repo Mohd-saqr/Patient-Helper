@@ -59,7 +59,7 @@ public class PharmacyDetailsActivity extends AppCompatActivity {
     }
 
     private void findAllViewById(){
-        apiKey = BuildConfig.places_api_key;
+        apiKey = BuildConfig.Places_API_key;
         Log.i(TAG, "findAllViewById: api key -> "+apiKey);
         pharmacyName = findViewById(R.id.pharmacy_name);
         pharmacyOpen = findViewById(R.id.is_pharmacy_open);

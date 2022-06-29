@@ -32,6 +32,7 @@ import com.patient.patienthelper.activities.DeleteAccountActivity;
 import com.patient.patienthelper.activities.EditProfileActivity;
 import com.patient.patienthelper.activities.LoginActivity;
 import com.patient.patienthelper.activities.MainActivity;
+import com.patient.patienthelper.activities.MyPosts;
 import com.patient.patienthelper.helperClass.MySharedPreferences;
 import com.patient.patienthelper.helperClass.UserLogIn;
 
@@ -210,6 +211,7 @@ activitys
 
             switch (i) {
                 case 0:
+                    navigateToMyDrugsPage();
                     break;
                 case 1:
                     break;
@@ -230,10 +232,16 @@ activitys
         });
     }
 
+    private void navigateToMyDrugsPage() {
+        Intent intent = new Intent(getContext(), MyPosts.class);
+        startActivity(intent);
+    }
+
     private void navigateToEditProfilePage(){
 
         Intent intent = new Intent(getContext(), EditProfileActivity.class);
         startActivity(intent);
+
 
     }
 
