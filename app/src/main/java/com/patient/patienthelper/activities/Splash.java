@@ -29,7 +29,7 @@ import retrofit2.Response;
 public class Splash extends AppCompatActivity {
     // to handle splash
     Handler splashHandler= new Handler();
-    HashTable<String,List<String>> hashTable = new HashTable<>(20);
+    HashTable<String,Disease> hashTable = new HashTable<>(20);
     MySharedPreferences sharedPreferences;
 
     private static final String TAG = Splash.class.getSimpleName();
@@ -82,7 +82,7 @@ public class Splash extends AppCompatActivity {
             public void onResponse(Call<List<Disease>> call, Response<List<Disease>> response) {
                 assert response.body() != null;
                 for (Disease d :response.body()){
-                    hashTable.put(d.getDisease_name(),d.getDrugs_names());
+                    hashTable.put(d.getDisease_name(),d);
                 }
                 saveApiData();
                 splashDelay();

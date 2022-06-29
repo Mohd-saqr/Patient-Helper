@@ -12,6 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.amplifyframework.datastore.generated.model.Post;
 import com.patient.patienthelper.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class RecyclerAdapterPost extends RecyclerView.Adapter<RecyclerAdapterPost.MyViewHolder> {
@@ -44,7 +47,11 @@ public class RecyclerAdapterPost extends RecyclerView.Adapter<RecyclerAdapterPos
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.username.setText(data.get(position).getCreateBy());
-        holder.create_at.setText(data.get(position).getCreatedAt().format());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+
+
+        holder.create_at.setText(data.get(position).getCreatedAt().toDate().toString());
         holder.posts_body.setText(data.get(position).getBody());
         holder.username.setOnClickListener(v -> {
             this.itemClick.OnButtonClick(data.get(position));

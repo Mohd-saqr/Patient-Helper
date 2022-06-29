@@ -106,7 +106,7 @@ public class NearbyPharmaciesListViewFragment extends Fragment {
     }
 
     private void findAllViewById(View view) {
-        apiKey = BuildConfig.places_api_key;
+        apiKey = BuildConfig.Places_API_key;
         recyclerview = view.findViewById(R.id.nearby_pharmacies_recycler_view);
         loading = view.findViewById(R.id.loading_in_pharmacies_list);
         swipeContainer = view.findViewById(R.id.swipe_refresh_layout);

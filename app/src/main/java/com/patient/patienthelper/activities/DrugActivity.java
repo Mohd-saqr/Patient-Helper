@@ -17,6 +17,7 @@ import com.patient.patienthelper.api.Disease;
 import com.patient.patienthelper.api.GetApi;
 import com.patient.patienthelper.helperClass.HashTable.HashTable;
 import com.patient.patienthelper.helperClass.MySharedPreferences;
+import com.patient.patienthelper.helperClass.UserLogIn;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,8 +34,9 @@ public class DrugActivity extends AppCompatActivity {
     DrugRecyclerAdapter recyclerAdapterForDrugs;
     ProgressBar progressBarForDrugs;
     List<String> drugs;
-    HashTable<String,List<String>> hashTable = new HashTable<>(20);
+    HashTable hashTable = new HashTable<>(20);
     MySharedPreferences sharedPreferences;
+    UserLogIn userLogIn;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,39 +48,22 @@ public class DrugActivity extends AppCompatActivity {
         progressBarForDrugs.setVisibility(View.VISIBLE);
 
 
-        try {
-            fetchApi();
 
-        } catch (IOException exception) {
-            exception.printStackTrace();
-        }
+
+            filter();
+            setAdapter();
+
+
 
     }
 
     private void filter() {
         String userDisease =getDiseaseName();
-         drugs=hashTable.get(userDisease);
+        Disease disease= (Disease) hashTable.get(userDisease);
+         drugs=disease.getDrugs_names();
     }
 
-    public void fetchApi() throws IOException {
-        GetApi.getDrugsName().enqueue(new Callback<List<Disease>>() {
-            @Override
-            public void onResponse(Call<List<Disease>> call, Response<List<Disease>> response) {
-                assert response.body() != null;
-                apiData.addAll(response.body());
-                filter();
-                setAdapter();
-                recyclerAdapterForDrugs.notifyDataSetChanged();
-                progressBarForDrugs.setVisibility(View.INVISIBLE);
 
-            }
-
-            @Override
-            public void onFailure(Call<List<Disease>> call, Throwable t) {
-
-            }
-        });
-    }
     private void findViewById(){
         progressBarForDrugs=findViewById(R.id.progressBar_select_drug);
         recyclerView= findViewById(R.id.DrugRecyclerView);
@@ -96,9 +81,9 @@ public class DrugActivity extends AppCompatActivity {
     }
     private String getDiseaseName(){
         Gson gson = new Gson();
-        Disease disease =gson.fromJson(sharedPreferences.getString("userDisease",null),Disease.class);
+        userLogIn =gson.fromJson(sharedPreferences.getString("userLog",null),UserLogIn.class);
         hashTable=gson.fromJson(sharedPreferences.getString("ApiData",null),HashTable.class);
-        return disease.getDisease_name();
+        return userLogIn.getDiseaseName();
     }
 
 }

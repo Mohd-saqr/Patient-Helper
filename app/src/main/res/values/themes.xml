@@ -14,7 +14,7 @@
         <!-- Customize your theme here. -->
     </style>
 
-        <!--Done by mohammad ghanem-->
+    <!--Done by mohammad ghanem-->
     <style name="FabStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -24,6 +24,7 @@
         <item name="tint">@color/white</item>
         <item name="useCompatPadding">true</item>
     </style>
+
     <style name="carViewTheme" parent="Widget.MaterialComponents.CardView">
 
         <item name="strokeWidth">0.5dp</item>
@@ -37,6 +38,15 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="backgroundTint">@color/white</item>
     </style>
-        <!--Done by mohammad ghanem-->
+
+    <style name="Theme.PatientHelper.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.PatientHelper.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.PatientHelper.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <!--Done by mohammad ghanem-->
 
 </resources>

@@ -28,6 +28,8 @@ import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 import com.patient.patienthelper.R;
+import com.patient.patienthelper.api.Disease;
+import com.patient.patienthelper.helperClass.HashTable.HashTable;
 import com.patient.patienthelper.helperClass.MySharedPreferences;
 import com.patient.patienthelper.helperClass.UserLogIn;
 
@@ -49,6 +51,7 @@ public class LoginActivity extends AppCompatActivity {
     LottieAnimationView loading;
     UserLogIn userLogIn;
     MySharedPreferences mySharedPreferences;
+    HashTable hashTable = new HashTable<>(20);
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -188,15 +191,27 @@ public class LoginActivity extends AppCompatActivity {
 
                         if (checkFirstLogin()) {
                             loading.setVisibility(View.INVISIBLE);
+
                             startActivity(new Intent(LoginActivity.this, LookingForActivity.class));
                         } else {
+                            getDisease();
                             loading.setVisibility(View.INVISIBLE);
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         }
+                        finish();
                     });
                 },
                 error -> Log.e(TAG, "Failed to fetch user attributes.", error)
         );
+    }
+
+    private void getDisease() {
+        Gson gson = new Gson();
+
+        hashTable=gson.fromJson(mySharedPreferences.getString("ApiData",null),HashTable.class);
+        Disease disease = (Disease) hashTable.get(userLogIn.getDiseaseName());
+        mySharedPreferences.putString("userDisease",gson.toJson(disease));
+        mySharedPreferences.apply();
     }
 
     //    Save password in local device to remember
