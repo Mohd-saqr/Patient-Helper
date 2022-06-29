@@ -82,12 +82,15 @@ public class JsonParser {
             String longitude = object.getJSONObject("geometry").getJSONObject("location").getString("lng");
             String isOpen = object.getJSONObject("opening_hours").getBoolean("open_now")+"";
             String rating = object.getDouble("rating")+"";
+            String placeId = object.getString("place_id");
             //put all value in hash map
             dataList.put("name",name);
             dataList.put("lat",latitude);
             dataList.put("lng",longitude);
             dataList.put("open_now",isOpen);
             dataList.put("rating",rating);
+            dataList.put("place_id",placeId);
+
 
 
         } catch (JSONException e) {

@@ -41,7 +41,11 @@ public class RecyclerAdapterPharmacy extends RecyclerView.Adapter<RecyclerAdapte
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
 
         holder.title.setText(dataList.get(position).getName());
-        holder.openingState.setText(dataList.get(position).getIsOpen()+"");
+        if ((dataList.get(position).getIsOpen()+"").equals("true")){
+            holder.openingState.setText("Open");
+        }else {
+            holder.openingState.setText("Closed");
+        }
     }
 
     @Override

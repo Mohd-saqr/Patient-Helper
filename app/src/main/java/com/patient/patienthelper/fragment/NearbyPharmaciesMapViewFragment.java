@@ -1,9 +1,11 @@
 package com.patient.patienthelper.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.fragment.app.Fragment;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -28,6 +31,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.patient.patienthelper.BuildConfig;
 import com.patient.patienthelper.R;
+import com.patient.patienthelper.activities.LoginActivity;
 import com.patient.patienthelper.activities.NearbyPharmaciesActivity;
 import com.patient.patienthelper.helperClass.JsonParser;
 
@@ -57,6 +61,8 @@ public class NearbyPharmaciesMapViewFragment extends Fragment {
     private String[] placeTypeList;
     private String apiKey;
     private MarkerOptions markerOptionsCurrentLocation;
+    private LottieAnimationView loading;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -85,10 +91,11 @@ public class NearbyPharmaciesMapViewFragment extends Fragment {
 
     private void findAllViewById(View view) {
 
-        apiKey = BuildConfig.Places_API_key;
+        apiKey = BuildConfig.places_api_key;
         spType = view.findViewById(R.id.sp_type);
-        //btFind = view.findViewById(R.id.bt_find);
+        loading = view.findViewById(R.id.loading_in_pharmacies_map);
         supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.google_map);
+        loading.setVisibility(View.VISIBLE);
     }
 
     private void initializeSpinner() {
@@ -110,10 +117,12 @@ public class NearbyPharmaciesMapViewFragment extends Fragment {
             }
         });
     }
+
     private void initializeFusedLocationProviderClient() {
         //initialize fused location provider client
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getContext());
     }
+
     private void getCurrentLocation() {
 
         //initialize task location
@@ -147,6 +156,7 @@ public class NearbyPharmaciesMapViewFragment extends Fragment {
             }
         });
     }
+
     private void setPlacesUrl() {
 
         //get selected position of spinner
@@ -268,5 +278,4 @@ public class NearbyPharmaciesMapViewFragment extends Fragment {
             map.addMarker(markerOptionsCurrentLocation);
         }
     }
-
 }
