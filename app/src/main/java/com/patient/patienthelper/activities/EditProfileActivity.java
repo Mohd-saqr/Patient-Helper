@@ -112,13 +112,14 @@ public class EditProfileActivity extends AppCompatActivity {
             imagePicker();
         });
         saveInfoBtn.setOnClickListener(view -> {
+            getAllAsString();
+            editUserInfo();
             if (isUserUploadNewImage) {
                 deleteImageFromS3();
 
 
             }
-            getAllAsString();
-            editUserInfo();
+
 
         });
         backBtn.setOnClickListener(view -> {
@@ -224,6 +225,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 result -> {
                     Log.i(TAG, "Successfully uploaded: " + result.getKey());
 
+
                 },
                 storageFailure -> Log.e(TAG, "Upload failed", storageFailure)
         );
@@ -261,7 +263,7 @@ public class EditProfileActivity extends AppCompatActivity {
         if (firstNameString.equals(currentFirstName)
                 && lastNameString.equals(currentLastName)
                 && !isUserUploadNewImage) {
-                withoutEditAlert();
+            withoutEditAlert();
 
         } else if (TextUtils.isEmpty(firstName.getText())) {
 
@@ -274,7 +276,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
         } else {
 
-            editProfileProgressBar.setVisibility(View.VISIBLE);
+
             update();
 
         }
@@ -314,7 +316,13 @@ public class EditProfileActivity extends AppCompatActivity {
                 result -> {
                     Log.i(TAG, "Result: " + result);
                     updateUserDataInMySharedPreferences();
-                    runOnUiThread(this::backToProfileFragment);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            editProfileProgressBar.setVisibility(View.VISIBLE);
+                            backToProfileFragment();
+                        }
+                    });
                 },
                 error -> {
                     Log.e(TAG, "update failed", error);

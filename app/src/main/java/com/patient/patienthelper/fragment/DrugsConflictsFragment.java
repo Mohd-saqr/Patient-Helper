@@ -46,6 +46,8 @@ public class DrugsConflictsFragment extends Fragment {
     String d2;
     ArrayList<String> arrayList;
     ArrayList<String> arrayList1;
+    ArrayAdapter<String> spinnerArrayAdapter1;
+    ArrayAdapter<String> spinnerArrayAdapter;
 
     Dialog dialog;
 
@@ -60,7 +62,8 @@ public class DrugsConflictsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_drugs_conflicts, container, false);
-
+        spinnerArrayAdapter1= new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item);
+        spinnerArrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item);
         try {
             addItemsOnSpinner1();
             addItemsOnSpinner();
@@ -202,7 +205,7 @@ public class DrugsConflictsFragment extends Fragment {
                     for (int i = 0; i < ConflictsListApi.size(); i++) {
                         arrayList.add(ConflictsListApi.get(i).getDrug());
                     }
-                    ArrayAdapter<String> spinnerArrayAdapter1 = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item);
+
                     spinnerArrayAdapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
                     spinnerArrayAdapter1.addAll(Drugs);
 //                    D1.setAdapter(spinnerArrayAdapter1);
@@ -234,7 +237,7 @@ public class DrugsConflictsFragment extends Fragment {
                         }
 
                     }
-                    ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item);
+
                     spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
                     spinnerArrayAdapter.addAll(DrugsConflicts);
 //                    D2.setAdapter(spinnerArrayAdapter);
