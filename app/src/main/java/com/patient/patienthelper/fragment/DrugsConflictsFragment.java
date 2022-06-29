@@ -33,8 +33,7 @@ import id.ionbit.ionalert.IonAlert;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import www.sanju.motiontoast.MotionToast;
-import www.sanju.motiontoast.MotionToastStyle;
+
 
 public class DrugsConflictsFragment extends Fragment {
     Button check;

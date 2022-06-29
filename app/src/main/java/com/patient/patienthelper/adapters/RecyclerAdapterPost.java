@@ -1,7 +1,6 @@
 package com.patient.patienthelper.adapters;
 
 import android.app.Activity;
-import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,9 +17,6 @@ import com.amplifyframework.datastore.generated.model.Post;
 import com.bumptech.glide.Glide;
 import com.patient.patienthelper.R;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -68,27 +64,27 @@ public class RecyclerAdapterPost extends RecyclerView.Adapter<RecyclerAdapterPos
             commentBtnClick.OnButtonClick(data.get(position));
         });
 
-        Amplify.Storage.getUrl(
-                "saqerabu9@gmail.com",
-                result ->
-                {
-
-
-                           context.runOnUiThread(new Runnable() {
-                               @Override
-                               public void run() {
-                                   Glide
-                                           .with(context)
-                                           .load(result.getUrl())
-                                           .circleCrop()
-                                           .into(holder.imageView);
-                               }
-                           });
-
-
-                },
-                error -> Log.e("MyAmplifyApp", "URL generation failure", error)
-        );
+//        Amplify.Storage.getUrl(
+//                "saqerabu9@gmail.com",
+//                result ->
+//                {
+//
+//
+//                           context.runOnUiThread(new Runnable() {
+//                               @Override
+//                               public void run() {
+//                                   Glide
+//                                           .with(context)
+//                                           .load(result.getUrl())
+//                                           .circleCrop()
+//                                           .into(holder.imageView);
+//                               }
+//                           });
+//
+//
+//                },
+//                error -> Log.e("MyAmplifyApp", "URL generation failure", error)
+//        );
 
     }
 
@@ -107,10 +103,10 @@ public class RecyclerAdapterPost extends RecyclerView.Adapter<RecyclerAdapterPos
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             username = itemView.findViewById(R.id.username);
-            create_at = itemView.findViewById(R.id.text_view_post_date);
+            create_at = itemView.findViewById(R.id.text_view_post_body);
             posts_body = itemView.findViewById(R.id.text_view_post_body);
             comment = itemView.findViewById(R.id.btn_comment);
-            imageView =itemView.findViewById(R.id.user_image);
+            imageView =itemView.findViewById(R.id.img_prof);
 
         }
     }
