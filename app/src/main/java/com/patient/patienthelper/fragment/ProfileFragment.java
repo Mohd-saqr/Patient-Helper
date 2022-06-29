@@ -33,6 +33,7 @@ import com.patient.patienthelper.activities.EditProfileActivity;
 import com.patient.patienthelper.activities.LoginActivity;
 import com.patient.patienthelper.activities.MainActivity;
 import com.patient.patienthelper.activities.MyPosts;
+import com.patient.patienthelper.activities.TestActivity;
 import com.patient.patienthelper.helperClass.MySharedPreferences;
 import com.patient.patienthelper.helperClass.UserLogIn;
 
@@ -214,6 +215,8 @@ activitys
                     navigateToMyDrugsPage();
                     break;
                 case 1:
+                    Intent intent = new Intent(getContext(), TestActivity.class);
+                    startActivity(intent);
                     break;
                 case 2:
                     navigateToEditProfilePage();

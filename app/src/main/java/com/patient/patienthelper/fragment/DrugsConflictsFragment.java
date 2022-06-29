@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 import android.text.Editable;
@@ -28,9 +29,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import id.ionbit.ionalert.IonAlert;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import www.sanju.motiontoast.MotionToast;
+import www.sanju.motiontoast.MotionToastStyle;
 
 public class DrugsConflictsFragment extends Fragment {
     Button check;
@@ -266,18 +270,63 @@ public class DrugsConflictsFragment extends Fragment {
     public void toast(boolean bool) {
         if (bool) {
 
-            Toast toast = Toast.makeText(getContext(),
-                    "There is interaction between these two drugs",
-                    Toast.LENGTH_SHORT);
-//            View toastView = toast.getView();
-            toast.show();
-        } else {
-            Toast toast = Toast.makeText(getContext(),
-                    "There is no interaction , Its fine",
-                    Toast.LENGTH_SHORT);
-//            View toastView = toast.getView();
-            toast.show();
+            /// motion toast
 
+//            MotionToast.Companion.createToast(getActivity(),
+//                    "interaction",
+//                    "There is interaction between these two drugs!",
+//                    MotionToastStyle.WARNING,
+//                    MotionToast.GRAVITY_BOTTOM,
+//                    MotionToast.LONG_DURATION,
+//                    ResourcesCompat.getFont(getContext(), www.sanju.motiontoast.R.font.montserrat_regular));
+            new IonAlert(getActivity(), IonAlert.WARNING_TYPE)
+
+                    .setTitleText("interaction Found")
+
+                    .setContentText("There is interaction between these two drugs! " +
+                            "Please don't use any one of Drugs with another and ask the doctor " +
+                            "to find alternative drugs")
+                    .setConfirmText("Find doctors")
+                    .setCancelText("sda")
+                    .setConfirmClickListener(new IonAlert.ClickListener() {
+                        @Override
+                        public void onClick(IonAlert ionAlert) {
+
+                        }
+                    })
+
+
+                    .show();
+
+
+//
+//            Toast toast = Toast.makeText(getContext(),
+//                    "There is interaction between these two drugs",
+//                    Toast.LENGTH_SHORT);
+////            View toastView = toast.getView();
+//            toast.show();
+        } else {
+//            Toast toast = Toast.makeText(getContext(),
+//                    "There is no interaction , Its fine",
+//                    Toast.LENGTH_SHORT);
+////            View toastView = toast.getView();
+//            toast.show();
+
+//
+            new IonAlert(getActivity(), IonAlert.SUCCESS_TYPE)
+
+                    .setTitleText("No interaction Found")
+                    .setContentText("There is no interaction , Its fine")
+                    .setConfirmText("Ok")
+                    .showCancelButton(false)
+
+                    .setConfirmClickListener(new IonAlert.ClickListener() {
+                        @Override
+                        public void onClick(IonAlert ionAlert) {
+                            ionAlert.dismiss();
+                        }
+                    })
+                    .show();
         }
 
     }

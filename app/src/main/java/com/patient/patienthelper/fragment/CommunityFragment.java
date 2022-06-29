@@ -184,7 +184,7 @@ public class CommunityFragment extends Fragment {
             intent.putExtra("Post",post);
             intent.putExtra("PostCreatedAt",Post.getCreatedAt().format());
             startActivity(intent);
-        });
+        },getActivity());
         System.out.println(apiData);
 
 
