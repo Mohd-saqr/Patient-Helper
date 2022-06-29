@@ -23,8 +23,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.amplifyframework.core.Amplify;
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.patient.patienthelper.R;
 import com.patient.patienthelper.activities.ChangePasswordActivity;
@@ -46,9 +48,9 @@ import java.io.File;
  */
 @SuppressLint({"SdCardPath","SetTextI18n"})
 public class ProfileFragment extends Fragment {
-/*
-activitys
- */
+    /*
+    activitys
+     */
     private ListView listView;
     private ImageView profileImage;
     private TextView userFullName;
@@ -82,6 +84,7 @@ activitys
         getCurrentUserImageKey();
         setListView();
         imageDownload();
+
         return view;
     }
 
@@ -89,8 +92,12 @@ activitys
     public void onResume() {
         super.onResume();
         getCurrentUserImageKey();
+        imageDownload();
+
+
 
     }
+
 
     @Override
     public void onStart() {
@@ -116,33 +123,54 @@ activitys
             userFullName.setText(userLogIn.getFirstName()+" "+userLogIn.getLastName());
             System.out.println(userLogIn.getFirstName()+userLogIn.getLastName()+"99999***");
         }
+        imageDownload();
     }
     private void imageDownload() {
+        profileImage.setImageURI(null);
 
-         file = new File(getContext().getFilesDir() + "/"+"userProfile"+".jpg");
+        file = new File(getContext().getFilesDir() + "/"+"userProfile"+".jpg");
         Log.i(TAG, "imageDownload: is the file exist -> " + file.exists());
-        if (!file.exists()) {
-            Amplify.Storage.downloadFile(
-                    imageToDownloadKey,
-                    file,
-                    result -> {
-                        Log.i(TAG, "The root path is: " + getContext().getFilesDir());
-                        Log.i(TAG, "Successfully downloaded: " + result.getFile().getName());
+        Amplify.Storage.getUrl(imageToDownloadKey,res->{
+            getActivity(). runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Glide.with(getContext())
+                            .load(res.getUrl())
+                            .circleCrop()
+                            .centerInside()
 
-                          handler.post(new Runnable() {
-                              @Override
-                              public void run() {
-                                  System.out.println("testImage Donlad");
-                                  showTheImageInThePage(file);
-                              }
-                          });
+                            .into(profileImage);
 
-                    },
-                    error -> Log.e(TAG, "Download Failure", error)
-            );
-        }else {
-            showTheImageInThePage(file);
-        }
+
+
+                }
+            });
+        },err->{
+
+        });
+
+//        if (!file.exists()) {
+//            Amplify.Storage.downloadFile(
+//                    imageToDownloadKey,
+//                    file,
+//                    result -> {
+//                        Log.i(TAG, "The root path is: " + getContext().getFilesDir());
+//                        Log.i(TAG, "Successfully downloaded: " + result.getFile().getName());
+//
+//                        handler.post(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                System.out.println("testImage Donlad");
+//                                showTheImageInThePage(file);
+//                            }
+//                        });
+//
+//                    },
+//                    error -> Log.e(TAG, "Download Failure", error)
+//            );
+//        }else {
+//            showTheImageInThePage(file);
+//        }
     }
 
     private void showTheImageInThePage(File file) {
@@ -246,6 +274,7 @@ activitys
         startActivity(intent);
 
 
+
     }
 
     private void navigateToChangePasswordPage(){
@@ -280,5 +309,10 @@ activitys
     private void navigateToDeleteAccountActivity(){
 
         startActivity(new Intent(getContext(), DeleteAccountActivity.class));
+    }
+
+    private void refresh(){
+
+        getFragmentManager().beginTransaction().detach(this).attach(this).commit();
     }
 }
