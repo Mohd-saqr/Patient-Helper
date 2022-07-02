@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -34,6 +36,7 @@ import com.patient.patienthelper.activities.DeleteAccountActivity;
 import com.patient.patienthelper.activities.EditProfileActivity;
 import com.patient.patienthelper.activities.LoginActivity;
 import com.patient.patienthelper.activities.MainActivity;
+import com.patient.patienthelper.activities.MyDrugs;
 import com.patient.patienthelper.activities.MyPosts;
 import com.patient.patienthelper.activities.TestActivity;
 import com.patient.patienthelper.helperClass.MySharedPreferences;
@@ -240,11 +243,10 @@ public class ProfileFragment extends Fragment {
 
             switch (i) {
                 case 0:
-                    navigateToMyDrugsPage();
+                    navigateToMyPosts();
                     break;
                 case 1:
-                    Intent intent = new Intent(getContext(), TestActivity.class);
-                    startActivity(intent);
+                    navigateToMyDrugsPage();
                     break;
                 case 2:
                     navigateToEditProfilePage();
@@ -263,8 +265,14 @@ public class ProfileFragment extends Fragment {
         });
     }
 
-    private void navigateToMyDrugsPage() {
+    private void navigateToMyPosts() {
         Intent intent = new Intent(getContext(), MyPosts.class);
+        startActivity(intent);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void navigateToMyDrugsPage() {
+        Intent intent = new Intent(getContext(), MyDrugs.class);
         startActivity(intent);
     }
 

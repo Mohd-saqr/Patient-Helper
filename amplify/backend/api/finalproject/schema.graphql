@@ -32,3 +32,12 @@ type Token @model{
 }
 
 
+type Drug @model {
+  id: ID!
+  name: String!
+  data:String
+  NumOfTimes:String
+  SpecificTime:String
+  userId:String!
+}
+

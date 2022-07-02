@@ -26,3 +26,198 @@ subscription OnDeleteTodo {
     updatedAt
   }
 }
+subscription OnCreatePost {
+  onCreatePost {
+    id
+    body
+    create_by
+    user_id
+    comments {
+      items {
+        id
+        body
+        create_by
+        createdAt
+        updatedAt
+        postCommentsId
+        commentPostId
+      }
+      nextToken
+    }
+    createdAt
+    updatedAt
+  }
+}
+subscription OnUpdatePost {
+  onUpdatePost {
+    id
+    body
+    create_by
+    user_id
+    comments {
+      items {
+        id
+        body
+        create_by
+        createdAt
+        updatedAt
+        postCommentsId
+        commentPostId
+      }
+      nextToken
+    }
+    createdAt
+    updatedAt
+  }
+}
+subscription OnDeletePost {
+  onDeletePost {
+    id
+    body
+    create_by
+    user_id
+    comments {
+      items {
+        id
+        body
+        create_by
+        createdAt
+        updatedAt
+        postCommentsId
+        commentPostId
+      }
+      nextToken
+    }
+    createdAt
+    updatedAt
+  }
+}
+subscription OnCreateComment {
+  onCreateComment {
+    id
+    body
+    create_by
+    post {
+      id
+      body
+      create_by
+      user_id
+      comments {
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+    postCommentsId
+    commentPostId
+  }
+}
+subscription OnUpdateComment {
+  onUpdateComment {
+    id
+    body
+    create_by
+    post {
+      id
+      body
+      create_by
+      user_id
+      comments {
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+    postCommentsId
+    commentPostId
+  }
+}
+subscription OnDeleteComment {
+  onDeleteComment {
+    id
+    body
+    create_by
+    post {
+      id
+      body
+      create_by
+      user_id
+      comments {
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+    postCommentsId
+    commentPostId
+  }
+}
+subscription OnCreateToken {
+  onCreateToken {
+    id
+    tokenId
+    userId
+    createdAt
+    updatedAt
+  }
+}
+subscription OnUpdateToken {
+  onUpdateToken {
+    id
+    tokenId
+    userId
+    createdAt
+    updatedAt
+  }
+}
+subscription OnDeleteToken {
+  onDeleteToken {
+    id
+    tokenId
+    userId
+    createdAt
+    updatedAt
+  }
+}
+subscription OnCreateDrug {
+  onCreateDrug {
+    id
+    name
+    data
+    NumOfTimes
+    SpecificTime
+    userId
+    createdAt
+    updatedAt
+  }
+}
+subscription OnUpdateDrug {
+  onUpdateDrug {
+    id
+    name
+    data
+    NumOfTimes
+    SpecificTime
+    userId
+    createdAt
+    updatedAt
+  }
+}
+subscription OnDeleteDrug {
+  onDeleteDrug {
+    id
+    name
+    data
+    NumOfTimes
+    SpecificTime
+    userId
+    createdAt
+    updatedAt
+  }
+}

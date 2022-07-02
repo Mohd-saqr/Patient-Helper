@@ -24,3 +24,149 @@ query ListTodos(
     nextToken
   }
 }
+query GetPost($id: ID!) {
+  getPost(id: $id) {
+    id
+    body
+    create_by
+    user_id
+    comments {
+      items {
+        id
+        body
+        create_by
+        createdAt
+        updatedAt
+        postCommentsId
+        commentPostId
+      }
+      nextToken
+    }
+    createdAt
+    updatedAt
+  }
+}
+query ListPosts(
+  $filter: ModelPostFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listPosts(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      body
+      create_by
+      user_id
+      comments {
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    nextToken
+  }
+}
+query GetComment($id: ID!) {
+  getComment(id: $id) {
+    id
+    body
+    create_by
+    post {
+      id
+      body
+      create_by
+      user_id
+      comments {
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+    postCommentsId
+    commentPostId
+  }
+}
+query ListComments(
+  $filter: ModelCommentFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listComments(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      body
+      create_by
+      post {
+        id
+        body
+        create_by
+        user_id
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+      postCommentsId
+      commentPostId
+    }
+    nextToken
+  }
+}
+query GetToken($id: ID!) {
+  getToken(id: $id) {
+    id
+    tokenId
+    userId
+    createdAt
+    updatedAt
+  }
+}
+query ListTokens(
+  $filter: ModelTokenFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listTokens(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      tokenId
+      userId
+      createdAt
+      updatedAt
+    }
+    nextToken
+  }
+}
+query GetDrug($id: ID!) {
+  getDrug(id: $id) {
+    id
+    name
+    data
+    NumOfTimes
+    SpecificTime
+    userId
+    createdAt
+    updatedAt
+  }
+}
+query ListDrugs(
+  $filter: ModelDrugFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listDrugs(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      name
+      data
+      NumOfTimes
+      SpecificTime
+      userId
+      createdAt
+      updatedAt
+    }
+    nextToken
+  }
+}

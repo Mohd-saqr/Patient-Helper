@@ -5,4 +5,14 @@
         <item>Drug conflict</item>
         <item>another</item>
     </string-array>
+
+    <string-array name="BeforeORAfter">
+        <item>Before food </item>
+        <item>After food</item>
+    </string-array>
+    <string-array name="NumOFTimes">
+        <item>One Time </item>
+        <item>Two Times</item>
+        <item>Three Times</item>
+    </string-array>
 </resources>
