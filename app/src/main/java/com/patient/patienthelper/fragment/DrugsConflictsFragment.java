@@ -289,7 +289,7 @@ public class DrugsConflictsFragment extends Fragment {
                             "Please don't use any one of Drugs with another and ask the doctor " +
                             "to find alternative drugs")
                     .setConfirmText("Find doctors")
-                    .setCancelText("sda")
+                    .setCancelText("Close")
                     .setConfirmClickListener(new IonAlert.ClickListener() {
                         @Override
                         public void onClick(IonAlert ionAlert) {

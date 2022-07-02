@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:layout_margin="16dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="8dp">
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="345dp"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="6dp"
+        android:layout_marginStart="16dp"
+        android:orientation="vertical"
+        android:padding="@dimen/_5sdp"
+        android:textAlignment="center">
+
+
+        <TextView
+            android:id="@+id/DrugNamer"
+            android:layout_width="304dp"
+            android:layout_height="wrap_content"
+            android:text="Name"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:layout_conversion_absoluteHeight="27dp"
+            tools:layout_conversion_absoluteWidth="53dp"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="6dp" />
+
+        <TextView
+            android:id="@+id/NumOfTimesr"
+
+            android:layout_width="305dp"
+            android:layout_height="wrap_content"
+            android:text="NumOfTimesr"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:layout_conversion_absoluteHeight="27dp"
+            tools:layout_conversion_absoluteWidth="128dp"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="33dp" />
+
+        <TextView
+            android:id="@+id/BeforeOrAfter"
+
+            android:layout_width="307dp"
+            android:layout_height="wrap_content"
+            android:text="BeforeOrAfterr"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:layout_conversion_absoluteHeight="27dp"
+            tools:layout_conversion_absoluteWidth="136dp"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="60dp" />
+
+
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>

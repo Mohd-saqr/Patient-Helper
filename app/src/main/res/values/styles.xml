@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="spinner_style">
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:dropDownWidth">533dp</item>
+        <item name="android:showDividers">none</item>
+        <item name="android:dividerHeight">0dp</item>
+        <item name="android:dropDownHeight">70dp</item>
+        <item name="android:scrollbarAlwaysDrawVerticalTrack">true</item>
+        <item name="android:dropDownSelector">@android:color/white</item>
+    </style>
+
+
+    <style name="Widget.MaterialComponents.Button.IconOnly" >
+        <item name="iconPadding">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
+        <item name="android:minWidth">12dp</item>
+        <item name="android:minHeight">12dp</item>
+        <item name="iconGravity">textStart</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.MyApp.Button.Circle" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+
+
+
+
+</resources>
