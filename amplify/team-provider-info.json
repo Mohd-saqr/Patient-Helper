@@ -14,6 +14,13 @@
     "categories": {
       "auth": {
         "finalproject0be01f59": {}
+      },
+      "notifications": {
+        "Pinpoint": {
+          "Name": "FinalProjecteNxHf-dev",
+          "Id": "ec5f984769b3445485f92cec548b1059",
+          "Region": "eu-central-1"
+        }
       }
     }
   }

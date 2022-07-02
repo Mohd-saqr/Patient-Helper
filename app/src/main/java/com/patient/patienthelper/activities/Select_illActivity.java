@@ -59,6 +59,11 @@ public class Select_illActivity extends AppCompatActivity {
 
 
 
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+    }
 
     public void fetchApi() throws IOException {
         //// get api it;s call and the get disease it's method inside it;
@@ -93,8 +98,9 @@ public class Select_illActivity extends AppCompatActivity {
             mySharedPreferences.remove("userDisease");
             mySharedPreferences.putString("userDisease",gson.toJson(disease));
             mySharedPreferences.apply();
-            finish();
             startActivity(new Intent(getApplicationContext(),MainActivity.class));
+            overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+            finish();
 
 
 

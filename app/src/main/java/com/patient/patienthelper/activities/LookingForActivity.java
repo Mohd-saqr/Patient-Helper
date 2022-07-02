@@ -57,25 +57,41 @@ public class LookingForActivity extends AppCompatActivity {
                 setUserStatus("Patient");
                 Intent i = new Intent(this, Select_illActivity.class);
                 startActivity(i);
+                overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+                finish();
+
+
 
             } else if (Selected.equals("Drug conflict")) {
                 saveData("Drug conflict");
                 setUserStatus("Drug conflict");
                 Intent i = new Intent(this, MainActivity.class);
                 startActivity(i);
+                overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+                finish();
+
             } else {
                 saveData("another");
                 setUserStatus("another");
 
                 Intent i = new Intent(this, MainActivity.class);
                 startActivity(i);
+                overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+                finish();
+
             }
 
         });
 
 
     }
- public void setUserStatus(String status1){
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+    }
+
+    public void setUserStatus(String status1){
      ArrayList<AuthUserAttribute> attributes = new ArrayList<>();
      attributes.add(new AuthUserAttribute(AuthUserAttributeKey.custom("custom:status1"), status1));
      Amplify.Auth.updateUserAttributes(
