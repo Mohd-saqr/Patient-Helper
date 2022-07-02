@@ -28,6 +28,9 @@
             android:name=".activities.ShowInfoActivity"
             android:exported="false"/>
         <activity
+            android:name=".activities.ForgetPasswordActivity"
+            android:exported="false"/>
+        <activity
             android:name=".activities.TestActivity"
             android:exported="false" />
         <activity
