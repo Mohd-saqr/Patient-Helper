@@ -18,4 +18,8 @@ public interface ApiMethod {
     // https://patientapi2022.herokuapp.com/api/con
     @GET("api/con")
     Call<List<Conflicts>> listConflicts();
+
+    // https://patientapi2022.herokuapp.com/api/drugs
+    @GET("api/drugs")
+    Call<List<DrugDetails>> listDrugsDetails();
 }

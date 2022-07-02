@@ -50,8 +50,8 @@ public class DrugActivity extends AppCompatActivity {
 
 
 
-            filter();
-            setAdapter();
+        filter();
+        setAdapter();
 
 
 
@@ -60,7 +60,7 @@ public class DrugActivity extends AppCompatActivity {
     private void filter() {
         String userDisease =getDiseaseName();
         Disease disease= (Disease) hashTable.get(userDisease);
-         drugs=disease.getDrugs_names();
+        drugs=disease.getDrugs_names();
     }
 
 
@@ -73,7 +73,7 @@ public class DrugActivity extends AppCompatActivity {
 
         recyclerAdapterForDrugs = new DrugRecyclerAdapter(drugs, disease -> {
             Toast.makeText(this, disease, Toast.LENGTH_SHORT).show();
-        });
+        },this);
         recyclerView.setAdapter(recyclerAdapterForDrugs);
         recyclerView.setLayoutManager(new LinearLayoutManager(this ){
 
