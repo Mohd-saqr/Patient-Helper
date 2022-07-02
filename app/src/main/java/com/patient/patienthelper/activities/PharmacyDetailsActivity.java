@@ -10,12 +10,12 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatRatingBar;
 
+import com.google.android.datatransport.runtime.BuildConfig;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.FetchPlaceRequest;
 import com.google.android.libraries.places.api.net.PlacesClient;
-import com.patient.patienthelper.BuildConfig;
 import com.patient.patienthelper.R;
 import com.patient.patienthelper.data.Pharmacy;
 
@@ -59,7 +59,7 @@ public class PharmacyDetailsActivity extends AppCompatActivity {
     }
 
     private void findAllViewById(){
-        apiKey = BuildConfig.PLACES_API_kEY;
+//        apiKey = BuildConfig.PLACES_API_kEY;
         Log.i(TAG, "findAllViewById: api key -> "+apiKey);
         pharmacyName = findViewById(R.id.pharmacy_name);
         pharmacyOpen = findViewById(R.id.is_pharmacy_open);

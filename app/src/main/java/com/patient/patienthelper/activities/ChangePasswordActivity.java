@@ -5,7 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -17,17 +20,20 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.amplifyframework.auth.options.AuthSignOutOptions;
 import com.amplifyframework.core.Amplify;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.patient.patienthelper.R;
 
 public class ChangePasswordActivity extends AppCompatActivity {
     private static final String TAG = ChangePasswordActivity.class.getSimpleName();
     private TextInputEditText newPasswordEditText, confirmNewPasswordEditText, currentPasswordEditText;
-    private TextView saveNewPasswordBtn;
+    private MaterialButton saveNewPasswordBtn;
     private String newPasswordString, confirmNewPasswordString, currentPasswordString, currentUserPassword;
     private ProgressBar changePasswordProgressBar;
     private CheckBox signOutFromAllDevicesCheckbox;
     private ImageView backBtn;
+    Animation scaleDown,scaleUp;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +42,30 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
         findAllViewById();
         setOnClickListener();
+        setAllViewsAnim();
+
+    }
+    private void setAllViewsAnim() {
+        setAnim(saveNewPasswordBtn);
+        setAnim(signOutFromAllDevicesCheckbox);
+        setAnim(backBtn);
+    }
+
+    private void setAnim(View view) {
+        view.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction()==MotionEvent.ACTION_DOWN)
+                {
+                    view.startAnimation(scaleUp);
+                } else if (event.getAction()==MotionEvent.ACTION_UP)
+                {
+                    view.startAnimation(scaleDown);
+                }
+
+                return false;
+            }
+        });
     }
 
     private void findAllViewById() {
@@ -47,6 +77,9 @@ public class ChangePasswordActivity extends AppCompatActivity {
         changePasswordProgressBar = findViewById(R.id.change_password_progress_bar);
         signOutFromAllDevicesCheckbox = findViewById(R.id.logout_from_all_devices_checkbox);
         backBtn = findViewById(R.id.ivBack);
+        scaleDown= AnimationUtils.loadAnimation(this,(R.anim.scale_down));
+        scaleUp= AnimationUtils.loadAnimation(this,(R.anim.scale_up));
+
     }
 
     private void setOnClickListener() {

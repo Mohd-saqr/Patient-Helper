@@ -8,8 +8,8 @@
     >
 
     <RelativeLayout
-        android:layout_width="160dp"
-        android:layout_height="160dp"
+        android:layout_width="@dimen/_130sdp"
+        android:layout_height="@dimen/_130sdp"
         android:layout_gravity="center_horizontal"
         app:layout_constraintBottom_toTopOf="@+id/cardView"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:cardCornerRadius="@dimen/_100sdp"
-           >
+            >
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/img_prof"
@@ -36,7 +36,7 @@
                 android:id="@+id/fab_add"
                 style="@style/FabStyle"
                 android:layout_width="wrap_content"
-                android:layout_height="64dp"
+                android:layout_height="@dimen/_60sdp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
                 tools:ignore="SpeakableTextPresentCheck" />
@@ -49,8 +49,8 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
-        android:layout_width="350dp"
-        android:layout_height="@dimen/_300sdp"
+        android:layout_width="@dimen/_290sdp"
+        android:layout_height="@dimen/_340sdp"
         app:cardElevation="@dimen/_20sdp"
         android:layout_marginTop="@dimen/_100sdp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -88,7 +88,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/round_text_input"
-                    android:drawableEnd="@drawable/username_right"
+                    android:drawableEnd="@drawable/user"
                     android:fontFamily="@font/poppinsmedium" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -103,7 +103,7 @@
                     android:id="@+id/last_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableEnd="@drawable/password_right"
+                    android:drawableEnd="@drawable/user"
                     android:background="@drawable/round_text_input"
                     android:fontFamily="@font/poppinsmedium" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -119,7 +119,7 @@
                     android:id="@+id/signup_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableEnd="@drawable/password_right"
+                    android:drawableEnd="@drawable/email"
                     android:background="@drawable/round_text_input"
                     android:fontFamily="@font/poppinsmedium" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -141,50 +141,38 @@
                     android:inputType="textPassword"
                     />
             </com.google.android.material.textfield.TextInputLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/signup_button"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:layout_marginBottom="@dimen/_16sdp"
+                    android:backgroundTint="@android:color/holo_blue_dark"
+                    android:elevation="@dimen/_10sdp"
+                    android:text="Send Code"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_20sdp"
+                    app:icon="@drawable/send"
+                    app:iconGravity="end"
+                    app:iconPadding="@dimen/_5sdp"
+                    app:iconSize="@dimen/_30sdp"
+                    app:iconTint="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="1.0" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
-
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_16sdp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView">
-
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_20sdp"
-            android:text="Remember me" />
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
-        <RelativeLayout
-            android:layout_width="@dimen/_160sdp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button_back">
-
-            <TextView
-                android:id="@+id/signup_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:fontFamily="@font/poppinsbold"
-                android:gravity="center"
-                android:text="SIGNUP"
-                android:textColor="@color/white"
-                android:textSize="22dp" />
-
-        </RelativeLayout>
-    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

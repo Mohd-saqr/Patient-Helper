@@ -13,7 +13,10 @@ import android.os.ParcelFileDescriptor;
 import android.preference.PreferenceManager;
 import android.provider.OpenableColumns;
 import android.util.Log;
-import android.widget.TextView;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
@@ -28,6 +31,7 @@ import com.amplifyframework.auth.options.AuthSignUpOptions;
 import com.amplifyframework.core.Amplify;
 import com.github.drjacky.imagepicker.ImagePicker;
 import com.github.drjacky.imagepicker.constant.ImageProvider;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.patient.patienthelper.R;
@@ -55,13 +59,14 @@ public class SignUpActivity extends AppCompatActivity {
     Intent callingIntent ;
     private TextInputEditText emailSignup;
     private TextInputEditText passwordSignup ;
-    private TextView signUpButton;
+    private MaterialButton signUpButton;
     private static String firstNameSignupString;
     private static String lastNameSignupString;
     private static String emailSignupString;
     private static String passwordSignupString;
     private FloatingActionButton addPhoto ;
     private AppCompatImageView imageView ;
+    Animation scaleDown,scaleUp;
 
     private File file ;
     OutputStream os;
@@ -75,8 +80,32 @@ public class SignUpActivity extends AppCompatActivity {
 
         inflateViews();
         setUPButton();
+        setAllViewsAnim();
 
+    }
+    private void setAllViewsAnim() {
+        setAnim(signUpButton);
+        setAnim(firstNameSignup);
+        setAnim(lastNameSignup);
+        setAnim(emailSignup);
+        setAnim(passwordSignup);
+    }
 
+    private void setAnim(View view) {
+        view.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction()==MotionEvent.ACTION_DOWN)
+                {
+                    view.startAnimation(scaleUp);
+                } else if (event.getAction()==MotionEvent.ACTION_UP)
+                {
+                    view.startAnimation(scaleDown);
+                }
+
+                return false;
+            }
+        });
     }
     private void inflateViews() {
         firstNameSignup = findViewById(R.id.first_name);
@@ -86,6 +115,9 @@ public class SignUpActivity extends AppCompatActivity {
         signUpButton = findViewById(R.id.signup_button);
         addPhoto = findViewById(R.id.fab_add);
         imageView= findViewById(R.id.img_prof);
+        scaleDown= AnimationUtils.loadAnimation(this,(R.anim.scale_down));
+        scaleUp= AnimationUtils.loadAnimation(this,(R.anim.scale_up));
+
 
     }
     private void setUPpSignUpButton(){
@@ -118,6 +150,7 @@ public class SignUpActivity extends AppCompatActivity {
                         Intent intent = new Intent(this, VerificationCodeActivity.class);
                         intent.putExtra("emailFromSignUp", emailSignupString);
                         startActivity(intent);
+                        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
                         finish();
 
                     });
@@ -176,6 +209,7 @@ public class SignUpActivity extends AppCompatActivity {
                         launcher.launch(it);
                     }
                 }));
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
 
     }
     // to accept the data from image picker
@@ -244,18 +278,22 @@ public class SignUpActivity extends AppCompatActivity {
         }
         return result;
     }
-
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+    }
 
 
     ActivityResultLauncher<Intent>   launcher =
-                registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), (ActivityResult result) -> {
-                    if (result.getResultCode() == RESULT_OK) {
-                        Uri uri = result.getData().getData();
-                        imageView.setImageURI(uri);
-                    } else if (result.getResultCode() == ImagePicker.RESULT_ERROR) {
-                        // Use ImagePicker.Companion.getError(result.getData()) to show an error
-                    }
-                });
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), (ActivityResult result) -> {
+                if (result.getResultCode() == RESULT_OK) {
+                    Uri uri = result.getData().getData();
+                    imageView.setImageURI(uri);
+                } else if (result.getResultCode() == ImagePicker.RESULT_ERROR) {
+                    // Use ImagePicker.Companion.getError(result.getData()) to show an error
+                }
+            });
 
 
 }

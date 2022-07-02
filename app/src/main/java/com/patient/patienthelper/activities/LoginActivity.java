@@ -1,8 +1,5 @@
 package com.patient.patienthelper.activities;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,20 +8,22 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.airbnb.lottie.LottieAnimationView;
-import com.amplifyframework.AmplifyException;
-import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.auth.AuthUserAttribute;
-import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.core.Amplify;
-import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 import com.patient.patienthelper.R;
@@ -42,12 +41,13 @@ public class LoginActivity extends AppCompatActivity {
     public static List<AuthUserAttribute> userAttributes = new ArrayList<>();
     private TextInputEditText email;
     private TextInputEditText password;
-    private RelativeLayout loginBtn;
+    private MaterialButton loginBtn;
     private TextView signupBtn;
     private CheckBox deviceRememberCheckBox;
     private TextView forgetPassword;
     private String emailString;
     private String passwordString;
+    Animation scaleDown,scaleUp;
     LottieAnimationView loading;
     UserLogIn userLogIn;
     MySharedPreferences mySharedPreferences;
@@ -59,21 +59,51 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-//        initializeAws();
         mySharedPreferences = new MySharedPreferences(this);
         inflateViews();
         setUPButton();
+        setAllViewsAnim();
 
+    }
+    private void setAllViewsAnim() {
+        setAnim(forgetPassword);
+        setAnim(email);
+        setAnim(password);
+        setAnim(deviceRememberCheckBox);
+        setAnim(loginBtn);
+        setAnim(signupBtn);
+
+    }
+
+    private void setAnim(View view) {
+        view.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction()==MotionEvent.ACTION_DOWN)
+                {
+                    view.startAnimation(scaleUp);
+                } else if (event.getAction()==MotionEvent.ACTION_UP)
+                {
+                    view.startAnimation(scaleDown);
+                }
+
+                return false;
+            }
+        });
     }
 
     //    inflate all views to be able to reach
     private void inflateViews() {
+        scaleDown= AnimationUtils.loadAnimation(this,(R.anim.scale_down));
+        scaleUp= AnimationUtils.loadAnimation(this,(R.anim.scale_up));
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
-        loginBtn = findViewById(R.id.login_button);
+        loginBtn = findViewById(R.id.signin_btn);
         signupBtn = findViewById(R.id.create_account_button);
         deviceRememberCheckBox = findViewById(R.id.remember_device_checkBox);
         loading = findViewById(R.id.loading);
+        forgetPassword = findViewById(R.id.forget_password);
+
     }
 
     // method to hold Listeners
@@ -82,6 +112,9 @@ public class LoginActivity extends AppCompatActivity {
 
         signupBtn.setOnClickListener(view -> {
             startActivity(new Intent(this, SignUpActivity.class));
+            overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+
+
         });
 
         loginBtn.setOnClickListener(view -> {
@@ -90,9 +123,11 @@ public class LoginActivity extends AppCompatActivity {
             loginButtonAction();
         });
 
-//        forgetPassword.setOnClickListener(view -> {
-//            startActivity(new Intent(this, ForgetPasswordActivity.class));
-//        });
+        forgetPassword.setOnClickListener(view -> {
+            startActivity(new Intent(this, ForgetPasswordActivity.class));
+            overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+
+        });
     }
 
     //  get all the strings from views
@@ -193,10 +228,14 @@ public class LoginActivity extends AppCompatActivity {
                             loading.setVisibility(View.INVISIBLE);
 
                             startActivity(new Intent(LoginActivity.this, LookingForActivity.class));
+                            overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+                            finish();
                         } else {
                             getDisease();
                             loading.setVisibility(View.INVISIBLE);
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+                            finish();
                         }
                         finish();
                     });
@@ -204,7 +243,11 @@ public class LoginActivity extends AppCompatActivity {
                 error -> Log.e(TAG, "Failed to fetch user attributes.", error)
         );
     }
-
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+    }
     private void getDisease() {
         Gson gson = new Gson();
 
@@ -273,15 +316,5 @@ public class LoginActivity extends AppCompatActivity {
         return userLogIn.getFirstLogIn();
     }
 
-//    private void initializeAws() {
-//        try {
-//            Amplify.addPlugin(new AWSApiPlugin());
-//            Amplify.addPlugin(new AWSCognitoAuthPlugin());
-//            Amplify.addPlugin(new AWSS3StoragePlugin());
-//            Amplify.configure(getApplicationContext());
-//            Log.i(TAG, "Initialized Amplify");
-//        } catch (AmplifyException error) {
-//            Log.e(TAG, "Could not initialize Amplify", error);
-//        }
-//    }
+
 }

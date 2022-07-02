@@ -25,4 +25,10 @@ type Comment @model {
 
 }
 
+type Token @model{
+  id: ID!
+  tokenId: String!
+  userId: String!
+}
+
 

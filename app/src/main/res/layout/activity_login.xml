@@ -51,7 +51,7 @@
                 android:layout_marginRight="@dimen/_20sdp"
                 android:fontFamily="@font/poppinsbold"
                 android:text="Login"
-                android:textSize="25sp" />
+                android:textSize="@dimen/_20sdp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -59,7 +59,6 @@
                 android:layout_marginLeft="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginRight="@dimen/_10sdp"
-
                 android:hint="Email">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -68,7 +67,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/round_text_input"
                     android:text="hashemsmadi98@gmail.com"
-                    android:drawableEnd="@drawable/username_right"
+                    android:drawableEnd="@drawable/email"
                     android:fontFamily="@font/poppinsmedium" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -94,6 +93,36 @@
             </com.google.android.material.textfield.TextInputLayout>
 
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_80sdp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/signin_btn"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_30sdp"
+                    android:layout_marginBottom="@dimen/_16sdp"
+                    android:backgroundTint="@android:color/holo_blue_dark"
+                    android:elevation="@dimen/_10sdp"
+                    android:text="Sign In"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_20sdp"
+                    app:icon="@drawable/exit"
+                    app:iconGravity="end"
+                    app:iconPadding="@dimen/_5sdp"
+                    app:iconSize="@dimen/_30sdp"
+                    app:iconTint="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.37"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.97" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
@@ -114,28 +143,18 @@
             android:layout_marginLeft="@dimen/_20sdp"
             android:text="Remember me" />
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
 
-        <RelativeLayout
-            android:id="@+id/login_button"
-            android:layout_width="@dimen/_160sdp"
+        <TextView
+            android:id="@+id/forget_password"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/button_back">
+            android:layout_marginRight="@dimen/_20sdp"
+            android:fontFamily="@font/poppinsmedium"
+            android:gravity="end"
+            android:text="Forgot Password?"
+            android:textColor="#3F51B5" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:fontFamily="@font/poppinsbold"
-                android:gravity="center"
-                android:text="SIGNIN"
-                android:textColor="@color/white"
-                android:textSize="@dimen/_22sdp" />
 
-        </RelativeLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -163,6 +182,8 @@
             android:fontFamily="@font/poppinsmedium"
             android:text=" Signup"
             android:textColor="#3F51B5" />
+
+
 
     </LinearLayout>
 
