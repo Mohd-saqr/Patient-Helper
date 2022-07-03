@@ -10,10 +10,9 @@
         android:icon="@drawable/community_vector_assest"/>
     <item android:title="Drugs conflict"
         android:id="@+id/drugs_conflicts_fragment"
-        android:icon="@drawable/drug_conflict_vector_assest"/>
+        android:icon="@drawable/icon_conflict_new"/>
     <item android:title="Profile"
         android:id="@+id/profile_fragment"
-        android:icon="@drawable/profile_vector_assest"/>
-
-
+        android:icon="@drawable/icon_map"/>
 </menu>
+
