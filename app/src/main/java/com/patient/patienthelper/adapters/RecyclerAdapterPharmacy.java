@@ -17,15 +17,14 @@ import java.util.List;
 @SuppressLint("SetTextI18n")
 public class RecyclerAdapterPharmacy extends RecyclerView.Adapter<RecyclerAdapterPharmacy.CustomViewHolder>{
 
-    List<Pharmacy> dataList;
+    List<List<String>> dataList;
     CustomClickListener listener;
 
 
-    public RecyclerAdapterPharmacy(List<Pharmacy> dataList, CustomClickListener listener) {
+    public RecyclerAdapterPharmacy(List<List<String>> dataList, CustomClickListener listener) {
         this.dataList = dataList;
         this.listener = listener;
     }
-
 
 
     @NonNull
@@ -39,13 +38,14 @@ public class RecyclerAdapterPharmacy extends RecyclerView.Adapter<RecyclerAdapte
 
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
-
-        holder.title.setText(dataList.get(position).getName());
-        if ((dataList.get(position).getIsOpen()+"").equals("true")){
+        System.out.println("The data list from recycler view adapter is -> "+dataList);
+        holder.title.setText(dataList.get(position).get(1));
+        if ((dataList.get(position).get(2)+"").equals("true")){
             holder.openingState.setText("Open");
         }else {
             holder.openingState.setText("Closed");
         }
+
     }
 
     @Override

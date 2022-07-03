@@ -1,7 +1,11 @@
 package com.patient.patienthelper.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,9 +14,14 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.auth.AuthUserAttribute;
 import com.amplifyframework.auth.AuthUserAttributeKey;
 import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.generated.model.Token;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.patient.patienthelper.R;
 import com.patient.patienthelper.helperClass.MySharedPreferences;
@@ -37,6 +46,7 @@ public class LookingForActivity extends AppCompatActivity {
 
         SpinnerSelected();
 
+        getDeviceToken("null");
 
     }
 
@@ -117,5 +127,38 @@ public class LookingForActivity extends AppCompatActivity {
         preferences.apply();
     }
 
+    private void getDeviceToken(String userId){
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                if (!task.isSuccessful()){
+                    return;
+                }
+                Toast.makeText(LookingForActivity.this, task.getResult(), Toast.LENGTH_SHORT).show();
+                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("Toast",task.getResult());
+                clipboard.setPrimaryClip(clip);
+                Log.i(TAG, "onComplete: token -> "+task.getResult());
+                addTokenToCloud(task.getResult(),userId);
+            }
+        });
+    }
+
+    private void addTokenToCloud(String tokenString,String userId) {
+
+
+
+        Token token = Token.builder()
+                .tokenId(tokenString)
+                .userId(userId)
+                .build();
+
+        Amplify.API.mutate(
+                ModelMutation.create(token),
+                response -> Log.i(TAG, "Added Token with id: " + response.getData().getId()),
+                error -> Log.e(TAG, "Create failed", error)
+        );
+
+    }
 
 }

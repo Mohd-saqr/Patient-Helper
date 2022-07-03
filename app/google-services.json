@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "360069742263",
+    "project_id": "patient-helper-354507",
+    "storage_bucket": "patient-helper-354507.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:360069742263:android:26e7193d9332d857335732",
+        "android_client_info": {
+          "package_name": "com.patient.patienthelper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "360069742263-91lp1hrf5bss4j6eudo85g131u8894m7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.patient.patienthelper",
+            "certificate_hash": "0728d3dc4d43dcb3d42b3f22d87e5ddfadd5c17f"
+          }
+        },
+        {
+          "client_id": "360069742263-kif2i5fhef4e44uv2lmrj8kuunb51326.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXhwAjecBjftxMG3vWJo19FXvauEOYiu0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "360069742263-kif2i5fhef4e44uv2lmrj8kuunb51326.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
