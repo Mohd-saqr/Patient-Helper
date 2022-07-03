@@ -1,5 +1,6 @@
 package com.patient.patienthelper.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -11,10 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.gson.Gson;
 import com.patient.patienthelper.R;
 import com.patient.patienthelper.activities.DrugActivity;
@@ -26,7 +29,9 @@ import com.patient.patienthelper.helperClass.MySharedPreferences;
 import com.patient.patienthelper.helperClass.UserLogIn;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import retrofit2.Call;
@@ -44,10 +49,20 @@ public class HomeFragment extends Fragment {
     private Button findDrug;
     private TextView todayAdvice;
     private TextView desName;
+    private TextView Status;
+    private TextView diseaseDisc;
+    private TextView userName;
+
+    ImageView setting;
+
+
+
     private final List<Advice> adviceListApi = new ArrayList<>();
-    private ProgressBar adviceLoading;
+    private LottieAnimationView adviceLoading;
     private MySharedPreferences sharedPreferences;
     UserLogIn userLogIn;
+    TextView date;
+
 
 
     @Override
@@ -65,7 +80,7 @@ public class HomeFragment extends Fragment {
         super.onResume();
 
 
-        }
+    }
 
 
     @Override
@@ -80,6 +95,7 @@ public class HomeFragment extends Fragment {
 
 
         setOnClickListener();
+        displayDta();
 
 
         // Inflate the layout for this fragment
@@ -89,22 +105,32 @@ public class HomeFragment extends Fragment {
 
 
     private void updateUri(String checkStatus) {
-        if (checkStatus.equals("Patient")){
+//        if (checkStatus.equals("Patient")){
+//
+//
+//                Gson gson = new Gson();
+//                Disease disease = gson.fromJson(getDesisName(), Disease.class);
+//
+//                diseaseDisc.setText(disease.getDescription_t());
+//
+//                desName.setText(disease.getDisease_name());
+//            getAdviceToHomePage(adviceListApi);
+//        }else {
+//
+//
+//
+//
+//        }
+        Gson gson = new Gson();
+        Disease disease = gson.fromJson(getDesisName(), Disease.class);
 
-                desName.setVisibility(View.VISIBLE);
-                Gson gson = new Gson();
-                Disease disease = gson.fromJson(getDesisName(), Disease.class);
+        diseaseDisc.setText(disease.getDescription_t());
 
-                todayAdvice.setText(disease.getDescription_t());
+        desName.setText(disease.getDisease_name());
+        Status.setText(userLogIn.getStatus());
+        userName.setText("Hello, " + userLogIn.getFullName());
+        getAdviceToHomePage(adviceListApi);
 
-                desName.setText(disease.getDisease_name());
-
-        }else {
-
-            desName.setVisibility(View.INVISIBLE);
-            getAdviceToHomePage(adviceListApi);
-
-        }
 
     }
 
@@ -140,7 +166,11 @@ public class HomeFragment extends Fragment {
         findDrug = view.findViewById(R.id.find_drug_button);
         todayAdvice = view.findViewById(R.id.text_advice);
         adviceLoading = view.findViewById(R.id.advice_loading_progress);
-        textView = view.findViewById(R.id.text_for_test);
+        Status=view.findViewById(R.id.patient_status);
+        date=view.findViewById(R.id.text_view_date);
+        userName=view.findViewById(R.id.User_name_Main);
+        diseaseDisc=view.findViewById(R.id.disease_dis);
+        setting=view.findViewById(R.id.icon_setting);
     }
 
     private void showProgressBar(){
@@ -148,7 +178,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void hideProgressBar(){
-        adviceLoading.setVisibility(View.GONE);
+        adviceLoading.setVisibility(View.INVISIBLE);
     }
 
     private void setOnClickListener(){
@@ -156,8 +186,8 @@ public class HomeFragment extends Fragment {
             Intent i = new Intent(getContext(), DrugActivity.class);
             startActivity(i);
         });
-        textView.setOnClickListener(view -> {
-            startActivity(new Intent(getContext(), NearbyPharmaciesActivity.class));
+        setting.setOnClickListener(view -> {
+            startActivity(new Intent(getContext(), ProfileFragment.class));
         });
     }
 
@@ -185,5 +215,19 @@ public class HomeFragment extends Fragment {
     }
     private String getDesisName(){
         return sharedPreferences.getString("userDisease","another");
+    }
+
+
+    @SuppressLint("SimpleDateFormat")
+    private  void displayDta(){
+
+        Calendar calendar;
+        SimpleDateFormat dateFormat;
+        String dateFormatString;
+        calendar = Calendar.getInstance();
+
+        dateFormat = new SimpleDateFormat("EEEE, d MMM yyyy");
+        dateFormatString = dateFormat.format(calendar.getTime());
+        date.setText(dateFormatString);
     }
 }

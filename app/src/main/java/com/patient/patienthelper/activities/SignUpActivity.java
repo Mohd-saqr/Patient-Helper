@@ -144,6 +144,7 @@ public class SignUpActivity extends AppCompatActivity {
                 AuthSignUpOptions.builder().userAttributes(attributes).build(),
                 result -> {
                     Log.i(TAG, "Result: " + result);
+
                     runOnUiThread(() -> {
                         savePasswordSharedPreferences();
 
