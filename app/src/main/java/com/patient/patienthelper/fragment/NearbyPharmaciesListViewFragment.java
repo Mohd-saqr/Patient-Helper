@@ -2,20 +2,16 @@ package com.patient.patienthelper.fragment;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -25,10 +21,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.net.FetchPlaceRequest;
+import com.google.android.libraries.places.api.net.PlacesClient;
 import com.patient.patienthelper.BuildConfig;
 import com.patient.patienthelper.R;
 import com.patient.patienthelper.activities.MainActivity;
@@ -48,6 +49,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -62,7 +64,7 @@ public class NearbyPharmaciesListViewFragment extends Fragment {
     private double currentLat = 0, currentLong = 0;
     private String apiKey;
     private static List<HashMap<String, String>> listResultToSave;
-    private static List<Pharmacy> pharmacies = new ArrayList<>();
+    private static List<List<String>> pharmacies = new ArrayList<>();
     private SwipeRefreshLayout swipeContainer;
     private LottieAnimationView loading;
     private ImageView backBtn;
@@ -106,7 +108,7 @@ public class NearbyPharmaciesListViewFragment extends Fragment {
     }
 
     private void findAllViewById(View view) {
-        apiKey = BuildConfig.PLACES_API_kEY;
+        apiKey = BuildConfig.Places_API_key;
         recyclerview = view.findViewById(R.id.nearby_pharmacies_recycler_view);
         loading = view.findViewById(R.id.loading_in_pharmacies_list);
         swipeContainer = view.findViewById(R.id.swipe_refresh_layout);
@@ -123,30 +125,14 @@ public class NearbyPharmaciesListViewFragment extends Fragment {
     private void askLocationPermission() {
         //check permission
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            if (isLocationEnabled()) {
-                //when permission granted
-                //call method
-                getCurrentLocation();
-            }else {
-                Toast.makeText(getContext(), "Please turn on your location....", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                startActivity(intent);
-            }
+            //when permission granted
+            //call method
+            getCurrentLocation();
         } else {
             //when permission denied
             //request permission
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
         }
-    }
-
-
-    private boolean isLocationEnabled() {
-
-        LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
-                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-
     }
 
     private void getCurrentLocation() {
@@ -269,7 +255,6 @@ public class NearbyPharmaciesListViewFragment extends Fragment {
 
     private class ParserTask extends AsyncTask<String, Integer, List<HashMap<String, String>>> {
 
-        private Pharmacy pharmacy;
 
         @Override
         protected List<HashMap<String, String>> doInBackground(String... strings) {
@@ -291,12 +276,19 @@ public class NearbyPharmaciesListViewFragment extends Fragment {
                 for (int i = 0; i < listResultToSave.size(); i++) {
                     if (listResultToSave.get(i).isEmpty())
                         continue;
-                    pharmacy = new Pharmacy(listResultToSave.get(i).get("place_id"),listResultToSave.get(i).get("name"),listResultToSave.get(i).get("open_now"));
+                    List<String> pharmacy = new ArrayList<>();
+                    Log.i(TAG, "doInBackground: listResultToSave -> " + listResultToSave.get(i).get("place_id"));
+                    pharmacy.add(listResultToSave.get(i).get("place_id"));
+                    pharmacy.add(listResultToSave.get(i).get("name"));
+                    pharmacy.add(listResultToSave.get(i).get("open_now"));
                     pharmacies.add(pharmacy);
-
                 }
-                Log.i(TAG, "doInBackground: getPharmaciesListToListFragment size -> " + pharmacies.size());
-
+                Log.i(TAG, "doInBackground: getPharmaciesListToListFragment size -> " + pharmacies);
+                getActivity().runOnUiThread(() -> {
+                    getPharmaciesListToListFragment(pharmacies);
+                    recyclerAdapterPharmacy.notifyDataSetChanged();
+                    loading.setVisibility(View.INVISIBLE);
+                });
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -309,18 +301,14 @@ public class NearbyPharmaciesListViewFragment extends Fragment {
         protected void onPostExecute(List<HashMap<String, String>> hashMaps) {
             super.onPostExecute(hashMaps);
 
-            getActivity().runOnUiThread(() -> {
-                getPharmaciesListToListFragment(pharmacies);
-                recyclerAdapterPharmacy.notifyDataSetChanged();
-                loading.setVisibility(View.INVISIBLE);
-            });
+
         }
     }
 
 
 
 
-    private void getPharmaciesListToListFragment(List<Pharmacy> pharmacyListParam) {
+    private void getPharmaciesListToListFragment(List<List<String>> pharmacyListParam) {
 
         Log.i(TAG, "The tasks list from get task to home page method is -> " + pharmacyListParam.size());
 
@@ -328,8 +316,8 @@ public class NearbyPharmaciesListViewFragment extends Fragment {
         Log.i(TAG, "getPharmaciesListToListFragment: pharmacyListParam size -> "+pharmacyListParam.size());
         recyclerAdapterPharmacy = new RecyclerAdapterPharmacy(pharmacyListParam, position -> {
             Intent intent = new Intent(getContext(), PharmacyDetailsActivity.class);
-            intent.putExtra("Id", pharmacyListParam.get(position).getId());
-            intent.putExtra("IsOpen", pharmacyListParam.get(position).getIsOpen());
+            intent.putExtra("Id", pharmacyListParam.get(position).get(0));
+            intent.putExtra("IsOpen", pharmacyListParam.get(position).get(2));
             intent.putExtra("userLatitude", currentLat);
             intent.putExtra("userLongitude", currentLong);
             startActivity(intent);
