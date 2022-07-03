@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -187,7 +188,15 @@ public class HomeFragment extends Fragment {
             startActivity(i);
         });
         setting.setOnClickListener(view -> {
-            startActivity(new Intent(getContext(), ProfileFragment.class));
+            Fragment fragment;
+            fragment = new ProfileFragment();
+
+            FragmentManager fragmentManager = getFragmentManager(); // For AppCompat use getSupportFragmentManager
+            fragmentManager.beginTransaction()
+                    .replace(R.id.nav_fragment, fragment)
+                    .commit();
+            getActivity().overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+
         });
     }
 

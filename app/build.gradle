@@ -93,6 +93,18 @@ dependencies {
     /// alert
     implementation 'com.github.oktavianto:ionalert:1.0.4'
 
+
+    //slide panel layout
+    implementation 'com.sothree.slidinguppanel:library:3.4.0'
+
+    //navbar
+    implementation 'nl.joery.animatedbottombar:library:1.1.0'
+
+
+
+
+
+
 }
 def getApiKey() {
     Properties properties = new Properties()

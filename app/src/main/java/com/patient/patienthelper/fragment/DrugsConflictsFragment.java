@@ -279,24 +279,41 @@ public class DrugsConflictsFragment extends Fragment {
 //                    MotionToast.GRAVITY_BOTTOM,
 //                    MotionToast.LONG_DURATION,
 //                    ResourcesCompat.getFont(getContext(), www.sanju.motiontoast.R.font.montserrat_regular));
-            new IonAlert(getActivity(), IonAlert.WARNING_TYPE)
 
-                    .setTitleText("interaction Found")
-
-                    .setContentText("There is interaction between these two drugs! " +
-                            "Please don't use any one of Drugs with another and ask the doctor " +
-                            "to find alternative drugs")
-                    .setConfirmText("Find doctors")
-                    .setCancelText("Close")
-                    .setConfirmClickListener(new IonAlert.ClickListener() {
-                        @Override
-                        public void onClick(IonAlert ionAlert) {
-
-                        }
-                    })
+            IonAlert ionAlert = new IonAlert(getActivity(),IonAlert.ERROR_TYPE);
 
 
-                    .show();
+            ionAlert.setTitleText("interaction Found");
+            ionAlert.setContentText("There is interaction between these two drugs! " +
+                    "Please don't use any of these Drugs with each other and ask the doctor " +
+                    "to find alternative drugs");
+            ionAlert.setContentTextSize(18);
+
+            ionAlert.setConfirmText("Find doctors");
+            ionAlert.setCanceledOnTouchOutside(true);
+            ionAlert.setTitleText("Interaction");
+            ionAlert.setConfirmText("Find doctors");
+            ionAlert.show();
+
+//             ionAlert     new IonAlert(getActivity(), IonAlert.WARNING_TYPE)
+//
+//                    .setTitleText("interaction Found")
+//
+//                    .setContentText("There is interaction between these two drugs! " +
+//                            "Please don't use any one of Drugs with another and ask the doctor " +
+//                            "to find alternative drugs")
+//                    .setConfirmText("Find doctors")
+//                    .setCancelText("Close")
+//
+//                    .setConfirmClickListener(new IonAlert.ClickListener() {
+//                        @Override
+//                        public void onClick(IonAlert ionAlert) {
+//
+//                        }
+//                    })
+//
+//
+//                    .show();
 
 
 //

@@ -16,9 +16,9 @@
         tools:layout="@layout/fragment_drugs_conflicts" />
     <fragment
         android:id="@+id/profile_fragment"
-        android:name="com.patient.patienthelper.fragment.ProfileFragment"
+        android:name="com.patient.patienthelper.fragment.NearbyPharmaciesListViewFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_nearby_pharmacies_list_view" />
     <fragment
         android:id="@+id/community_fragment"
         android:name="com.patient.patienthelper.fragment.CommunityFragment"

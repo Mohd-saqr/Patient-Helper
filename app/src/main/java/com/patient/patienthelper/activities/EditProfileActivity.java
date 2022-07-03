@@ -278,6 +278,8 @@ public class EditProfileActivity extends AppCompatActivity {
 
 
             update();
+            updateUserDataInMySharedPreferences();
+
 
         }
         View view2 = this.getCurrentFocus();
@@ -315,7 +317,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 attributes,
                 result -> {
                     Log.i(TAG, "Result: " + result);
-                    updateUserDataInMySharedPreferences();
+
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

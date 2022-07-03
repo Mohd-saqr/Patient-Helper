@@ -28,6 +28,7 @@ import com.patient.patienthelper.activities.CommentsActivity;
 import com.patient.patienthelper.adapters.RecyclerAdapterPost;
 import com.patient.patienthelper.helperClass.MySharedPreferences;
 import com.patient.patienthelper.helperClass.UserLogIn;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -45,10 +46,11 @@ public class CommunityFragment extends Fragment {
 
     List<Post> apiData= new ArrayList<>();
     Button post;
+    Button writeSome;
     EditText postBody;
     UserLogIn userLogIn;
     LottieAnimationView loading;
-
+    SlidingUpPanelLayout slidingPaneLayout;
 
     private Handler mHandler = new Handler(Looper.getMainLooper());
 
@@ -113,7 +115,11 @@ public class CommunityFragment extends Fragment {
         fetchData();
 
         findViewById(view);
-        postHandel();
+//        postHandel();
+        writeSome.setShowSoftInputOnFocus(false);
+        writeSome.setOnClickListener(view1 -> {
+            slidingPaneLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+        });
 
 
         // Inflate the layout for this fragment
@@ -154,8 +160,10 @@ public class CommunityFragment extends Fragment {
     }
 
     private void findViewById(View view) {
-        post =view.findViewById(R.id.btn_post);
-        postBody =view.findViewById(R.id.post_body);
+        post =view.findViewById(R.id.post_btn);
+        writeSome =view.findViewById(R.id.btn_write);
+        slidingPaneLayout=view.findViewById(R.id.sliding_layout_post);
+//        postBody =view.findViewById(R.id.post_body);
         loading =view.findViewById(R.id.loading_com);
     }
 
