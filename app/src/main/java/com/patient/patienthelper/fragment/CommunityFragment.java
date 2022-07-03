@@ -1,5 +1,6 @@
 package com.patient.patienthelper.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -13,8 +14,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -49,6 +52,8 @@ public class CommunityFragment extends Fragment {
     Button writeSome;
     EditText postBody;
     UserLogIn userLogIn;
+    TextView Username_posts;
+
     LottieAnimationView loading;
     SlidingUpPanelLayout slidingPaneLayout;
 
@@ -115,11 +120,16 @@ public class CommunityFragment extends Fragment {
         fetchData();
 
         findViewById(view);
-//        postHandel();
+        postHandel();
+
         writeSome.setShowSoftInputOnFocus(false);
         writeSome.setOnClickListener(view1 -> {
+
             slidingPaneLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+            Username_posts.setText(userLogIn.getFullName());
         });
+
+
 
 
         // Inflate the layout for this fragment
@@ -128,7 +138,16 @@ public class CommunityFragment extends Fragment {
 
     private void postHandel() {
 
+
         post.setOnClickListener(v->{
+
+            View view2 = getActivity().getCurrentFocus();
+            if (view2 != null) {
+
+                InputMethodManager imm = (InputMethodManager)getActivity(). getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view2.getWindowToken(), 0);
+            }
+            slidingPaneLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
             String body =postBody.getText().toString();
             Post post =Post.builder().body(body)
                     .createBy(userLogIn.getFullName())
@@ -139,13 +158,10 @@ public class CommunityFragment extends Fragment {
 
 
 
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        postBody.setText("");
-                        loading.setVisibility(View.INVISIBLE);
-                        onResume();
-                    }
+                mHandler.post(() -> {
+                    postBody.setText("");
+                    loading.setVisibility(View.INVISIBLE);
+                    onResume();
                 });
 
 
@@ -163,7 +179,8 @@ public class CommunityFragment extends Fragment {
         post =view.findViewById(R.id.post_btn);
         writeSome =view.findViewById(R.id.btn_write);
         slidingPaneLayout=view.findViewById(R.id.sliding_layout_post);
-//        postBody =view.findViewById(R.id.post_body);
+        postBody =view.findViewById(R.id.post_body);
+        Username_posts=view.findViewById(R.id.username_post);
         loading =view.findViewById(R.id.loading_com);
     }
 
@@ -202,7 +219,8 @@ public class CommunityFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
+    public void onStart() {
+        super.onStart();
         loading.setVisibility(View.VISIBLE);
         apiData.clear();
         Amplify.API.query(ModelQuery.list(Post.class), res->{
@@ -226,11 +244,5 @@ public class CommunityFragment extends Fragment {
         },err->{
 
         });
-
-
-
-        super.onResume();
     }
-
-
 }
