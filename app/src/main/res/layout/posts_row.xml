@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/_15sdp"
+    android:layout_marginBottom="@dimen/_10sdp"
    >
 
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:cardBackgroundColor="#06283D"
+        app:cardBackgroundColor="#E3E5E8"
         app:cardCornerRadius="@dimen/_5sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -49,14 +49,13 @@
                     app:layout_constraintVertical_bias="1.0" />
 
                 <TextView
-
                     android:id="@+id/username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/_3sdp"
                     android:layout_marginStart="16dp"
                     android:text="Username"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/_12sdp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@id/user_image"
@@ -64,7 +63,6 @@
                     app:layout_constraintVertical_bias="0.193" />
 
                 <TextView
-                    android:textColor="@color/white"
                     android:id="@+id/text_view_post_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -79,25 +77,23 @@
                 android:id="@+id/text_view_post_body"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:fontFamily="@font/opensans_medium"
                 android:text="Sometimes it pays to stay in bed on Monday, rather than spending the rest of the week debugging Monday’s code"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:outlineAmbientShadowColor="@color/black"
                 android:padding="@dimen/_5sdp"
                 android:layout_marginHorizontal="@dimen/_5sdp"
-                android:textColor="@color/white"/>
+                android:textColor="#373535"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_comment"
                 android:layout_width="match_parent"
                 app:cornerRadius="@dimen/_3sdp"
                 android:textAllCaps="false"
-
                 android:layout_height="wrap_content"
-                app:strokeColor="@color/white"
-                android:textColor="@color/white"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                app:strokeColor="@android:color/darker_gray"
+                android:textColor="@android:color/background_light"
+                android:backgroundTint="@android:color/holo_blue_dark"
                 android:layout_marginHorizontal="@dimen/_5sdp"
                 android:text="Comment"/>
 
