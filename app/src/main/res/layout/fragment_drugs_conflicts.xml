@@ -7,55 +7,145 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:padding="16dp"
+    android:background="#FAFAFA"
     tools:context=".fragment.DrugsConflictsFragment">
 
     <!-- text view to show the selected item-->
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView_top_conf"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_65sdp"
+
+        android:layout_marginHorizontal="@dimen/_2sdp"
+        android:layout_marginTop="@dimen/_2sdp"
+        android:padding="@dimen/_3sdp"
+        app:cardCornerRadius="@dimen/_2sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/round_textview">
+
+
+            <TextView
+                android:id="@+id/User_name_Main"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="256dp"
+                android:layout_marginBottom="36dp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Drugs Conflict"
+                android:textColor="#2B2828"
+                android:textSize="@dimen/_20sdp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.666" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="279dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="-10dp"
+        android:gravity="center_vertical"
+        android:text="Select Drug"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_12sdp"
+        app:layout_constraintBottom_toTopOf="@+id/testView1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.727"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView_top_conf"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/testView"
         android:layout_width="279dp"
         android:layout_height="53dp"
+        android:layout_marginStart="81dp"
+        android:layout_marginEnd="51dp"
+        android:layout_marginBottom="224dp"
         android:background="@android:drawable/editbox_background"
         android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
         android:gravity="center_vertical"
-        android:hint="Select Drug"
         android:padding="12dp"
-        app:layout_constraintBottom_toTopOf="@+id/testView1"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.546" />
+        app:layout_constraintTop_toBottomOf="@+id/testView1"
+        app:layout_constraintVertical_bias="0.385" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="279dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="-10dp"
+        android:gravity="center_vertical"
+
+        android:text="Select Drug"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_12sdp"
+        app:layout_constraintBottom_toTopOf="@+id/testView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.72"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/testView1"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/testView1"
         android:layout_width="274dp"
+        android:textStyle=""
         android:layout_height="wrap_content"
         android:layout_toEndOf="@+id/testView"
         android:background="@android:drawable/editbox_background"
         android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
         android:gravity="center_vertical"
-        android:hint="Select Drug"
         android:padding="12dp"
-        app:layout_constraintBottom_toTopOf="@+id/Check"
+        app:layout_constraintBottom_toTopOf="@+id/textView2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.591"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/testView" />
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
-
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/Check"
+        style="?attr/materialButtonOutlinedStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Check"
+        android:layout_marginTop="44dp"
+        android:backgroundTint="@android:color/holo_blue_dark"
+        android:elevation="@dimen/_10sdp"
+        android:text="Check Conflict"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_14sdp"
+        app:icon="@drawable/check"
+        app:iconGravity="start"
+        app:iconPadding="@dimen/_5sdp"
+        app:iconSize="@dimen/_20sdp"
+        app:iconTint="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/testView1" />
+        app:layout_constraintTop_toBottomOf="@+id/testView"
+        app:layout_constraintVertical_bias="0.026" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

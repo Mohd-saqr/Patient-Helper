@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.button.MaterialButton;
 import com.patient.patienthelper.R;
 import com.patient.patienthelper.api.Conflicts;
 import com.patient.patienthelper.api.GetApi;
@@ -34,7 +35,7 @@ import retrofit2.Response;
 
 
 public class DrugsConflictsFragment extends Fragment {
-    Button check;
+    MaterialButton check;
     final List<Conflicts> ConflictsListApi = new ArrayList<>();
     ArrayList<String> DrugsConflicts = new ArrayList<>();
     ArrayList<String> Drugs = new ArrayList<>();
