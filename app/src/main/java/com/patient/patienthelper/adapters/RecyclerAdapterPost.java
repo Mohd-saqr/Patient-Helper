@@ -65,7 +65,7 @@ public class RecyclerAdapterPost extends RecyclerView.Adapter<RecyclerAdapterPos
         });
 
 //        Amplify.Storage.getUrl(
-//                "saqerabu9@gmail.com",
+//                data.get(position).getUserId(),
 //                result ->
 //                {
 //

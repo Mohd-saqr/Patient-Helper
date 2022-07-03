@@ -1,21 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@drawable/today_quote"
     android:layout_height="match_parent"
     android:layout_marginBottom="@dimen/_24sdp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
     tools:context=".fragment.HomeFragment">
+
+
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView_top_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginHorizontal="@dimen/_2sdp"
+        android:layout_marginTop="@dimen/_2sdp"
+        android:padding="@dimen/_3sdp"
+        app:cardCornerRadius="@dimen/_2sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/round_textview">
+
+            <ImageView
+                android:id="@+id/icon_setting"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginTop="16dp"
+
+                android:src="@drawable/icon_setting"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/text_view_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="date"
+                android:textColor="#434141"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="@id/icon_setting"
+                app:layout_constraintHorizontal_bias="0.043"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/User_name_Main"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Loading..."
+                android:textColor="#2B2828"
+                android:textSize="@dimen/_16sdp"
+                android:textStyle="bold"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/icon_setting"
+                app:layout_constraintHorizontal_bias="0.043"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/text_view_date" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/top_card_view"
         style="@style/carViewTheme"
-        android:layout_marginTop="130dp"
-        android:backgroundTint="#ddf1ff"
-        app:layout_constraintBottom_toTopOf="@+id/find_drug_button"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/_80sdp"
+        android:backgroundTint="#FFFFFF"
+
+        app:cardCornerRadius="@dimen/_2sdp"
+        app:layout_constraintTop_toTopOf="@+id/cardView_top_main"
         app:strokeWidth="1dp"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="5dp">
@@ -25,65 +93,249 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
+
             android:orientation="vertical">
 
-            <ProgressBar
-                android:id="@+id/advice_loading_progress"
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:orientation="horizontal">
+
+                <ImageView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_2sdp"
+                    android:src="@drawable/icon_status" />
+
+
+                <TextView
+                    android:textStyle="bold"
+                    android:textColor="#2B2828"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_2sdp"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Your Status :" />
+
+
+                <TextView
+                    android:id="@+id/patient_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#252424"
+
+                    android:layout_marginHorizontal="@dimen/_2sdp"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Loading..." />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/lnr_disease"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_2sdp"
+                    android:src="@drawable/icon_diseases" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#2B2828"
+                    android:textStyle="bold"
+                    android:layout_marginHorizontal="@dimen/_2sdp"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Your Disease :" />
+
+
+                <TextView
+                    android:id="@+id/desise_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#252424"
+
+                    android:layout_marginHorizontal="@dimen/_2sdp"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="None" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lnr_disease_discreption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="@dimen/_3sdp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_2sdp"
+                    android:src="@drawable/icon_description" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#2B2828"
+                    android:textStyle="bold"
+
+                    android:layout_marginHorizontal="@dimen/_2sdp"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Disease description :" />
+
+
+
+
+
+            </LinearLayout>
+            <TextView
+                android:id="@+id/disease_dis"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                />
-            <TextView
-                android:id="@+id/desise_title"
-                android:visibility="invisible"
-                android:layout_width="match_parent"
+                android:textColor="#252424"
+
+                android:layout_marginBottom="@dimen/_3sdp"
+                android:layout_marginHorizontal="@dimen/_2sdp"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="None" />
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/find_drug_button"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:gravity="left|right"
-                android:justificationMode="inter_word"
-                android:lineSpacingExtra="5dp"
-                android:padding="4dp"
-                android:textColor="@color/black"
+
+                android:layout_gravity="center"
+                android:backgroundTint="@android:color/holo_blue_dark"
+                android:elevation="@dimen/_10sdp"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Find Drugs"
+
+                android:textSize="@dimen/_18sdp"
                 android:textStyle="bold"
-                android:textSize="@dimen/_18sdp" />
-            <TextView
-                android:id="@+id/text_advice"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:gravity="left|right"
-                android:justificationMode="inter_word"
-                android:lineSpacingExtra="5dp"
-                android:padding="4dp"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
+                app:icon="@drawable/icon_find"
+                app:iconGravity="end"
+
+                app:iconPadding="@dimen/_5sdp"
+
+                app:iconSize="@dimen/_20sdp"
+                app:iconTint="@color/purple_700"
+                tools:layout_editor_absoluteX="235dp"
+                tools:layout_editor_absoluteY="16dp" />
+
+
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
-<!--android:text="from the popular St John\'s Wort and ginkgo biloba to garlic, ginger, ginseng and feverfew – can cause increased bleeding during surgery, warn surgeons. It may be wise to stop taking all medication, including herbal supplements, at least two weeks before surgery, and inform your surgeon about your herbal use."-->
 
-    <Button
-        android:id="@+id/find_drug_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:backgroundTint="#9ee0ff"
-        android:text="Find drug"
-        app:layout_constraintTop_toBottomOf="@+id/top_card_view"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
-    <TextView
-        android:id="@+id/text_for_test"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/center_card_view_advice"
+        style="@style/carViewTheme"
+        app:cardElevation="-1dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Go to nearby pharmacies"
-        app:layout_constraintTop_toBottomOf="@id/find_drug_button"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:textColor="#0019FA"
-        android:textSize="@dimen/_15sdp"
-        android:gravity="center"
+        android:layout_marginTop="@dimen/_15sdp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/top_card_view">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/_5sdp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round_textview"
+                android:drawableStart="@drawable/icon_advice"
+                android:fontFamily="@font/roboto_regular"
+
+                android:gravity="center"
+                android:padding="@dimen/_3sdp"
+                android:text="Today Advice"
+                android:textColor="#2B2828"
+
+
+                android:textSize="@dimen/_16sdp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/text_advice"
+                android:layout_width="match_parent"
+                android:textColor="#252424"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_5sdp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Loading..." />
+        </LinearLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/advice_loading_progress"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_70sdp"
+        android:layout_marginTop="@dimen/_2sdp"
+        android:visibility="visible"
+        android:elevation="1dp"
+       app:lottie_repeatCount="@integer/material_motion_duration_long_1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/loading" />
+
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/text_for_test"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Go to nearby pharmacies"-->
+    <!--        app:layout_constraintTop_toBottomOf="@id/find_drug_button"-->
+    <!--        android:layout_marginTop="@dimen/_20sdp"-->
+    <!--        android:textColor="#0019FA"-->
+    <!--        android:textSize="@dimen/_15sdp"-->
+    <!--        android:gravity="center"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"/>-->
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_140sdp"
+        android:src="@drawable/dcrors_t"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.973"
+        app:layout_constraintStart_toStartOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
