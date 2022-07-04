@@ -294,6 +294,7 @@ public class LoginActivity extends AppCompatActivity {
                 .replace(".", "") + "jpg";
 
         userLogIn = new UserLogIn(fullName, firstName, firstName, lastName, id, email, email_verified, firstLogin, status, imageId,diseaseName);
+        userLogIn.setPassword(passwordString);
         System.out.println(userLogIn);
 //        User attributes = [AuthUserAttribute {key=AuthUserAttributeKey
 //    {attributeKey=sub}, value=2c96687f-cbea-424c-81a0-195bea94e5e8},

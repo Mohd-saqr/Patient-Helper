@@ -43,6 +43,7 @@
                 android:layout_marginRight="@dimen/_20sdp"
                 android:fontFamily="@font/poppinsbold"
                 android:text="Pharmacy"
+                android:textColor="@color/black"
                 android:textSize="25sp" />
 
             <TextView
@@ -52,28 +53,18 @@
                 android:layout_marginStart="@dimen/_20sdp"
                 android:layout_marginLeft="@dimen/_20sdp"
                 android:layout_marginTop="@dimen/_20sdp"
-                android:text="Open"
-                android:textColor="@color/green"
+                android:text="Closed"
+                android:textColor="@color/red"
                 android:textSize="@dimen/_15sdp" />
 
             <TextView
                 android:id="@+id/opening_hour"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_20sdp"
-                android:layout_marginLeft="@dimen/_20sdp"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:textSize="@dimen/_15sdp" />
-
-            <TextView
-                android:id="@+id/distance_pharmacy"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_20sdp"
-                android:layout_marginLeft="@dimen/_20sdp"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:text="23 Km Away(still under build)"
                 android:textColor="@color/black"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginLeft="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_20sdp"
                 android:textSize="@dimen/_15sdp" />
 
             <TextView
@@ -91,14 +82,15 @@
 
             <androidx.appcompat.widget.AppCompatRatingBar
                 android:id="@+id/rating"
-                style="?android:attr/ratingBarStyleSmall"
+                android:theme="@style/RatingBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:numStars="5"
+                android:stepSize="1"
                 android:layout_marginStart="@dimen/_20sdp"
-                android:layout_marginLeft="@dimen/_20sdp"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:isIndicator="true"
-                android:numStars="5" />
+                />
 
             <TextView
                 android:id="@+id/address_pharmacy"
@@ -126,3 +118,17 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <!--
+    <TextView
+                    android:id="@+id/distance_pharmacy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:text="23 Km Away(still under build)"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_15sdp" />
+    -->
