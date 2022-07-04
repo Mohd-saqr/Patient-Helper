@@ -6,39 +6,54 @@
     android:layout_height="match_parent"
     tools:context=".activities.DrugActivity">
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView_top_drug"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_65sdp"
+
+        app:cardCornerRadius="@dimen/_2sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/round_textview">
+
+
+            <TextView
+                android:id="@+id/User_name_Main"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="256dp"
+                android:layout_marginBottom="36dp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Drugs "
+                android:textColor="#2B2828"
+                android:textSize="@dimen/_20sdp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.666" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/DrugRecyclerView"
-        android:layout_width="409dp"
-        android:layout_height="629dp"
+        android:layout_width="407dp"
+        android:layout_height="644dp"
+        android:layout_marginEnd="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDrugs"
-        app:layout_constraintVertical_bias="0.317" />
-    <TextView
-        android:id="@+id/textViewDrugs"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Drugs For Your Disease"
-        android:textSize="@dimen/_26sdp"
-        app:layout_constraintBottom_toTopOf="@+id/DrugRecyclerView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-    <ProgressBar
-        android:id="@+id/progressBar_select_drug"
-        android:visibility="invisible"
+        app:layout_constraintTop_toBottomOf="@+id/cardView_top_drug" />
 
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="184dp"
-        tools:layout_editor_absoluteY="324dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
