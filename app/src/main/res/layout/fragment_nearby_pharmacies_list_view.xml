@@ -7,23 +7,19 @@
     tools:context=".fragment.NearbyPharmaciesListViewFragment">
 
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/back_text_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:background="@drawable/round_textview"
+        android:layout_height="@dimen/_50sdp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/ivBack"
-            android:layout_width="@dimen/_35sdp"
-            android:layout_height="@dimen/_35sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:background="@drawable/back_arrow" />
 
         <TextView
             android:id="@+id/text_view"
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/_230sdp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_60sdp"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_15sdp"
             android:text="List of Nearby Pharmacies"
@@ -31,7 +27,21 @@
             android:textSize="25sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-    </LinearLayout>
+
+        <ImageView
+            android:id="@+id/map_view_button"
+            android:layout_width="80dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:layout_height="45dp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:src="@drawable/map"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/loading_in_pharmacies_list"
         android:layout_width="match_parent"

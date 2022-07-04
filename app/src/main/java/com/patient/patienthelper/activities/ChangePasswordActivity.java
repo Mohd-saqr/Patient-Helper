@@ -13,7 +13,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,17 +21,21 @@ import com.amplifyframework.auth.options.AuthSignOutOptions;
 import com.amplifyframework.core.Amplify;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.gson.Gson;
 import com.patient.patienthelper.R;
+import com.patient.patienthelper.helperClass.MySharedPreferences;
+import com.patient.patienthelper.helperClass.UserLogIn;
 
 public class ChangePasswordActivity extends AppCompatActivity {
     private static final String TAG = ChangePasswordActivity.class.getSimpleName();
     private TextInputEditText newPasswordEditText, confirmNewPasswordEditText, currentPasswordEditText;
     private MaterialButton saveNewPasswordBtn;
-    private String newPasswordString, confirmNewPasswordString, currentPasswordString, currentUserPassword;
+    private String newPasswordString, confirmNewPasswordString, currentPasswordString;
     private ProgressBar changePasswordProgressBar;
     private CheckBox signOutFromAllDevicesCheckbox;
     private ImageView backBtn;
-    Animation scaleDown,scaleUp;
+    private Animation scaleDown,scaleUp;
+    private UserLogIn userLogIn;
 
 
     @Override
@@ -68,6 +71,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         });
     }
 
+
     private void findAllViewById() {
 
         newPasswordEditText = findViewById(R.id.new_password);
@@ -79,7 +83,6 @@ public class ChangePasswordActivity extends AppCompatActivity {
         backBtn = findViewById(R.id.ivBack);
         scaleDown= AnimationUtils.loadAnimation(this,(R.anim.scale_down));
         scaleUp= AnimationUtils.loadAnimation(this,(R.anim.scale_up));
-
     }
 
     private void setOnClickListener() {
@@ -122,12 +125,6 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
         } else if (TextUtils.isEmpty(currentPasswordEditText.getText())) {
             currentPasswordEditText.setError("Enter current password");
-
-        } else if (!currentPasswordString.equals(currentUserPassword)) {
-            currentPasswordEditText.setError("Wrong password");
-
-        } else if (newPasswordString.equals(currentUserPassword)) {
-            newPasswordEditText.setError("Password not Edited");
 
         } else {
             changePasswordProgressBar.setVisibility(View.VISIBLE);

@@ -1,6 +1,7 @@
 package com.patient.patienthelper.adapters;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,11 +20,13 @@ public class RecyclerAdapterPharmacy extends RecyclerView.Adapter<RecyclerAdapte
 
     List<List<String>> dataList;
     CustomClickListener listener;
+    Context context;
 
 
-    public RecyclerAdapterPharmacy(List<List<String>> dataList, CustomClickListener listener) {
+    public RecyclerAdapterPharmacy(List<List<String>> dataList, CustomClickListener listener,Context context) {
         this.dataList = dataList;
         this.listener = listener;
+        this.context = context;
     }
 
 
@@ -41,8 +44,10 @@ public class RecyclerAdapterPharmacy extends RecyclerView.Adapter<RecyclerAdapte
         System.out.println("The data list from recycler view adapter is -> "+dataList);
         holder.title.setText(dataList.get(position).get(1));
         if ((dataList.get(position).get(2)+"").equals("true")){
+            holder.openingState.setTextColor(context.getResources().getColor(R.color.green));
             holder.openingState.setText("Open");
         }else {
+            holder.openingState.setTextColor(context.getResources().getColor(R.color.red));
             holder.openingState.setText("Closed");
         }
 
@@ -66,8 +71,8 @@ public class RecyclerAdapterPharmacy extends RecyclerView.Adapter<RecyclerAdapte
 
             this.listener = listener;
 
-            title = itemView.findViewById(R.id.title);
-            openingState = itemView.findViewById(R.id.opening_state);
+            title = itemView.findViewById(R.id.pharmacy_name);
+            openingState = itemView.findViewById(R.id.open_status);
 
             itemView.setOnClickListener(view -> listener.onTaskClicked(getAdapterPosition()));
 

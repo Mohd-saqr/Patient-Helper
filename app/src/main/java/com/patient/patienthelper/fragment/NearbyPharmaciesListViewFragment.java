@@ -2,42 +2,51 @@ package com.patient.patienthelper.fragment;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Looper;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.api.net.FetchPlaceRequest;
-import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.gson.Gson;
 import com.patient.patienthelper.BuildConfig;
 import com.patient.patienthelper.R;
-import com.patient.patienthelper.activities.MainActivity;
 import com.patient.patienthelper.activities.NearbyPharmaciesActivity;
 import com.patient.patienthelper.activities.PharmacyDetailsActivity;
 import com.patient.patienthelper.adapters.RecyclerAdapterPharmacy;
-import com.patient.patienthelper.data.Pharmacy;
 import com.patient.patienthelper.helperClass.JsonParser;
+import com.patient.patienthelper.helperClass.MySharedPreferences;
+import com.patient.patienthelper.helperClass.UserLogIn;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -49,9 +58,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+
+import id.ionbit.ionalert.IonAlert;
 
 
 @SuppressLint({"MissingPermission", "StaticFieldLeak", "NotifyDataSetChanged"})
@@ -67,8 +77,12 @@ public class NearbyPharmaciesListViewFragment extends Fragment {
     private static List<List<String>> pharmacies = new ArrayList<>();
     private SwipeRefreshLayout swipeContainer;
     private LottieAnimationView loading;
-    private ImageView backBtn;
-
+    private ImageView mapView;
+    private UserLogIn userLogIn;
+    private MySharedPreferences sharedPreferences;
+    private IonAlert ionAlert;
+    private static boolean isFirstLogin = true;
+    private final int PERMISSION_ID = 44;
 
 
     @Override
@@ -94,6 +108,7 @@ public class NearbyPharmaciesListViewFragment extends Fragment {
 
         loading.setVisibility(View.VISIBLE);
 
+        if (isFirstLogin) showInstructionAlertDialog();
 
         initializeFusedLocationProviderClient();
 
@@ -112,10 +127,30 @@ public class NearbyPharmaciesListViewFragment extends Fragment {
         recyclerview = view.findViewById(R.id.nearby_pharmacies_recycler_view);
         loading = view.findViewById(R.id.loading_in_pharmacies_list);
         swipeContainer = view.findViewById(R.id.swipe_refresh_layout);
-        backBtn = view.findViewById(R.id.ivBack);
+        mapView = view.findViewById(R.id.map_view_button);
+        sharedPreferences = new MySharedPreferences(getContext());
     }
 
+    private boolean isThisFirstLogin() {
+        Gson gson = new Gson();
+        userLogIn = gson.fromJson(sharedPreferences.getString("userLog", null), UserLogIn.class);
+        return userLogIn.getFirstLogIn();
+    }
 
+    private void showInstructionAlertDialog() {
+
+        if (isThisFirstLogin()) {
+            ionAlert = new IonAlert(getContext(), IonAlert.NORMAL_TYPE);
+
+            ionAlert.setTitleText("You can switch to map view from upper right of the page")
+                    .setConfirmText("Got it")
+                    .setConfirmClickListener(ionAlert1 -> {
+                        onResume();
+                    })
+                    .show();
+            isFirstLogin = false;
+        }
+    }
 
     private void initializeFusedLocationProviderClient() {
         //initialize fused location provider client
@@ -125,14 +160,31 @@ public class NearbyPharmaciesListViewFragment extends Fragment {
     private void askLocationPermission() {
         //check permission
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            //when permission granted
-            //call method
-            getCurrentLocation();
+            if (isLocationEnabled()) {
+                //when permission granted
+                //call method
+                getCurrentLocation();
+            } else {
+                Toast.makeText(getContext(), "Please turn on your location....", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(intent);
+            }
         } else {
             //when permission denied
             //request permission
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_ID
+            );
         }
+    }
+
+    private boolean isLocationEnabled() {
+
+        LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
+                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
     }
 
     private void getCurrentLocation() {
@@ -151,6 +203,9 @@ public class NearbyPharmaciesListViewFragment extends Fragment {
                     currentLong = location.getLongitude();
                     Log.i(TAG, "onSuccess: LatLng -> " + currentLat + " " + currentLong);
                     setPlacesUrl();
+
+                }else {
+                    requestNewLocationData();
                 }
             }
         });
@@ -159,14 +214,20 @@ public class NearbyPharmaciesListViewFragment extends Fragment {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 44) {
+        if (requestCode == PERMISSION_ID) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 //when permission granted
                 //call method
                 getCurrentLocation();
             }
+        }else if (grantResults.length <= 0){
+            askLocationPermission();
+        }else {
+            navigateToHomeFragment();
         }
     }
+
+
 
     private void setPlacesUrl() {
 
@@ -187,21 +248,52 @@ public class NearbyPharmaciesListViewFragment extends Fragment {
 
         /*
         https://maps.googleapis.com/maps/api/distancematrix/json
-  ?destinations=40.659569 * -73.933783 * 40.729029 * -73.851524 * 40.6860072 * -73.6334271 * 40.598566 * -73.7527626
-  &origins=40.6655101%2C-73.89188969999998
-  &key=YOUR_API_KEY
+          ?destinations=40.659569 * -73.933783 * 40.729029 * -73.851524 * 40.6860072 * -73.6334271 * 40.598566 * -73.7527626
+          &origins=40.6655101%2C-73.89188969999998
+          &key=YOUR_API_KEY
+
+          https://maps.googleapis.com/maps/api/distancematrix/json
+          ?destinations=40.659569%2C-73.933783%7C40.729029%2C-73.851524%7C40.6860072%2C-73.6334271%7C40.598566%2C-73.7527626
+          &origins=40.6655101%2C-73.89188969999998
+          &key=YOUR_API_KEY
+          "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins="+
+          listResultToSave.get(i).get("lat")+","+listResultToSave.get(i).get("lng")+
+                "&destinations="+currentLat+","+currentLong+"&key=" + apiKey);
          */
         //initialize url
-        String url = "https://maps.googleapis.com/maps/api/distancematrix/json" +//url
-                "?destinations=" + listResultToSave.get(i).get("lat") + "," + listResultToSave.get(i).get("lng") +//location latitude and longitude
-                "&origins=" + currentLat + "," + currentLong +//nearby radius
-                "&types=" + "pharmacy" +//place type
-                "&key=" + apiKey;
+        String url = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins="+
+                listResultToSave.get(i).get("lat")+","+listResultToSave.get(i).get("lng")+
+                "&destinations="+currentLat+","+currentLong+"&key=" + apiKey;
 
         //execute place task method to download json data
         new PlaceTask().execute(url);
 
     }
+
+    private void requestNewLocationData() {
+
+        // Initializing LocationRequest
+        // object with appropriate methods
+        LocationRequest mLocationRequest = new LocationRequest();
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        mLocationRequest.setInterval(5);
+        mLocationRequest.setFastestInterval(0);
+        mLocationRequest.setNumUpdates(1);
+
+        // setting LocationRequest
+        // on FusedLocationClient
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getContext());
+        fusedLocationProviderClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
+    }
+
+    private final LocationCallback mLocationCallback = new LocationCallback() {
+
+        @Override
+        public void onLocationResult(LocationResult locationResult) {
+            Location mLastLocation = locationResult.getLastLocation();
+            LatLng coordinate = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+        }
+    };
 
     private class PlaceTask extends AsyncTask<String, Integer, String> {
 
@@ -297,23 +389,14 @@ public class NearbyPharmaciesListViewFragment extends Fragment {
             return null;
         }
 
-        @Override
-        protected void onPostExecute(List<HashMap<String, String>> hashMaps) {
-            super.onPostExecute(hashMaps);
-
-
-        }
     }
-
-
-
 
     private void getPharmaciesListToListFragment(List<List<String>> pharmacyListParam) {
 
         Log.i(TAG, "The tasks list from get task to home page method is -> " + pharmacyListParam.size());
 
 //        if (pharmacyListParam.size()>=1) noTaskToShow.setVisibility(View.GONE);
-        Log.i(TAG, "getPharmaciesListToListFragment: pharmacyListParam size -> "+pharmacyListParam.size());
+        Log.i(TAG, "getPharmaciesListToListFragment: pharmacyListParam size -> " + pharmacyListParam.size());
         recyclerAdapterPharmacy = new RecyclerAdapterPharmacy(pharmacyListParam, position -> {
             Intent intent = new Intent(getContext(), PharmacyDetailsActivity.class);
             intent.putExtra("Id", pharmacyListParam.get(position).get(0));
@@ -321,7 +404,7 @@ public class NearbyPharmaciesListViewFragment extends Fragment {
             intent.putExtra("userLatitude", currentLat);
             intent.putExtra("userLongitude", currentLong);
             startActivity(intent);
-        });
+        },getContext());
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(
                 getContext(),
@@ -342,9 +425,33 @@ public class NearbyPharmaciesListViewFragment extends Fragment {
         });
     }
 
-    private void setOnClickListener(){
-        backBtn.setOnClickListener(view -> {
-            startActivity(new Intent(getContext(), MainActivity.class));
+    private void setOnClickListener() {
+
+        mapView.setOnClickListener(view -> {
+            navigateToMapViewFragment();
         });
+    }
+
+    private void navigateToMapViewFragment() {
+        Fragment fragment;
+        fragment = new NearbyPharmaciesMapViewFragment();
+
+        FragmentManager fragmentManager = getFragmentManager(); // For AppCompat use getSupportFragmentManager
+        fragmentManager.beginTransaction()
+                .replace(R.id.nav_fragment, fragment)
+                .commit();
+        getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
+
+    private void navigateToHomeFragment(){
+        Fragment fragment;
+        fragment = new HomeFragment();
+
+        FragmentManager fragmentManager = getFragmentManager(); // For AppCompat use getSupportFragmentManager
+        fragmentManager.beginTransaction()
+                .replace(R.id.nav_fragment, fragment)
+                .commit();
+        getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+
     }
 }

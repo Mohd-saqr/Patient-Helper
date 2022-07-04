@@ -19,19 +19,21 @@ import com.google.android.libraries.places.api.net.PlacesClient;
 import com.patient.patienthelper.R;
 import com.patient.patienthelper.data.Pharmacy;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
-@SuppressLint("ResourceAsColor")
+@SuppressLint({"ResourceAsColor", "SetTextI18n", "SimpleDateFormat"})
 public class PharmacyDetailsActivity extends AppCompatActivity {
 
     private static final String TAG = PharmacyDetailsActivity.class.getSimpleName();
 
-    private static TextView pharmacyName, pharmacyOpen, pharmacyDistance, pharmacyMobileNumber,pharmacyDirectionMe,pharmacyAddress,pharmacyOpeningHours;
+    private static TextView pharmacyName, pharmacyOpen, pharmacyMobileNumber, pharmacyDirectionMe, pharmacyAddress, pharmacyOpeningHours;
 
-    private static String pharmacyIdString,pharmacyNameString, pharmacyOpenString, pharmacyDistanceString, pharmacyMobileNumberString,pharmacyDirectionMeString,pharmacyAddressString,pharmacyOpeningHoursString;
+    private static String pharmacyIdString, pharmacyNameString, pharmacyOpenString, pharmacyMobileNumberString, pharmacyAddressString, pharmacyOpeningHoursString;
 
-    private static double pharmacyRatingDouble,pharmacyLat,pharmacyLng,userLat,userLng;
+    private static double pharmacyRatingDouble, pharmacyLat, pharmacyLng, userLat, userLng;
 
     private static Intent intent;
 
@@ -58,12 +60,11 @@ public class PharmacyDetailsActivity extends AppCompatActivity {
         setOnClickListeners();
     }
 
-    private void findAllViewById(){
+    private void findAllViewById() {
         apiKey = BuildConfig.Places_API_key;
-        Log.i(TAG, "findAllViewById: api key -> "+apiKey);
+        Log.i(TAG, "findAllViewById: api key -> " + apiKey);
         pharmacyName = findViewById(R.id.pharmacy_name);
         pharmacyOpen = findViewById(R.id.is_pharmacy_open);
-        pharmacyDistance = findViewById(R.id.distance_pharmacy);
         pharmacyMobileNumber = findViewById(R.id.pharmacy_mobile_number);
         pharmacyDirectionMe = findViewById(R.id.pharmacy_direction_me);
         pharmacyRating = findViewById(R.id.rating);
@@ -81,29 +82,29 @@ public class PharmacyDetailsActivity extends AppCompatActivity {
         placesClient = Places.createClient(this);
     }
 
-    private void getPharmacyData(){
+    private void getPharmacyData() {
 
         pharmacyIdString = intent.getStringExtra("Id");
         pharmacyOpenString = intent.getStringExtra("IsOpen");
-        userLat = intent.getDoubleExtra("userLatitude",0.0);
-        userLng = intent.getDoubleExtra("userLongitude",0.0);
+        userLat = intent.getDoubleExtra("userLatitude", 0.0);
+        userLng = intent.getDoubleExtra("userLongitude", 0.0);
         getPlaceInfoById(pharmacyIdString);
     }
 
-    private void setPharmacyDataOnPage(){
+    private void setPharmacyDataOnPage() {
 
         pharmacyName.setText(pharmacyNameString);
-        if (pharmacyOpenString.equals("false")){
-            pharmacyOpen.setText("Closed");
-            pharmacyOpen.setTextColor(R.color.red);
+        if (pharmacyOpenString.equals("true")) {
+            pharmacyOpen.setText("Open");
+            pharmacyOpen.setTextColor(getResources().getColor(R.color.green));
         }
         pharmacyRating.setRating((float) pharmacyRatingDouble);
-        pharmacyMobileNumber.setText(pharmacyMobileNumberString);
+        pharmacyMobileNumber.setText("  " + pharmacyMobileNumberString);
         pharmacyAddress.setText(pharmacyAddressString);
         pharmacyOpeningHours.setText(pharmacyOpeningHoursString);
     }
 
-    private void setOnClickListeners(){
+    private void setOnClickListeners() {
 
         pharmacyDirectionMe.setOnClickListener(view -> {
             openGoogleMap();
@@ -115,7 +116,7 @@ public class PharmacyDetailsActivity extends AppCompatActivity {
         });
     }
 
-    private void openGoogleMap(){
+    private void openGoogleMap() {
 
         String uri = "http://maps.google.com/maps?saddr=" + pharmacyLat + "," + pharmacyLng + "&daddr=" + userLat + "," + userLng;
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
@@ -127,13 +128,14 @@ public class PharmacyDetailsActivity extends AppCompatActivity {
 
         // Define a Place ID.
         final String placeId = id;
-        Log.i(TAG, "getPlaceInfoById: placeId -> "+placeId);
+        Log.i(TAG, "getPlaceInfoById: placeId -> " + placeId);
         // Specify the fields to return.
-        final List<Place.Field> placeFields = Arrays.asList(Place.Field.ID, Place.Field.NAME,Place.Field.ADDRESS,Place.Field.OPENING_HOURS,Place.Field.PHONE_NUMBER,Place.Field.LAT_LNG,Place.Field.RATING);
+        final List<Place.Field> placeFields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS, Place.Field.OPENING_HOURS, Place.Field.PHONE_NUMBER, Place.Field.LAT_LNG, Place.Field.RATING);
 
         // Construct a request object, passing the place ID and fields array.
         final FetchPlaceRequest request = FetchPlaceRequest.newInstance(placeId, placeFields);
         placesClient.fetchPlace(request).addOnSuccessListener((response) -> {
+            Log.i(TAG, "getPlaceInfoById: response -> " + response);
             Place place = response.getPlace();
             pharmacyNameString = place.getName();
             pharmacyLat = place.getLatLng().latitude;
@@ -141,14 +143,7 @@ public class PharmacyDetailsActivity extends AppCompatActivity {
             pharmacyAddressString = place.getAddress();
             pharmacyRatingDouble = place.getRating();
             pharmacyMobileNumberString = place.getPhoneNumber();
-            pharmacyOpeningHoursString = place.getOpeningHours().getPeriods().get(0).getOpen().getTime().getHours()+":"+place.getOpeningHours().getPeriods().get(0).getOpen().getTime().getMinutes();
-            Log.i(TAG, "getPlaceInfoById: place.getName()"+place.getName());
-            Log.i(TAG, "getPlaceInfoById: place.getLatLng().latitude "+place.getLatLng().latitude);
-            Log.i(TAG, "getPlaceInfoById: place.getLatLng().longitude "+place.getLatLng().longitude);
-            Log.i(TAG, "getPlaceInfoById: place.getAddress() "+place.getAddress());
-            Log.i(TAG, "getPlaceInfoById: place.getRating()"+place.getRating());
-            Log.i(TAG, "getPlaceInfoById: place.getPhoneNumber()"+place.getPhoneNumber());
-            Log.i(TAG, "getPlaceInfoById: time "+place.getOpeningHours().getPeriods().get(0).getOpen().getTime().getHours()+":"+place.getOpeningHours().getPeriods().get(0).getOpen().getTime().getMinutes());
+            pharmacyOpeningHoursString = place.getOpeningHours().getWeekdayText().get(getDayInt());
             setPharmacyDataOnPage();
         }).addOnFailureListener((exception) -> {
             if (exception instanceof ApiException) {
@@ -156,10 +151,62 @@ public class PharmacyDetailsActivity extends AppCompatActivity {
                 Log.e(TAG, "Place not found: " + exception.getMessage());
                 final int statusCode = apiException.getStatusCode();
                 // TODO: Handle error with given status code.
-                Log.i(TAG, "getPlaceById: Error -> "+statusCode);
+                Log.i(TAG, "getPlaceById: Error -> " + statusCode);
             }
         });
 
     }
 
+    private int getDayInt() {
+        int result = -1;
+        switch (getDay()) {
+            case "Monday":
+                result = 0;
+                break;
+            case "Tuesday":
+                result = 1;
+                break;
+            case "Wednesday":
+                result = 2;
+                break;
+            case "Thursday":
+                result = 3;
+                break;
+            case "Friday":
+                result = 4;
+                break;
+            case "Saturday":
+                result = 5;
+                break;
+            case "Sunday":
+                result = 6;
+                break;
+        }
+        return result;
+    }
+
+    private String getDay() {
+
+        Calendar calendar;
+        SimpleDateFormat dateFormat;
+        String dateFormatString;
+        calendar = Calendar.getInstance();
+
+        dateFormat = new SimpleDateFormat("EEEE");
+        dateFormatString = dateFormat.format(calendar.getTime());
+        Log.i(TAG, "getDay: Today"+dateFormatString);
+        return dateFormatString;
+    }
+
 }
+
+/*
+Log.i(TAG, "getPlaceInfoById: place.getName()"+place.getName());
+            Log.i(TAG, "getPlaceInfoById: place.getLatLng().latitude "+place.getLatLng().latitude);
+            Log.i(TAG, "getPlaceInfoById: place.getLatLng().longitude "+place.getLatLng().longitude);
+            Log.i(TAG, "getPlaceInfoById: place.getAddress() "+place.getAddress());
+            Log.i(TAG, "getPlaceInfoById: place.getRating()"+place.getRating());
+            Log.i(TAG, "getPlaceInfoById: place.getPhoneNumber()"+place.getPhoneNumber());
+            Log.i(TAG, "getPlaceInfoById: time "+place.getOpeningHours().getPeriods().get(0).getOpen().getTime().getHours()+":"+place.getOpeningHours().getPeriods().get(0).getOpen().getTime().getMinutes());
+
+ */

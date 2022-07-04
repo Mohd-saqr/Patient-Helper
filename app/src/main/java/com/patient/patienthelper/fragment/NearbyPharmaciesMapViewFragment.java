@@ -12,10 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -53,15 +55,16 @@ import java.util.List;
 public class NearbyPharmaciesMapViewFragment extends Fragment {
 
     private final String TAG = NearbyPharmaciesActivity.class.getSimpleName();
-    private AppCompatSpinner spType;
     private SupportMapFragment supportMapFragment;
     private GoogleMap map;
+    private AppCompatSpinner spType;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private double currentLat = 0, currentLong = 0;
     private String[] placeTypeList;
     private String apiKey;
     private MarkerOptions markerOptionsCurrentLocation;
     private LottieAnimationView loading;
+    private ImageView listView;
 
 
     @Override
@@ -83,6 +86,7 @@ public class NearbyPharmaciesMapViewFragment extends Fragment {
 
         getCurrentLocation();
 
+        setOnClickListener();
 
         //setOnClickListener();
         // Inflate the layout for this fragment
@@ -93,6 +97,7 @@ public class NearbyPharmaciesMapViewFragment extends Fragment {
 
         apiKey = BuildConfig.Places_API_key;
         spType = view.findViewById(R.id.sp_type);
+        listView = view.findViewById(R.id.list_view_button);
         loading = view.findViewById(R.id.loading_in_pharmacies_map);
         supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.google_map);
         loading.setVisibility(View.VISIBLE);
@@ -277,5 +282,23 @@ public class NearbyPharmaciesMapViewFragment extends Fragment {
             }
             map.addMarker(markerOptionsCurrentLocation);
         }
+    }
+
+    private void setOnClickListener(){
+
+        listView.setOnClickListener(view -> {
+            navigateToMapViewFragment();
+        });
+    }
+
+    private void navigateToMapViewFragment(){
+        Fragment fragment;
+        fragment = new NearbyPharmaciesListViewFragment();
+
+        FragmentManager fragmentManager = getFragmentManager(); // For AppCompat use getSupportFragmentManager
+        fragmentManager.beginTransaction()
+                .replace(R.id.nav_fragment, fragment)
+                .commit();
+        getActivity().overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
     }
 }
