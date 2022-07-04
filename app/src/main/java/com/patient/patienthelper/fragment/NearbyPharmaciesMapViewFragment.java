@@ -170,7 +170,7 @@ public class NearbyPharmaciesMapViewFragment extends Fragment {
 
         //get selected position of spinner
         int i = spType.getSelectedItemPosition();
-        Log.i(TAG, "setPlacesUrl: getSelectedItemPosition -> "+i);
+        Log.i(TAG, "setPlacesUrl: getSelectedItemPosition -> " + i);
         //initialize url
         String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json" +//url
                 "?location=" + currentLat + "," + currentLong +//location latitude and longitude
@@ -288,7 +288,7 @@ public class NearbyPharmaciesMapViewFragment extends Fragment {
         }
     }
 
-    private void setOnClickListener(){
+    private void setOnClickListener() {
 
         listView.setOnClickListener(view -> {
             navigateToMapViewFragment();
@@ -299,7 +299,7 @@ public class NearbyPharmaciesMapViewFragment extends Fragment {
         });
     }
 
-    private void navigateToMapViewFragment(){
+    private void navigateToMapViewFragment() {
         Fragment fragment;
         fragment = new NearbyPharmaciesListViewFragment();
 
@@ -307,6 +307,6 @@ public class NearbyPharmaciesMapViewFragment extends Fragment {
         fragmentManager.beginTransaction()
                 .replace(R.id.nav_fragment, fragment)
                 .commit();
-        getActivity().overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+        getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 }

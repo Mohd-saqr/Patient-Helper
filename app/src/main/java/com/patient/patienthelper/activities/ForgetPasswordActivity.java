@@ -18,9 +18,9 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.patient.patienthelper.R;
 
 public class ForgetPasswordActivity extends AppCompatActivity {
-    TextInputEditText email , verification,newPass;
+    TextInputEditText email, verification, newPass;
     MaterialButton btn;
-    Animation scaleDown,scaleUp;
+    Animation scaleDown, scaleUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +39,9 @@ public class ForgetPasswordActivity extends AppCompatActivity {
         view.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction()==MotionEvent.ACTION_DOWN)
-                {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     view.startAnimation(scaleUp);
-                } else if (event.getAction()==MotionEvent.ACTION_UP)
-                {
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     view.startAnimation(scaleDown);
                 }
 
@@ -53,49 +51,51 @@ public class ForgetPasswordActivity extends AppCompatActivity {
     }
 
     private void findAllViewById() {
-        email=findViewById(R.id.forget_password_email);
-        verification=findViewById(R.id.forget_act_verification);
-        newPass=findViewById(R.id.forget_new_password);
-        btn=findViewById(R.id.save_new_password_button);
-        scaleDown= AnimationUtils.loadAnimation(this,(R.anim.scale_down));
-        scaleUp= AnimationUtils.loadAnimation(this,(R.anim.scale_up));
+        email = findViewById(R.id.forget_password_email);
+        verification = findViewById(R.id.forget_act_verification);
+        newPass = findViewById(R.id.forget_new_password);
+        btn = findViewById(R.id.save_new_password_button);
+        scaleDown = AnimationUtils.loadAnimation(this, (R.anim.scale_down));
+        scaleUp = AnimationUtils.loadAnimation(this, (R.anim.scale_up));
 
     }
 
-    private void  resetPasswordAction(){
-    btn.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            resetPassword();
-        }
-    });
+    private void resetPasswordAction() {
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetPassword();
+            }
+        });
 
     }
 
     private void resetPassword() {
 
-        if (btn.getText().toString().equals("Send Code")){
+        if (btn.getText().toString().equals("Send Code")) {
             if (TextUtils.isEmpty(email.getText())) {
                 email.setError("Enter Email");
-            }else
-            sendVerificationCode();
-        }else {
+            } else
+                sendVerificationCode();
+        } else {
 
 
-        Amplify.Auth.confirmResetPassword(
-                newPass.getText().toString(),
-                verification.getText().toString(),
-                () -> {
-                    Log.i("TAG", "New password confirmed");
-                 startActivity(new Intent(this,LoginActivity.class));
-                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-                 finish();
-                },
-                error -> {
-                    Log.e("TAG", error.toString());
-                    runOnUiThread(() -> {
-                        Toast.makeText(this, "Change can't complete something went wrong", Toast.LENGTH_SHORT).show();
-                    });  }); }
+            Amplify.Auth.confirmResetPassword(
+                    newPass.getText().toString(),
+                    verification.getText().toString(),
+                    () -> {
+                        Log.i("TAG", "New password confirmed");
+                        startActivity(new Intent(this, LoginActivity.class));
+                        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                        finish();
+                    },
+                    error -> {
+                        Log.e("TAG", error.toString());
+                        runOnUiThread(() -> {
+                            Toast.makeText(this, "Change can't complete something went wrong", Toast.LENGTH_SHORT).show();
+                        });
+                    });
+        }
 
     }
 

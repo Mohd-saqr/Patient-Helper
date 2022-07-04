@@ -189,7 +189,8 @@ subscription OnCreateDrug {
   onCreateDrug {
     id
     name
-    data
+    start_date
+    end_date
     NumOfTimes
     SpecificTime
     userId
@@ -201,7 +202,8 @@ subscription OnUpdateDrug {
   onUpdateDrug {
     id
     name
-    data
+    start_date
+    end_date
     NumOfTimes
     SpecificTime
     userId
@@ -213,7 +215,8 @@ subscription OnDeleteDrug {
   onDeleteDrug {
     id
     name
-    data
+    start_date
+    end_date
     NumOfTimes
     SpecificTime
     userId

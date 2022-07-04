@@ -56,13 +56,12 @@ public class LoginActivity extends AppCompatActivity {
     private TextView forgetPassword;
     private String emailString;
     private String passwordString;
-    Animation scaleDown,scaleUp;
+    Animation scaleDown, scaleUp;
     LottieAnimationView loading;
     UserLogIn userLogIn;
     MySharedPreferences mySharedPreferences;
     HashTable hashTable = new HashTable<>(20);
     private static String tokenFromFirebase;
-
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -76,6 +75,7 @@ public class LoginActivity extends AppCompatActivity {
         setAllViewsAnim();
 
     }
+
     private void setAllViewsAnim() {
         setAnim(forgetPassword);
         setAnim(email);
@@ -90,11 +90,9 @@ public class LoginActivity extends AppCompatActivity {
         view.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction()==MotionEvent.ACTION_DOWN)
-                {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     view.startAnimation(scaleUp);
-                } else if (event.getAction()==MotionEvent.ACTION_UP)
-                {
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     view.startAnimation(scaleDown);
                 }
 
@@ -105,8 +103,8 @@ public class LoginActivity extends AppCompatActivity {
 
     //    inflate all views to be able to reach
     private void inflateViews() {
-        scaleDown= AnimationUtils.loadAnimation(this,(R.anim.scale_down));
-        scaleUp= AnimationUtils.loadAnimation(this,(R.anim.scale_up));
+        scaleDown = AnimationUtils.loadAnimation(this, (R.anim.scale_down));
+        scaleUp = AnimationUtils.loadAnimation(this, (R.anim.scale_up));
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
         loginBtn = findViewById(R.id.signin_btn);
@@ -123,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
 
         signupBtn.setOnClickListener(view -> {
             startActivity(new Intent(this, SignUpActivity.class));
-            overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
 
 
         });
@@ -136,7 +134,7 @@ public class LoginActivity extends AppCompatActivity {
 
         forgetPassword.setOnClickListener(view -> {
             startActivity(new Intent(this, ForgetPasswordActivity.class));
-            overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
 
         });
     }
@@ -240,13 +238,13 @@ public class LoginActivity extends AppCompatActivity {
                             loading.setVisibility(View.INVISIBLE);
 
                             startActivity(new Intent(LoginActivity.this, LookingForActivity.class));
-                            overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+                            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                             finish();
                         } else {
                             getDisease();
                             loading.setVisibility(View.INVISIBLE);
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                            overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+                            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                             finish();
                         }
                         finish();
@@ -255,17 +253,19 @@ public class LoginActivity extends AppCompatActivity {
                 error -> Log.e(TAG, "Failed to fetch user attributes.", error)
         );
     }
+
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
+
     private void getDisease() {
         Gson gson = new Gson();
 
-        hashTable=gson.fromJson(mySharedPreferences.getString("ApiData",null),HashTable.class);
+        hashTable = gson.fromJson(mySharedPreferences.getString("ApiData", null), HashTable.class);
         Disease disease = (Disease) hashTable.get(userLogIn.getDiseaseName());
-        mySharedPreferences.putString("userDisease",gson.toJson(disease));
+        mySharedPreferences.putString("userDisease", gson.toJson(disease));
         mySharedPreferences.apply();
     }
 
@@ -293,7 +293,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
         String fullName = userAttributes.get(3).getValue() + " " + userAttributes.get(5).getValue();
-        String diseaseName=userAttributes.get(4).getValue();
+        String diseaseName = userAttributes.get(4).getValue();
         String id = userAttributes.get(0).getValue();
         Boolean email_verified = userAttributes.get(1).getValue().equals("true");
         String firstName = userAttributes.get(3).getValue();
@@ -305,7 +305,7 @@ public class LoginActivity extends AppCompatActivity {
                 .replace("_", "").replace("-", "")
                 .replace(".", "") + "jpg";
 
-        userLogIn = new UserLogIn(fullName, firstName, firstName, lastName, id, email, email_verified, firstLogin, status, imageId,diseaseName);
+        userLogIn = new UserLogIn(fullName, firstName, firstName, lastName, id, email, email_verified, firstLogin, status, imageId, diseaseName);
         userLogIn.setPassword(passwordString);
         System.out.println(userLogIn);
 //        User attributes = [AuthUserAttribute {key=AuthUserAttributeKey
@@ -349,7 +349,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void addTokenToCloud() {
-
 
 
         Amplify.API.query(

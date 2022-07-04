@@ -24,7 +24,6 @@ public class NearbyPharmaciesActivity extends AppCompatActivity {
     private String TAG = NearbyPharmaciesActivity.class.getSimpleName();
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,12 +34,12 @@ public class NearbyPharmaciesActivity extends AppCompatActivity {
         setUpTheBottomNavigationMovement();
     }
 
-    private void findAllViewById(){
+    private void findAllViewById() {
         bottomNavigationView = findViewById(R.id.bottom_navigation_view_nearby_pharmacies);
         navController = Navigation.findNavController(this, R.id.nav_fragment_nearby_pharmacies);
     }
 
-    private void setUpTheBottomNavigationMovement(){
+    private void setUpTheBottomNavigationMovement() {
         //enable the swap between the fragments by set up the nav controller
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
     }

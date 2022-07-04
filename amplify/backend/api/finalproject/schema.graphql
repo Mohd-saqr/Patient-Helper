@@ -35,9 +35,8 @@ type Token @model{
 type Drug @model {
   id: ID!
   name: String!
-  data:String
-  startdate:String
-  enddate:String
+  start_date:String
+  end_date:String
   NumOfTimes:String
   SpecificTime:String
   userId:String!

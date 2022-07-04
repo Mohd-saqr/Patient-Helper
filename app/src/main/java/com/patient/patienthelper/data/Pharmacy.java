@@ -15,11 +15,12 @@ public class Pharmacy {
     public Pharmacy() {
     }
 
-    public Pharmacy(String id,String name, String isOpen){
+    public Pharmacy(String id, String name, String isOpen) {
         this.id = id;
         this.isOpen = isOpen;
         this.name = name;
     }
+
     public Pharmacy(String id, String name, double lat, double lng, String isOpen, double rating, String address, String opening_hours, String phone_number) {
         this.id = id;
         this.name = name;

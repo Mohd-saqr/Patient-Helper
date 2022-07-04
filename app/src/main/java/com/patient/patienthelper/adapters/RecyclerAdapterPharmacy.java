@@ -16,14 +16,14 @@ import com.patient.patienthelper.R;
 import java.util.List;
 
 @SuppressLint("SetTextI18n")
-public class RecyclerAdapterPharmacy extends RecyclerView.Adapter<RecyclerAdapterPharmacy.CustomViewHolder>{
+public class RecyclerAdapterPharmacy extends RecyclerView.Adapter<RecyclerAdapterPharmacy.CustomViewHolder> {
 
     List<List<String>> dataList;
     CustomClickListener listener;
     Context context;
 
 
-    public RecyclerAdapterPharmacy(List<List<String>> dataList, CustomClickListener listener,Context context) {
+    public RecyclerAdapterPharmacy(List<List<String>> dataList, CustomClickListener listener, Context context) {
         this.dataList = dataList;
         this.listener = listener;
         this.context = context;
@@ -41,12 +41,12 @@ public class RecyclerAdapterPharmacy extends RecyclerView.Adapter<RecyclerAdapte
 
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
-        System.out.println("The data list from recycler view adapter is -> "+dataList);
+        System.out.println("The data list from recycler view adapter is -> " + dataList);
         holder.name.setText(dataList.get(position).get(1));
-        if ((dataList.get(position).get(2)+"").equals("true")){
+        if ((dataList.get(position).get(2) + "").equals("true")) {
             holder.openingState.setBackgroundColor(context.getResources().getColor(R.color.green));
             holder.openingState.setText("Open");
-        }else {
+        } else {
             holder.openingState.setBackgroundColor(context.getResources().getColor(R.color.red));
             holder.openingState.setText("Closed");
         }

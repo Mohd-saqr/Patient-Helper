@@ -22,10 +22,10 @@ public class DrugRecyclerAdapter extends RecyclerView.Adapter<DrugRecyclerAdapte
     itemClick itemClick;
     Activity context;
 
-    public DrugRecyclerAdapter(List<String> data, itemClick click,Activity context) {
+    public DrugRecyclerAdapter(List<String> data, itemClick click, Activity context) {
         this.data = data;
         this.itemClick = click;
-        this.context =context;
+        this.context = context;
     }
 
     @NonNull
@@ -64,8 +64,8 @@ public class DrugRecyclerAdapter extends RecyclerView.Adapter<DrugRecyclerAdapte
         @Override
         public void onClick(View view) {
             int position = getAdapterPosition();
-            Intent intent=new Intent(context,ShowInfoActivity.class);
-            intent.putExtra("drugName",data.get(position));
+            Intent intent = new Intent(context, ShowInfoActivity.class);
+            intent.putExtra("drugName", data.get(position));
             context.startActivity(intent);
 
 

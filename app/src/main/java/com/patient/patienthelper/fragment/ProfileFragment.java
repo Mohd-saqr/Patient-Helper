@@ -50,7 +50,7 @@ import java.io.File;
  * Use the {@link ProfileFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-@SuppressLint({"SdCardPath","SetTextI18n"})
+@SuppressLint({"SdCardPath", "SetTextI18n"})
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class ProfileFragment extends Fragment {
     /*
@@ -61,7 +61,7 @@ public class ProfileFragment extends Fragment {
     private TextView userFullName;
     private static String imageToDownloadKey;
     private LottieAnimationView loading;
-    private final String[] itemList = {" My Posts"," My Drugs"," Edit Profile", " Change password", " Sign out", " Delete account"};
+    private final String[] itemList = {" My Posts", " My Drugs", " Edit Profile", " Change password", " Sign out", " Delete account"};
     private final String[] subItemsList = {
             "        See all your posts",
             "        Manage all your drugs activities",
@@ -100,7 +100,6 @@ public class ProfileFragment extends Fragment {
         imageDownload();
 
 
-
     }
 
 
@@ -119,24 +118,25 @@ public class ProfileFragment extends Fragment {
     }
 
     private void getCurrentUserImageKey() {
-        UserLogIn userLogIn ;
+        UserLogIn userLogIn;
         MySharedPreferences mySharedPreferences = new MySharedPreferences(getContext());
         if (mySharedPreferences.contains("userLog")) {
             Gson gson = new Gson();
             userLogIn = gson.fromJson(mySharedPreferences.getString("userLog", "noData"), UserLogIn.class);
             imageToDownloadKey = userLogIn.getEmail().replace(".", "").replace("@", "").replace("_", "");
-            userFullName.setText(userLogIn.getFirstName()+" "+userLogIn.getLastName());
-            System.out.println(userLogIn.getFirstName()+userLogIn.getLastName()+"99999***");
+            userFullName.setText(userLogIn.getFirstName() + " " + userLogIn.getLastName());
+            System.out.println(userLogIn.getFirstName() + userLogIn.getLastName() + "99999***");
         }
         imageDownload();
     }
+
     private void imageDownload() {
         profileImage.setImageURI(null);
 
-        file = new File(getContext().getFilesDir() + "/"+"userProfile"+".jpg");
+        file = new File(getContext().getFilesDir() + "/" + "userProfile" + ".jpg");
         Log.i(TAG, "imageDownload: is the file exist -> " + file.exists());
-        Amplify.Storage.getUrl(imageToDownloadKey,res->{
-            getActivity(). runOnUiThread(new Runnable() {
+        Amplify.Storage.getUrl(imageToDownloadKey, res -> {
+            getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     Glide.with(getContext())
@@ -147,10 +147,9 @@ public class ProfileFragment extends Fragment {
                             .into(profileImage);
 
 
-
                 }
             });
-        },err->{
+        }, err -> {
 
         });
 
@@ -183,7 +182,7 @@ public class ProfileFragment extends Fragment {
         if (file != null) {
             Bitmap bitmap = BitmapFactory.decodeFile(file.getPath());
             profileImage.setImageBitmap(bitmap);
-            System.out.println(file.getPath()+"plapla");
+            System.out.println(file.getPath() + "plapla");
         }
 
     }
@@ -229,7 +228,7 @@ public class ProfileFragment extends Fragment {
                         break;
                     case 4:
                         subItem.setText(subItemsList[position]);
-                        name.setCompoundDrawablesWithIntrinsicBounds(R.drawable.logout,0,0,0);
+                        name.setCompoundDrawablesWithIntrinsicBounds(R.drawable.logout, 0, 0, 0);
                         break;
                     case 5:
                         subItem.setText(subItemsList[position]);
@@ -279,16 +278,15 @@ public class ProfileFragment extends Fragment {
         startActivity(intent);
     }
 
-    private void navigateToEditProfilePage(){
+    private void navigateToEditProfilePage() {
 
         Intent intent = new Intent(getContext(), EditProfileActivity.class);
         startActivity(intent);
 
 
-
     }
 
-    private void navigateToChangePasswordPage(){
+    private void navigateToChangePasswordPage() {
         startActivity(new Intent(getContext(), ChangePasswordActivity.class));
     }
 
@@ -317,12 +315,13 @@ public class ProfileFragment extends Fragment {
             getActivity().finish();
         });
     }
-    private void navigateToDeleteAccountActivity(){
+
+    private void navigateToDeleteAccountActivity() {
 
         startActivity(new Intent(getContext(), DeleteAccountActivity.class));
     }
 
-    private void refresh(){
+    private void refresh() {
 
         getFragmentManager().beginTransaction().detach(this).attach(this).commit();
     }

@@ -20,18 +20,19 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ShowInfoActivity extends AppCompatActivity  {
-List<DrugDetails> drugDetailsList=new ArrayList<>();
-TextView textViewName;
-TextView textViewDesc;
-ProgressBar progressBar;
+public class ShowInfoActivity extends AppCompatActivity {
+    List<DrugDetails> drugDetailsList = new ArrayList<>();
+    TextView textViewName;
+    TextView textViewDesc;
+    ProgressBar progressBar;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.show_details);
-        textViewName=findViewById(R.id.drugName);
-         textViewDesc=findViewById(R.id.drugDesc);
-         progressBar=findViewById(R.id.progressBar_ShowInfo);
+        textViewName = findViewById(R.id.drugName);
+        textViewDesc = findViewById(R.id.drugDesc);
+        progressBar = findViewById(R.id.progressBar_ShowInfo);
         try {
             fetchdATA();
         } catch (IOException e) {
@@ -55,7 +56,6 @@ ProgressBar progressBar;
             }
 
 
-
             @Override
             public void onFailure(Call<List<DrugDetails>> call, Throwable t) {
 
@@ -64,13 +64,13 @@ ProgressBar progressBar;
     }
 
     private void setUriData() {
-        Intent intent=getIntent();
-        String name=intent.getStringExtra("drugName");
+        Intent intent = getIntent();
+        String name = intent.getStringExtra("drugName");
         System.out.println("size" + drugDetailsList.size());
-        System.out.println("name"+name);
-        for (DrugDetails det:drugDetailsList
+        System.out.println("name" + name);
+        for (DrugDetails det : drugDetailsList
         ) {
-            if (det.getDrug_Name().equals(name)){
+            if (det.getDrug_Name().equals(name)) {
                 textViewName.setText(det.getDrug_Name());
                 textViewDesc.setText(det.getDrug_description());
             }

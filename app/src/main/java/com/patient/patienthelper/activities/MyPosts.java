@@ -22,21 +22,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MyPosts extends AppCompatActivity {
-    
+
     MySharedPreferences sharedPreferences;
     UserLogIn userLogIn;
     RecyclerAdapterPost recyclerAdapterPost;
     RecyclerView recyclerView;
     LottieAnimationView loading;
     List<Post> posts = new ArrayList<>();
-    
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_posts);
         findViews();
-        sharedPreferences=new MySharedPreferences(this);
+        sharedPreferences = new MySharedPreferences(this);
         getMySharedPreferences();
         loading.setVisibility(View.VISIBLE);
         setAdapter();
@@ -48,46 +48,46 @@ public class MyPosts extends AppCompatActivity {
 
         }, Post -> {
             Gson gson = new Gson();
-            String post =gson.toJson(Post);
+            String post = gson.toJson(Post);
             Intent intent = new Intent(getApplicationContext(), CommentsActivity.class);
 
-            intent.putExtra("Post",post);
-            intent.putExtra("PostCreatedAt",Post.getCreatedAt().format());
+            intent.putExtra("Post", post);
+            intent.putExtra("PostCreatedAt", Post.getCreatedAt().format());
             startActivity(intent);
-            overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             finish();
 
-        },this);
+        }, this);
         recyclerView.setAdapter(recyclerAdapterPost);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void getMySharedPreferences() {
         Gson gson = new Gson();
-        userLogIn=gson.fromJson(sharedPreferences.getString("userLog",null),UserLogIn.class);
-        System.out.println(userLogIn.getId()+"id");
+        userLogIn = gson.fromJson(sharedPreferences.getString("userLog", null), UserLogIn.class);
+        System.out.println(userLogIn.getId() + "id");
     }
 
     private void getPosts() {
         posts.clear();
-        Amplify.API.query(ModelQuery.list(Post.class,Post.USER_ID.eq(userLogIn.getId())),res->{
-            if (res.hasData()){
-                for (Post p :res.getData()){
+        Amplify.API.query(ModelQuery.list(Post.class, Post.USER_ID.eq(userLogIn.getId())), res -> {
+            if (res.hasData()) {
+                for (Post p : res.getData()) {
                     posts.add(p);
                 }
-                runOnUiThread(()->{
+                runOnUiThread(() -> {
                     loading.setVisibility(View.INVISIBLE);
                     recyclerAdapterPost.notifyDataSetChanged();
                 });
             }
-        },err->{
+        }, err -> {
 
         });
 
     }
 
     private void findViews() {
-        recyclerView=findViewById(R.id.my_posts_recycler);
-        loading=findViewById(R.id.loading_my_drugs);
+        recyclerView = findViewById(R.id.my_posts_recycler);
+        loading = findViewById(R.id.loading_my_drugs);
     }
 }

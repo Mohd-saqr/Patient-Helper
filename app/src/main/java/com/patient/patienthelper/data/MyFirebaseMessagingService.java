@@ -13,6 +13,7 @@ import com.google.firebase.messaging.RemoteMessage;
 @SuppressLint("MissingFirebaseInstanceTokenRefresh")
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     Handler handler = new Handler();
+
     @Override
     public void onMessageReceived(@NonNull RemoteMessage message) {
         super.onMessageReceived(message);

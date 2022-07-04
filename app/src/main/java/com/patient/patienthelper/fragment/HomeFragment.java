@@ -57,13 +57,11 @@ public class HomeFragment extends Fragment {
     ImageView setting;
 
 
-
     private final List<Advice> adviceListApi = new ArrayList<>();
     private LottieAnimationView adviceLoading;
     private MySharedPreferences sharedPreferences;
     UserLogIn userLogIn;
     TextView date;
-
 
 
     @Override
@@ -88,7 +86,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        sharedPreferences= new MySharedPreferences(getContext());
+        sharedPreferences = new MySharedPreferences(getContext());
 
         findAllViewById(view);
         fetchDataFromApi();
@@ -102,7 +100,6 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         return view;
     }
-
 
 
     private void updateUri(String checkStatus) {
@@ -135,7 +132,7 @@ public class HomeFragment extends Fragment {
 
     }
 
-    private void fetchDataFromApi(){
+    private void fetchDataFromApi() {
         showProgressBar();
         try {
             GetApi.getAdvice().enqueue(new Callback<List<Advice>>() {
@@ -145,10 +142,11 @@ public class HomeFragment extends Fragment {
                     adviceListApi.addAll(response.body());
                     updateUri(checkStatus());
 
-                    Log.i("Main Activity", "the advices list size is from onResponse -> "+adviceListApi.size());
+                    Log.i("Main Activity", "the advices list size is from onResponse -> " + adviceListApi.size());
                     hideProgressBar();
 
                 }
+
                 @Override
                 public void onFailure(@NonNull Call<List<Advice>> call, @NonNull Throwable t) {
                     Toast.makeText(getContext(), "Fetch data Failed", Toast.LENGTH_SHORT).show();
@@ -162,27 +160,27 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    private void findAllViewById(View view){
-        desName=view.findViewById(R.id.desise_title);
+    private void findAllViewById(View view) {
+        desName = view.findViewById(R.id.desise_title);
         findDrug = view.findViewById(R.id.find_drug_button);
         todayAdvice = view.findViewById(R.id.text_advice);
         adviceLoading = view.findViewById(R.id.advice_loading_progress);
-        Status=view.findViewById(R.id.patient_status);
-        date=view.findViewById(R.id.text_view_date);
-        userName=view.findViewById(R.id.User_name_Main);
-        diseaseDisc=view.findViewById(R.id.disease_dis);
-        setting=view.findViewById(R.id.icon_setting);
+        Status = view.findViewById(R.id.patient_status);
+        date = view.findViewById(R.id.text_view_date);
+        userName = view.findViewById(R.id.User_name_Main);
+        diseaseDisc = view.findViewById(R.id.disease_dis);
+        setting = view.findViewById(R.id.icon_setting);
     }
 
-    private void showProgressBar(){
+    private void showProgressBar() {
         adviceLoading.setVisibility(View.VISIBLE);
     }
 
-    private void hideProgressBar(){
+    private void hideProgressBar() {
         adviceLoading.setVisibility(View.INVISIBLE);
     }
 
-    private void setOnClickListener(){
+    private void setOnClickListener() {
         findDrug.setOnClickListener(view -> {
             Intent i = new Intent(getContext(), DrugActivity.class);
             startActivity(i);
@@ -195,40 +193,41 @@ public class HomeFragment extends Fragment {
             fragmentManager.beginTransaction()
                     .replace(R.id.nav_fragment, fragment)
                     .commit();
-            getActivity().overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+            getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
 
         });
     }
 
-    private void getAdviceToHomePage(List<Advice> advice){
+    private void getAdviceToHomePage(List<Advice> advice) {
 
         int random = randomString();
         //this check to ensure that the random integer is index of the list to prevent the null result
-        Log.i("Main Activity", "the advices list size is -> "+adviceListApi.size());
+        Log.i("Main Activity", "the advices list size is -> " + adviceListApi.size());
 
-        if (random < 49 && random >=0)
+        if (random < 49 && random >= 0)
             todayAdvice.setText(advice.get(random).getAdvice());
         else fetchDataFromApi();
     }
 
-    private int randomString(){
-        return (int)(Math.random() * (49) + 1) ;
+    private int randomString() {
+        return (int) (Math.random() * (49) + 1);
     }
 
-    private String checkStatus(){
+    private String checkStatus() {
         Gson gson = new Gson();
-        userLogIn=gson.fromJson(sharedPreferences.getString("userLog",null),UserLogIn.class);
-        System.out.println(userLogIn.getStatus()+"999999999999");
-        return  userLogIn.getStatus() ;
+        userLogIn = gson.fromJson(sharedPreferences.getString("userLog", null), UserLogIn.class);
+        System.out.println(userLogIn.getStatus() + "999999999999");
+        return userLogIn.getStatus();
 
     }
-    private String getDesisName(){
-        return sharedPreferences.getString("userDisease","another");
+
+    private String getDesisName() {
+        return sharedPreferences.getString("userDisease", "another");
     }
 
 
     @SuppressLint("SimpleDateFormat")
-    private  void displayDta(){
+    private void displayDta() {
 
         Calendar calendar;
         SimpleDateFormat dateFormat;

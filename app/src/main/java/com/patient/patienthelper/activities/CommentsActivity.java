@@ -35,7 +35,7 @@ public class CommentsActivity extends AppCompatActivity {
     RecyclerView recyclerview;
     RecyclerAdapterComment recyclerAdapter;
 
-    List<Comment> apiData= new ArrayList<>();
+    List<Comment> apiData = new ArrayList<>();
     Button postComment;
     EditText CommentBody;
     TextView postBody;
@@ -44,7 +44,7 @@ public class CommentsActivity extends AppCompatActivity {
     ProgressBar progressBar;
     UserLogIn userLogIn;
     Post post;
-    String PostCreatedAt="";
+    String PostCreatedAt = "";
     private Handler mHandler = new Handler(Looper.getMainLooper());
 
     @Override
@@ -65,23 +65,23 @@ public class CommentsActivity extends AppCompatActivity {
         super.onResume();
     }
 
-    private void findViewById( ) {
-        postComment =findViewById(R.id.btn_post_comment);
-        CommentBody =findViewById(R.id.edtext_comment_body);
-        progressBar=findViewById(R.id.progress_bar_comment_ac);
-        text_view_no_comment =findViewById(R.id.text_view_no_comment);
+    private void findViewById() {
+        postComment = findViewById(R.id.btn_post_comment);
+        CommentBody = findViewById(R.id.edtext_comment_body);
+        progressBar = findViewById(R.id.progress_bar_comment_ac);
+        text_view_no_comment = findViewById(R.id.text_view_no_comment);
 //        postBody =findViewById(R.id.text_view_post_body_com);
 //        username=findViewById(R.id.username_post_com);
 //        postCreateAt=findViewById(R.id.text_view_post_date_com);
-        recyclerview=findViewById(R.id.comment_rc);
+        recyclerview = findViewById(R.id.comment_rc);
     }
 
-    private void postComment(){
+    private void postComment() {
 
-        postComment.setOnClickListener(v->{
+        postComment.setOnClickListener(v -> {
             hideKeyboard(this);
             progressBar.setVisibility(View.VISIBLE);
-            String commentBodyStr=CommentBody.getText().toString();
+            String commentBodyStr = CommentBody.getText().toString();
             Comment comment = Comment.builder()
                     .body(commentBodyStr)
 
@@ -89,24 +89,25 @@ public class CommentsActivity extends AppCompatActivity {
                     .commentPostId(post.getId())
                     .build();
 
-            Amplify.API.mutate(ModelMutation.create(comment),res->{
+            Amplify.API.mutate(ModelMutation.create(comment), res -> {
                 fetchData();
-               runOnUiThread(() -> {
-                   progressBar.setVisibility(View.INVISIBLE);
-                   CommentBody.setText("");
+                runOnUiThread(() -> {
+                    progressBar.setVisibility(View.INVISIBLE);
+                    CommentBody.setText("");
 
-               });
-            },err->{
+                });
+            }, err -> {
                 Toast.makeText(this, err.toString(), Toast.LENGTH_SHORT).show();
             });
         });
     }
+
     private void fetchData() {
 
         apiData.clear();
-        Amplify.API.query(ModelQuery.list(Comment.class,Comment.COMMENT_POST_ID.eq(post.getId())),res->{
-            if (res.hasData()){
-                for (Comment c: res.getData()){
+        Amplify.API.query(ModelQuery.list(Comment.class, Comment.COMMENT_POST_ID.eq(post.getId())), res -> {
+            if (res.hasData()) {
+                for (Comment c : res.getData()) {
                     apiData.add(c);
                 }
             }
@@ -115,15 +116,15 @@ public class CommentsActivity extends AppCompatActivity {
                 public void run() {
                     progressBar.setVisibility(View.INVISIBLE);
                     recyclerAdapter.notifyDataSetChanged();
-                    if (apiData.size()==0){
+                    if (apiData.size() == 0) {
                         text_view_no_comment.setVisibility(View.VISIBLE);
-                    }else {
+                    } else {
                         text_view_no_comment.setVisibility(View.INVISIBLE);
 
                     }
                 }
             });
-        },err->{
+        }, err -> {
 
         });
 
@@ -132,25 +133,24 @@ public class CommentsActivity extends AppCompatActivity {
 
     private void getPost() {
         MySharedPreferences mySharedPreferences = new MySharedPreferences(this);
-        if (mySharedPreferences.contains("userLog")){
+        if (mySharedPreferences.contains("userLog")) {
             Gson gson = new Gson();
-            userLogIn= gson.fromJson( mySharedPreferences.getString("userLog", "noData"), UserLogIn.class);
+            userLogIn = gson.fromJson(mySharedPreferences.getString("userLog", "noData"), UserLogIn.class);
 
         }
 
         Intent intent = getIntent();
-        String postJson= intent.getStringExtra("Post");
-        PostCreatedAt=intent.getStringExtra("PostCreatedAt");
+        String postJson = intent.getStringExtra("Post");
+        PostCreatedAt = intent.getStringExtra("PostCreatedAt");
         Gson gson = new Gson();
-        post=gson.fromJson(postJson,Post.class);
+        post = gson.fromJson(postJson, Post.class);
 
     }
 
-    private void  setAdapter(){
-        recyclerAdapter = new RecyclerAdapterComment(apiData,comment->{
+    private void setAdapter() {
+        recyclerAdapter = new RecyclerAdapterComment(apiData, comment -> {
             Toast.makeText(this, comment, Toast.LENGTH_SHORT).show();
         });
-
 
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);

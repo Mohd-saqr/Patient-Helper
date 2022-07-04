@@ -53,7 +53,7 @@ public class DeleteAccountActivity extends AppCompatActivity {
         if (mySharedPreferences.contains("userLog")) {
             Gson gson = new Gson();
             userLogIn = gson.fromJson(mySharedPreferences.getString("userLog", "noData"), UserLogIn.class);
-            Log.i(TAG, "findAllViewById: Password is -> "+userLogIn.getPassword());
+            Log.i(TAG, "findAllViewById: Password is -> " + userLogIn.getPassword());
         }
     }
 
@@ -64,7 +64,7 @@ public class DeleteAccountActivity extends AppCompatActivity {
         backBtn = findViewById(R.id.ivBack);
         currentPassword = userLogIn.getPassword();
         imageToUploadKey = userLogIn.getImageId();
-        Log.i(TAG, "findAllViewById: Password is -> "+currentPassword);
+        Log.i(TAG, "findAllViewById: Password is -> " + currentPassword);
     }
 
     private void setOnClickListener() {
@@ -123,12 +123,12 @@ public class DeleteAccountActivity extends AppCompatActivity {
         if (!imageToUploadKey.isEmpty()) {
             Amplify.Storage.remove(
                     imageToUploadKey,
-                    success ->{
-                        fileToDelete = new File(this.getFilesDir() + "/"+"userProfile"+".jpg");
-                        if (fileToDelete.delete()){
+                    success -> {
+                        fileToDelete = new File(this.getFilesDir() + "/" + "userProfile" + ".jpg");
+                        if (fileToDelete.delete()) {
                             Log.i(TAG, "deleteImageFromS3: The local file deleted -> true");
                         }
-                        Log.i(TAG, "Image successfully deleted "+success.getKey());
+                        Log.i(TAG, "Image successfully deleted " + success.getKey());
                     },
                     failure ->
                     {
@@ -138,9 +138,9 @@ public class DeleteAccountActivity extends AppCompatActivity {
         }
     }
 
-    private void navigateToLoginPage(){
+    private void navigateToLoginPage() {
 
-        startActivity(new Intent(this,LoginActivity.class));
+        startActivity(new Intent(this, LoginActivity.class));
     }
 
     private void backToProfilePage() {

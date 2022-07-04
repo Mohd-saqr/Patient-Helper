@@ -205,7 +205,7 @@ public class NearbyPharmaciesListViewFragment extends Fragment {
                     Log.i(TAG, "onSuccess: LatLng -> " + currentLat + " " + currentLong);
                     setPlacesUrl();
 
-                }else {
+                } else {
                     requestNewLocationData();
                 }
             }
@@ -221,13 +221,12 @@ public class NearbyPharmaciesListViewFragment extends Fragment {
                 //call method
                 getCurrentLocation();
             }
-        }else if (grantResults.length <= 0){
+        } else if (grantResults.length <= 0) {
             askLocationPermission();
-        }else {
+        } else {
             navigateToHomeFragment();
         }
     }
-
 
 
     private void setPlacesUrl() {
@@ -262,9 +261,9 @@ public class NearbyPharmaciesListViewFragment extends Fragment {
                 "&destinations="+currentLat+","+currentLong+"&key=" + apiKey);
          */
         //initialize url
-        String url = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins="+
-                listResultToSave.get(i).get("lat")+","+listResultToSave.get(i).get("lng")+
-                "&destinations="+currentLat+","+currentLong+"&key=" + apiKey;
+        String url = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=" +
+                listResultToSave.get(i).get("lat") + "," + listResultToSave.get(i).get("lng") +
+                "&destinations=" + currentLat + "," + currentLong + "&key=" + apiKey;
 
         //execute place task method to download json data
         new PlaceTask().execute(url);
@@ -406,7 +405,7 @@ public class NearbyPharmaciesListViewFragment extends Fragment {
             intent.putExtra("userLatitude", currentLat);
             intent.putExtra("userLongitude", currentLong);
             startActivity(intent);
-        },getContext());
+        }, getContext());
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(
                 getContext(),
@@ -445,7 +444,7 @@ public class NearbyPharmaciesListViewFragment extends Fragment {
         getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
-    private void navigateToHomeFragment(){
+    private void navigateToHomeFragment() {
         Fragment fragment;
         fragment = new HomeFragment();
 

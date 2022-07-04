@@ -1911,7 +1911,19 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "data",
+                        "name": "start_date",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "end_date",
                         "description": null,
                         "args": [],
                         "type": {
@@ -2027,7 +2039,17 @@
                         "defaultValue": null
                     },
                     {
-                        "name": "data",
+                        "name": "start_date",
+                        "description": null,
+                        "type": {
+                            "kind": "INPUT_OBJECT",
+                            "name": "ModelStringInput",
+                            "ofType": null
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "end_date",
                         "description": null,
                         "type": {
                             "kind": "INPUT_OBJECT",
@@ -3591,7 +3613,17 @@
                         "defaultValue": null
                     },
                     {
-                        "name": "data",
+                        "name": "start_date",
+                        "description": null,
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "end_date",
                         "description": null,
                         "type": {
                             "kind": "SCALAR",
@@ -3656,7 +3688,17 @@
                         "defaultValue": null
                     },
                     {
-                        "name": "data",
+                        "name": "start_date",
+                        "description": null,
+                        "type": {
+                            "kind": "INPUT_OBJECT",
+                            "name": "ModelStringInput",
+                            "ofType": null
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "end_date",
                         "description": null,
                         "type": {
                             "kind": "INPUT_OBJECT",
@@ -3769,7 +3811,17 @@
                         "defaultValue": null
                     },
                     {
-                        "name": "data",
+                        "name": "start_date",
+                        "description": null,
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "end_date",
                         "description": null,
                         "type": {
                             "kind": "SCALAR",

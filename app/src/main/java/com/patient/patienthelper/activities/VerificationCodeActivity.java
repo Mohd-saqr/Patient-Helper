@@ -22,8 +22,8 @@ public class VerificationCodeActivity extends AppCompatActivity {
     private TextInputEditText verificationCode;
     private MaterialButton submitBtn;
     private String userEmailString;
-    private Context context=this;
-    Animation scaleDown,scaleUp;
+    private Context context = this;
+    Animation scaleDown, scaleUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +34,7 @@ public class VerificationCodeActivity extends AppCompatActivity {
         setUPUpButton();
         setAllViewsAnim();
     }
+
     private void setAllViewsAnim() {
         setAnim(submitBtn);
     }
@@ -42,11 +43,9 @@ public class VerificationCodeActivity extends AppCompatActivity {
         view.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction()==MotionEvent.ACTION_DOWN)
-                {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     view.startAnimation(scaleUp);
-                } else if (event.getAction()==MotionEvent.ACTION_UP)
-                {
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     view.startAnimation(scaleDown);
                 }
 
@@ -54,22 +53,25 @@ public class VerificationCodeActivity extends AppCompatActivity {
             }
         });
     }
+
     //    inflate all views to be able to reach
-    private void inflateViews(){
+    private void inflateViews() {
         verificationCode = findViewById(R.id.verification_code);
         submitBtn = findViewById(R.id.save_new_password_button);
-        scaleDown= AnimationUtils.loadAnimation(this,(R.anim.scale_down));
-        scaleUp= AnimationUtils.loadAnimation(this,(R.anim.scale_up));
+        scaleDown = AnimationUtils.loadAnimation(this, (R.anim.scale_down));
+        scaleUp = AnimationUtils.loadAnimation(this, (R.anim.scale_up));
 
 
     }
+
     // get Email From SignUP Activity
-    private void getUserEmailFromIntent(){
+    private void getUserEmailFromIntent() {
 
         userEmailString = getIntent().getStringExtra("emailFromSignUp");
     }
+
     // Verification using cognito
-    private void Verification(){
+    private void Verification() {
 
         String verificationCodeString = verificationCode.getText().toString();
         Amplify.Auth.confirmSignUp(
@@ -77,7 +79,7 @@ public class VerificationCodeActivity extends AppCompatActivity {
                 verificationCodeString,
                 result -> {
                     startActivity(new Intent(this, LoginActivity.class));
-                    overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                     finish();
                 },
                 error -> {
@@ -85,28 +87,30 @@ public class VerificationCodeActivity extends AppCompatActivity {
                         runOnUiThread(() -> {
                             Toast.makeText(context, "Wrong verification code", Toast.LENGTH_SHORT).show();
                         });
-                        Log.e(TAG, "Check error => "+error);
+                        Log.e(TAG, "Check error => " + error);
                     }
                 }
         );
     }
+
     // method to hold Listeners
     private void setUPUpButton() {
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Verification();
-                startActivity(new Intent(context,LookingForActivity.class));
-                overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+                startActivity(new Intent(context, LookingForActivity.class));
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 finish();
 
             }
         });
     }
+
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
 }

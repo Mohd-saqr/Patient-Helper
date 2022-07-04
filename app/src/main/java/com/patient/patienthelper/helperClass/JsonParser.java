@@ -10,10 +10,10 @@ import java.util.List;
 
 public class JsonParser {
 
-    private HashMap<String,String> parserJsonObject(JSONObject object){
+    private HashMap<String, String> parserJsonObject(JSONObject object) {
 
         //initialize hash map
-        HashMap<String,String> dataList = new HashMap<>();
+        HashMap<String, String> dataList = new HashMap<>();
         try {
             //get name from object
             String name = object.getString("name");
@@ -22,26 +22,26 @@ public class JsonParser {
             //get longitude from object
             String longitude = object.getJSONObject("geometry").getJSONObject("location").getString("lng");
             //put all value in hash map
-            dataList.put("name",name);
-            dataList.put("lat",latitude);
-            dataList.put("lng",longitude);
+            dataList.put("name", name);
+            dataList.put("lat", latitude);
+            dataList.put("lng", longitude);
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
         //return hashmap
-        assert dataList!=null;
+        assert dataList != null;
         return dataList;
     }
 
-    private List<HashMap<String,String>> parseJsonArray(JSONArray jsonArray){
+    private List<HashMap<String, String>> parseJsonArray(JSONArray jsonArray) {
         //initialize hashmap list
-        List<HashMap<String,String>> dataList = new ArrayList<>();
+        List<HashMap<String, String>> dataList = new ArrayList<>();
 
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
                 //initialize hashmap
-                HashMap<String,String> data = parserJsonObject(((JSONObject) jsonArray.get(i) ));
+                HashMap<String, String> data = parserJsonObject(((JSONObject) jsonArray.get(i)));
                 //add data in hashmap list
                 dataList.add(data);
             } catch (JSONException e) {
@@ -52,7 +52,7 @@ public class JsonParser {
         return dataList;
     }
 
-    public List<HashMap<String,String>> parseResult(JSONObject object){
+    public List<HashMap<String, String>> parseResult(JSONObject object) {
         //initialize json array
         JSONArray jsonArray = null;
 
@@ -69,10 +69,10 @@ public class JsonParser {
 
     ////////////////////////////////////////////|||||||||\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-    private HashMap<String,String> parserJsonObjectToSave(JSONObject object){
+    private HashMap<String, String> parserJsonObjectToSave(JSONObject object) {
 
         //initialize hash map
-        HashMap<String,String> dataList = new HashMap<>();
+        HashMap<String, String> dataList = new HashMap<>();
         try {
             //get name from object
             String name = object.getString("name");
@@ -80,35 +80,34 @@ public class JsonParser {
             String latitude = object.getJSONObject("geometry").getJSONObject("location").getString("lat");
             //get longitude from object
             String longitude = object.getJSONObject("geometry").getJSONObject("location").getString("lng");
-            String isOpen = object.getJSONObject("opening_hours").getBoolean("open_now")+"";
-            String rating = object.getDouble("rating")+"";
+            String isOpen = object.getJSONObject("opening_hours").getBoolean("open_now") + "";
+            String rating = object.getDouble("rating") + "";
             String placeId = object.getString("place_id");
             //put all value in hash map
-            dataList.put("name",name);
-            dataList.put("lat",latitude);
-            dataList.put("lng",longitude);
-            dataList.put("open_now",isOpen);
-            dataList.put("rating",rating);
-            dataList.put("place_id",placeId);
-
+            dataList.put("name", name);
+            dataList.put("lat", latitude);
+            dataList.put("lng", longitude);
+            dataList.put("open_now", isOpen);
+            dataList.put("rating", rating);
+            dataList.put("place_id", placeId);
 
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
         //return hashmap
-        assert dataList!=null;
+        assert dataList != null;
         return dataList;
     }
 
-    private List<HashMap<String,String>> parseJsonArrayToSave(JSONArray jsonArray){
+    private List<HashMap<String, String>> parseJsonArrayToSave(JSONArray jsonArray) {
         //initialize hashmap list
-        List<HashMap<String,String>> dataList = new ArrayList<>();
+        List<HashMap<String, String>> dataList = new ArrayList<>();
 
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
                 //initialize hashmap
-                HashMap<String,String> data = parserJsonObjectToSave(((JSONObject) jsonArray.get(i) ));
+                HashMap<String, String> data = parserJsonObjectToSave(((JSONObject) jsonArray.get(i)));
                 //add data in hashmap list
                 dataList.add(data);
             } catch (JSONException e) {
@@ -119,7 +118,7 @@ public class JsonParser {
         return dataList;
     }
 
-    public List<HashMap<String,String>> parseResultToSave(JSONObject object){
+    public List<HashMap<String, String>> parseResultToSave(JSONObject object) {
         //initialize json array
         JSONArray jsonArray = null;
 
