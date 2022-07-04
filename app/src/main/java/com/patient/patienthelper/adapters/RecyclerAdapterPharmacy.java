@@ -8,10 +8,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatRatingBar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.patient.patienthelper.R;
-import com.patient.patienthelper.data.Pharmacy;
 
 import java.util.List;
 
@@ -42,14 +42,15 @@ public class RecyclerAdapterPharmacy extends RecyclerView.Adapter<RecyclerAdapte
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
         System.out.println("The data list from recycler view adapter is -> "+dataList);
-        holder.title.setText(dataList.get(position).get(1));
+        holder.name.setText(dataList.get(position).get(1));
         if ((dataList.get(position).get(2)+"").equals("true")){
-            holder.openingState.setTextColor(context.getResources().getColor(R.color.green));
+            holder.openingState.setBackgroundColor(context.getResources().getColor(R.color.green));
             holder.openingState.setText("Open");
         }else {
-            holder.openingState.setTextColor(context.getResources().getColor(R.color.red));
+            holder.openingState.setBackgroundColor(context.getResources().getColor(R.color.red));
             holder.openingState.setText("Closed");
         }
+        holder.ratingBar.setRating(Float.parseFloat(dataList.get(position).get(3)));
 
     }
 
@@ -60,9 +61,9 @@ public class RecyclerAdapterPharmacy extends RecyclerView.Adapter<RecyclerAdapte
 
     public static class CustomViewHolder extends RecyclerView.ViewHolder {
 
-        TextView title;
+        TextView name;
         TextView openingState;
-
+        AppCompatRatingBar ratingBar;
         CustomClickListener listener;
 
 
@@ -71,9 +72,9 @@ public class RecyclerAdapterPharmacy extends RecyclerView.Adapter<RecyclerAdapte
 
             this.listener = listener;
 
-            title = itemView.findViewById(R.id.pharmacy_name);
+            name = itemView.findViewById(R.id.pharmacy_name);
             openingState = itemView.findViewById(R.id.open_status);
-
+            ratingBar = itemView.findViewById(R.id.rating_bar);
             itemView.setOnClickListener(view -> listener.onTaskClicked(getAdapterPosition()));
 
         }

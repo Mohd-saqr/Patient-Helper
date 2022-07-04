@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -77,7 +78,7 @@ public class NearbyPharmaciesListViewFragment extends Fragment {
     private static List<List<String>> pharmacies = new ArrayList<>();
     private SwipeRefreshLayout swipeContainer;
     private LottieAnimationView loading;
-    private ImageView mapView;
+    private Button mapView;
     private UserLogIn userLogIn;
     private MySharedPreferences sharedPreferences;
     private IonAlert ionAlert;
@@ -373,6 +374,7 @@ public class NearbyPharmaciesListViewFragment extends Fragment {
                     pharmacy.add(listResultToSave.get(i).get("place_id"));
                     pharmacy.add(listResultToSave.get(i).get("name"));
                     pharmacy.add(listResultToSave.get(i).get("open_now"));
+                    pharmacy.add(listResultToSave.get(i).get("rating"));
                     pharmacies.add(pharmacy);
                 }
                 Log.i(TAG, "doInBackground: getPharmaciesListToListFragment size -> " + pharmacies);
