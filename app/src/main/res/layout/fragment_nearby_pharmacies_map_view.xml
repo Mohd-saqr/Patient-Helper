@@ -10,7 +10,7 @@
         android:id="@+id/title_text_layout"
         android:layout_width="match_parent"
         android:background="@drawable/round_textview"
-        android:layout_height="@dimen/_50sdp"
+        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -28,16 +28,34 @@
             app:layout_constraintTop_toTopOf="parent" />
 
 
-        <ImageView
+        <Button
             android:id="@+id/list_view_button"
-            android:layout_width="80dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginEnd="@dimen/_5sdp"
-            android:layout_height="35dp"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:src="@drawable/viewlist"
+            android:layout_width="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/view_mode_text"
+            app:layout_constraintTop_toBottomOf="@id/text_view"
+            android:layout_height="@dimen/_30sdp"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:text="List"
+            android:backgroundTint="#4285F4"
+            android:drawableLeft="@drawable/files"
             />
+
+        <TextView
+            android:id="@+id/view_mode_text"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_30sdp"
+            android:gravity="center_vertical"
+            android:layout_marginEnd="@dimen/_60sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="Back to list view"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintTop_toBottomOf="@id/text_view"
+            app:layout_constraintStart_toStartOf="parent"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
@@ -81,5 +99,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/my_location_floating_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="@dimen/_60sdp"
+        android:backgroundTint="#3BACB6"
+        android:contentDescription="My Location"
+        android:src="@drawable/my_location_vector_asset"
+        android:tint="@android:color/white" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

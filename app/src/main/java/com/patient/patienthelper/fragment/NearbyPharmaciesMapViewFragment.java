@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -31,6 +32,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.patient.patienthelper.BuildConfig;
 import com.patient.patienthelper.R;
 import com.patient.patienthelper.activities.LoginActivity;
@@ -56,6 +58,7 @@ public class NearbyPharmaciesMapViewFragment extends Fragment {
 
     private final String TAG = NearbyPharmaciesActivity.class.getSimpleName();
     private SupportMapFragment supportMapFragment;
+    private FloatingActionButton myLocationBtn;
     private GoogleMap map;
     private AppCompatSpinner spType;
     private FusedLocationProviderClient fusedLocationProviderClient;
@@ -64,7 +67,7 @@ public class NearbyPharmaciesMapViewFragment extends Fragment {
     private String apiKey;
     private MarkerOptions markerOptionsCurrentLocation;
     private LottieAnimationView loading;
-    private ImageView listView;
+    private Button listView;
 
 
     @Override
@@ -100,6 +103,7 @@ public class NearbyPharmaciesMapViewFragment extends Fragment {
         listView = view.findViewById(R.id.list_view_button);
         loading = view.findViewById(R.id.loading_in_pharmacies_map);
         supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.google_map);
+        myLocationBtn = view.findViewById(R.id.my_location_floating_button);
         loading.setVisibility(View.VISIBLE);
     }
 
@@ -288,6 +292,10 @@ public class NearbyPharmaciesMapViewFragment extends Fragment {
 
         listView.setOnClickListener(view -> {
             navigateToMapViewFragment();
+        });
+
+        myLocationBtn.setOnClickListener(view -> {
+            getCurrentLocation();
         });
     }
 

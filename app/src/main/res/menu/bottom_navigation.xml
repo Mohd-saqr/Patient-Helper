@@ -11,7 +11,7 @@
     <item android:title="Drugs conflict"
         android:id="@+id/drugs_conflicts_fragment"
         android:icon="@drawable/icon_conflict_new"/>
-    <item android:title="Profile"
+    <item android:title="Nearby"
         android:id="@+id/profile_fragment"
         android:icon="@drawable/icon_map"/>
 </menu>

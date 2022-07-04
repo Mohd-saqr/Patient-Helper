@@ -1,5 +1,7 @@
 package com.patient.patienthelper.activities;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,14 +19,21 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.amplifyframework.api.graphql.model.ModelMutation;
+import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.auth.AuthUserAttribute;
 import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.generated.model.Token;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.patient.patienthelper.R;
 import com.patient.patienthelper.api.Disease;
@@ -52,6 +61,8 @@ public class LoginActivity extends AppCompatActivity {
     UserLogIn userLogIn;
     MySharedPreferences mySharedPreferences;
     HashTable hashTable = new HashTable<>(20);
+    private static String tokenFromFirebase;
+
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -222,6 +233,7 @@ public class LoginActivity extends AppCompatActivity {
                     Log.i(TAG, "User attributes = " + attributes);
                     userAttributes = attributes;
                     saveUserData();
+                    getDeviceToken(userAttributes.get(0).getValue());
                     runOnUiThread(() -> {
 
                         if (checkFirstLogin()) {
@@ -317,5 +329,73 @@ public class LoginActivity extends AppCompatActivity {
         return userLogIn.getFirstLogIn();
     }
 
+    private void getDeviceToken(String userID) {
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                if (!task.isSuccessful()) {
+                    return;
+                }
+                Toast.makeText(LoginActivity.this, task.getResult(), Toast.LENGTH_SHORT).show();
+                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("Toast", task.getResult());
+                clipboard.setPrimaryClip(clip);
+                Log.i(TAG, "onComplete: token -> " + task.getResult());
+                Log.i(TAG, "onComplete: userID -> " + userID);
+                tokenFromFirebase = task.getResult();
+                addTokenToCloud();
+            }
+        });
+    }
 
+    private void addTokenToCloud() {
+
+
+
+        Amplify.API.query(
+                ModelQuery.list(Token.class, Token.TOKEN_ID.contains(tokenFromFirebase)),
+                response -> {
+                    for (Token token1 : response.getData()) {
+                        Log.i(TAG, token1.getTokenId());
+                        Log.i(TAG, "token1.getTokenId() -> " + token1.getTokenId());
+                        Log.i(TAG, "token1.getUserId() -> " + token1.getUserId());
+                        deleteTokenFromCloud(token1);
+                    }
+                },
+                error -> {
+                    Log.e(TAG, "Query failure", error);
+                }
+        );
+
+
+    }
+
+    private void deleteTokenFromCloud(Token token) {
+        Log.i(TAG, "tokenString -> " + token.getTokenId());
+        Log.i(TAG, "userAttributes.get(0).getValue()-> " + userAttributes.get(0).getValue());
+
+        Amplify.API.mutate(
+                ModelMutation.delete(token),
+                response -> {
+
+                    Log.i(TAG, "Deleted Token with id: " + response.getData().getTokenId());
+                    createNewTokenInCloud();
+                },
+                error -> {
+                    Log.e(TAG, "Update failed", error);
+                }
+        );
+    }
+
+    private void createNewTokenInCloud() {
+        Token token = Token.builder()
+                .tokenId(tokenFromFirebase)
+                .userId(userAttributes.get(0).getValue())
+                .build();
+        Amplify.API.mutate(
+                ModelMutation.create(token),
+                response -> Log.i(TAG, "Added Token with id: " + response.getData().getId()),
+                error -> Log.e(TAG, "Create failed", error)
+        );
+    }
 }

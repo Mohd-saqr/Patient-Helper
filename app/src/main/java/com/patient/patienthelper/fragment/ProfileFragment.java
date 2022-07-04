@@ -27,6 +27,7 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.amplifyframework.core.Amplify;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
@@ -50,6 +51,7 @@ import java.io.File;
  * create an instance of this fragment.
  */
 @SuppressLint({"SdCardPath","SetTextI18n"})
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class ProfileFragment extends Fragment {
     /*
     activitys
@@ -58,7 +60,7 @@ public class ProfileFragment extends Fragment {
     private ImageView profileImage;
     private TextView userFullName;
     private static String imageToDownloadKey;
-    private ProgressBar profilePageProgressBar;
+    private LottieAnimationView loading;
     private final String[] itemList = {" My Posts"," My Drugs"," Edit Profile", " Change password", " Sign out", " Delete account"};
     private final String[] subItemsList = {
             "        See all your posts",
@@ -113,7 +115,7 @@ public class ProfileFragment extends Fragment {
         listView = view.findViewById(R.id.profile_list_views);
         userFullName = (TextView) view.findViewById(R.id.user_full_name);
         profileImage = view.findViewById(R.id.prfile_page_img);
-        profilePageProgressBar = view.findViewById(R.id.profile_page_progress_bar);
+        loading = view.findViewById(R.id.profile_page_progress_bar);
     }
 
     private void getCurrentUserImageKey() {
@@ -185,6 +187,7 @@ public class ProfileFragment extends Fragment {
         }
 
     }
+
 
     private void setListView() {
 
@@ -290,7 +293,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void signOut() {
-        profilePageProgressBar.setVisibility(View.VISIBLE);
+        loading.setVisibility(View.VISIBLE);
         Amplify.Auth.signOut(
                 () -> {
                     Log.i(TAG, "Signed out successfully");
@@ -299,7 +302,7 @@ public class ProfileFragment extends Fragment {
                 error -> {
                     Log.e(TAG, error.toString());
                     runOnUiThread(() -> {
-                        profilePageProgressBar.setVisibility(View.INVISIBLE);
+                        loading.setVisibility(View.INVISIBLE);
                         Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
                         onResume();
                     });
@@ -309,7 +312,7 @@ public class ProfileFragment extends Fragment {
 
     private void navigateToLoginPage() {
         runOnUiThread(() -> {
-            profilePageProgressBar.setVisibility(View.INVISIBLE);
+            loading.setVisibility(View.INVISIBLE);
             startActivity(new Intent(getContext(), LoginActivity.class));
             getActivity().finish();
         });
