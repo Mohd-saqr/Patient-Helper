@@ -152,7 +152,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_16sdp"
                     android:layout_marginBottom="@dimen/_16sdp"
-                    android:backgroundTint="@android:color/holo_blue_dark"
+                    android:backgroundTint="#4285F4"
                     android:elevation="@dimen/_10sdp"
                     android:text="Sign Up"
                     android:textAllCaps="false"

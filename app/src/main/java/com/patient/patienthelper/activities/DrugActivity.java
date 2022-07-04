@@ -1,5 +1,6 @@
 package com.patient.patienthelper.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -45,7 +46,7 @@ public class DrugActivity extends AppCompatActivity {
         sharedPreferences= new MySharedPreferences(this);
         findViewById();
 
-        progressBarForDrugs.setVisibility(View.VISIBLE);
+//        progressBarForDrugs.setVisibility(View.VISIBLE);
 
 
 
@@ -65,14 +66,15 @@ public class DrugActivity extends AppCompatActivity {
 
 
     private void findViewById(){
-        progressBarForDrugs=findViewById(R.id.progressBar_select_drug);
         recyclerView= findViewById(R.id.DrugRecyclerView);
     }
 
     private void setAdapter() {
 
         recyclerAdapterForDrugs = new DrugRecyclerAdapter(drugs, disease -> {
-            Toast.makeText(this, disease, Toast.LENGTH_SHORT).show();
+            Intent intent=new Intent(this,ShowInfoActivity.class);
+            intent.putExtra("drugName",disease);
+            startActivity(intent);
         },this);
         recyclerView.setAdapter(recyclerAdapterForDrugs);
         recyclerView.setLayoutManager(new LinearLayoutManager(this ){

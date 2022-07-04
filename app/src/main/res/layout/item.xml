@@ -4,14 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/cardView_select_ill"
-    android:layout_margin="@dimen/_16sdp"
-    app:cardCornerRadius="@dimen/_8sdp"
-    app:cardElevation="@dimen/_8sdp">
+    android:elevation="@dimen/_5sdp"
+    android:layout_marginBottom="@dimen/_5sdp"
+    android:backgroundTint="#40F8F8F8"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/_6sdp"
+        android:layout_height="match_parent"
+
         android:layout_marginStart="@dimen/_16sdp"
         android:orientation="vertical">
 
@@ -25,8 +26,9 @@
             <TextView
                 android:id="@+id/text_view_disease_name"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:text="Name"
+                android:layout_margin="@dimen/_10sdp"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_15sdp"
                 android:textStyle="bold" />
