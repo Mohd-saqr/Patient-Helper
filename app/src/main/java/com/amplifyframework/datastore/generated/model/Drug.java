@@ -22,13 +22,15 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 public final class Drug implements Model {
   public static final QueryField ID = field("Drug", "id");
   public static final QueryField NAME = field("Drug", "name");
-  public static final QueryField DATA = field("Drug", "data");
+  public static final QueryField START_DATE = field("Drug", "start_date");
+  public static final QueryField END_DATE = field("Drug", "end_date");
   public static final QueryField NUM_OF_TIMES = field("Drug", "NumOfTimes");
   public static final QueryField SPECIFIC_TIME = field("Drug", "SpecificTime");
   public static final QueryField USER_ID = field("Drug", "userId");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String", isRequired = true) String name;
-  private final @ModelField(targetType="String") String data;
+  private final @ModelField(targetType="String") String start_date;
+  private final @ModelField(targetType="String") String end_date;
   private final @ModelField(targetType="String") String NumOfTimes;
   private final @ModelField(targetType="String") String SpecificTime;
   private final @ModelField(targetType="String", isRequired = true) String userId;
@@ -42,8 +44,12 @@ public final class Drug implements Model {
       return name;
   }
   
-  public String getData() {
-      return data;
+  public String getStartDate() {
+      return start_date;
+  }
+  
+  public String getEndDate() {
+      return end_date;
   }
   
   public String getNumOfTimes() {
@@ -66,10 +72,11 @@ public final class Drug implements Model {
       return updatedAt;
   }
   
-  private Drug(String id, String name, String data, String NumOfTimes, String SpecificTime, String userId) {
+  private Drug(String id, String name, String start_date, String end_date, String NumOfTimes, String SpecificTime, String userId) {
     this.id = id;
     this.name = name;
-    this.data = data;
+    this.start_date = start_date;
+    this.end_date = end_date;
     this.NumOfTimes = NumOfTimes;
     this.SpecificTime = SpecificTime;
     this.userId = userId;
@@ -85,7 +92,8 @@ public final class Drug implements Model {
       Drug drug = (Drug) obj;
       return ObjectsCompat.equals(getId(), drug.getId()) &&
               ObjectsCompat.equals(getName(), drug.getName()) &&
-              ObjectsCompat.equals(getData(), drug.getData()) &&
+              ObjectsCompat.equals(getStartDate(), drug.getStartDate()) &&
+              ObjectsCompat.equals(getEndDate(), drug.getEndDate()) &&
               ObjectsCompat.equals(getNumOfTimes(), drug.getNumOfTimes()) &&
               ObjectsCompat.equals(getSpecificTime(), drug.getSpecificTime()) &&
               ObjectsCompat.equals(getUserId(), drug.getUserId()) &&
@@ -99,7 +107,8 @@ public final class Drug implements Model {
     return new StringBuilder()
       .append(getId())
       .append(getName())
-      .append(getData())
+      .append(getStartDate())
+      .append(getEndDate())
       .append(getNumOfTimes())
       .append(getSpecificTime())
       .append(getUserId())
@@ -115,7 +124,8 @@ public final class Drug implements Model {
       .append("Drug {")
       .append("id=" + String.valueOf(getId()) + ", ")
       .append("name=" + String.valueOf(getName()) + ", ")
-      .append("data=" + String.valueOf(getData()) + ", ")
+      .append("start_date=" + String.valueOf(getStartDate()) + ", ")
+      .append("end_date=" + String.valueOf(getEndDate()) + ", ")
       .append("NumOfTimes=" + String.valueOf(getNumOfTimes()) + ", ")
       .append("SpecificTime=" + String.valueOf(getSpecificTime()) + ", ")
       .append("userId=" + String.valueOf(getUserId()) + ", ")
@@ -144,6 +154,7 @@ public final class Drug implements Model {
       null,
       null,
       null,
+      null,
       null
     );
   }
@@ -151,7 +162,8 @@ public final class Drug implements Model {
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
       name,
-      data,
+      start_date,
+      end_date,
       NumOfTimes,
       SpecificTime,
       userId);
@@ -169,7 +181,8 @@ public final class Drug implements Model {
   public interface BuildStep {
     Drug build();
     BuildStep id(String id);
-    BuildStep data(String data);
+    BuildStep startDate(String startDate);
+    BuildStep endDate(String endDate);
     BuildStep numOfTimes(String numOfTimes);
     BuildStep specificTime(String specificTime);
   }
@@ -179,7 +192,8 @@ public final class Drug implements Model {
     private String id;
     private String name;
     private String userId;
-    private String data;
+    private String start_date;
+    private String end_date;
     private String NumOfTimes;
     private String SpecificTime;
     @Override
@@ -189,7 +203,8 @@ public final class Drug implements Model {
         return new Drug(
           id,
           name,
-          data,
+          start_date,
+          end_date,
           NumOfTimes,
           SpecificTime,
           userId);
@@ -210,8 +225,14 @@ public final class Drug implements Model {
     }
     
     @Override
-     public BuildStep data(String data) {
-        this.data = data;
+     public BuildStep startDate(String startDate) {
+        this.start_date = startDate;
+        return this;
+    }
+    
+    @Override
+     public BuildStep endDate(String endDate) {
+        this.end_date = endDate;
         return this;
     }
     
@@ -239,11 +260,12 @@ public final class Drug implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String name, String data, String numOfTimes, String specificTime, String userId) {
+    private CopyOfBuilder(String id, String name, String startDate, String endDate, String numOfTimes, String specificTime, String userId) {
       super.id(id);
       super.name(name)
         .userId(userId)
-        .data(data)
+        .startDate(startDate)
+        .endDate(endDate)
         .numOfTimes(numOfTimes)
         .specificTime(specificTime);
     }
@@ -259,8 +281,13 @@ public final class Drug implements Model {
     }
     
     @Override
-     public CopyOfBuilder data(String data) {
-      return (CopyOfBuilder) super.data(data);
+     public CopyOfBuilder startDate(String startDate) {
+      return (CopyOfBuilder) super.startDate(startDate);
+    }
+    
+    @Override
+     public CopyOfBuilder endDate(String endDate) {
+      return (CopyOfBuilder) super.endDate(endDate);
     }
     
     @Override

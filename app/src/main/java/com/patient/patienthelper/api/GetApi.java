@@ -25,6 +25,7 @@ public class GetApi {
         return apiMethod.listDisease();
 
     }
+
     public static Call<List<Disease>> getDrugsName() throws IOException {
 
         /**

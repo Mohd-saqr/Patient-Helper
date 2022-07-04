@@ -7,10 +7,11 @@
     android:background="#C3E0F6"
     tools:context=".activities.MyDrugs">
 
+
     <TextView
         android:id="@+id/MyDrugs"
-        android:layout_width="374dp"
-        android:layout_height="78dp"
+        android:layout_width="380dp"
+        android:layout_height="66dp"
         android:text="My Drugs"
         android:textAlignment="center"
         android:textColor="@color/black"
@@ -24,29 +25,35 @@
         app:layout_constraintVertical_bias="0.149"
         tools:ignore="MissingConstraints" />
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/MyDrugsRecycle"
-        android:layout_width="377dp"
-        android:layout_height="416dp"
+        android:layout_width="390dp"
+        android:layout_height="514dp"
         android:layout_marginTop="5dp"
+
+        android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.49" />
+        app:layout_constraintVertical_bias="0.326" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/addingDrug"
         style="@style/Widget.MaterialComponents.Button.IconOnly"
         android:layout_width="62dp"
         android:layout_height="61dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         app:backgroundTint="@color/black"
         app:icon="@drawable/ic_baseline_add_24"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.Button.Circle"
         tools:ignore="MissingConstraints" />
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

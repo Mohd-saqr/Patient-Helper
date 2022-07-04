@@ -47,7 +47,7 @@ public class CommunityFragment extends Fragment {
     RecyclerView recyclerview;
     RecyclerAdapterPost recyclerAdapter;
 
-    List<Post> apiData= new ArrayList<>();
+    List<Post> apiData = new ArrayList<>();
     Button post;
     Button writeSome;
     EditText postBody;
@@ -58,8 +58,6 @@ public class CommunityFragment extends Fragment {
     SlidingUpPanelLayout slidingPaneLayout;
 
     private Handler mHandler = new Handler(Looper.getMainLooper());
-
-
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -107,7 +105,7 @@ public class CommunityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view =inflater.inflate(R.layout.activity_community, container, false);
+        View view = inflater.inflate(R.layout.activity_community, container, false);
         recyclerview = view.findViewById(R.id.rc_posts);
         String date1 = com.amazonaws.util.DateUtils.formatISO8601Date(new Date());
 
@@ -130,8 +128,6 @@ public class CommunityFragment extends Fragment {
         });
 
 
-
-
         // Inflate the layout for this fragment
         return view;
     }
@@ -139,23 +135,22 @@ public class CommunityFragment extends Fragment {
     private void postHandel() {
 
 
-        post.setOnClickListener(v->{
+        post.setOnClickListener(v -> {
 
             View view2 = getActivity().getCurrentFocus();
             if (view2 != null) {
 
-                InputMethodManager imm = (InputMethodManager)getActivity(). getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(view2.getWindowToken(), 0);
             }
             slidingPaneLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
-            String body =postBody.getText().toString();
-            Post post =Post.builder().body(body)
+            String body = postBody.getText().toString();
+            Post post = Post.builder().body(body)
                     .createBy(userLogIn.getFullName())
                     .userId(userLogIn.getId())
                     .build();
             loading.setVisibility(View.VISIBLE);
-            Amplify.API.mutate(ModelMutation.create(post),res->{
-
+            Amplify.API.mutate(ModelMutation.create(post), res -> {
 
 
                 mHandler.post(() -> {
@@ -165,23 +160,22 @@ public class CommunityFragment extends Fragment {
                 });
 
 
-            },err->{
+            }, err -> {
 
             });
-            System.out.println(body+"dasdass");
+            System.out.println(body + "dasdass");
         });
-
 
 
     }
 
     private void findViewById(View view) {
-        post =view.findViewById(R.id.post_btn);
-        writeSome =view.findViewById(R.id.btn_write);
-        slidingPaneLayout=view.findViewById(R.id.sliding_layout_post);
-        postBody =view.findViewById(R.id.post_body);
-        Username_posts=view.findViewById(R.id.username_post);
-        loading =view.findViewById(R.id.loading_com);
+        post = view.findViewById(R.id.post_btn);
+        writeSome = view.findViewById(R.id.btn_write);
+        slidingPaneLayout = view.findViewById(R.id.sliding_layout_post);
+        postBody = view.findViewById(R.id.post_body);
+        Username_posts = view.findViewById(R.id.username_post);
+        loading = view.findViewById(R.id.loading_com);
     }
 
     private void fetchData() {
@@ -190,26 +184,26 @@ public class CommunityFragment extends Fragment {
 
     private void getUserLogIn() {
         MySharedPreferences mySharedPreferences = new MySharedPreferences(getContext());
-        if (mySharedPreferences.contains("userLog")){
+        if (mySharedPreferences.contains("userLog")) {
             Gson gson = new Gson();
-            userLogIn= gson.fromJson( mySharedPreferences.getString("userLog", "noData"), UserLogIn.class);
+            userLogIn = gson.fromJson(mySharedPreferences.getString("userLog", "noData"), UserLogIn.class);
 
         }
     }
 
 
-    private void  setAdapter(){
+    private void setAdapter() {
         recyclerAdapter = new RecyclerAdapterPost(apiData, post -> {
             Toast.makeText(getContext(), post.getCreateBy(), Toast.LENGTH_SHORT).show();
         }, Post -> {
             Intent intent = new Intent(getContext(), CommentsActivity.class);
             Gson gson = new Gson();
-            String post =gson.toJson(Post);
+            String post = gson.toJson(Post);
 
-            intent.putExtra("Post",post);
-            intent.putExtra("PostCreatedAt",Post.getCreatedAt().format());
+            intent.putExtra("Post", post);
+            intent.putExtra("PostCreatedAt", Post.getCreatedAt().format());
             startActivity(intent);
-        },getActivity());
+        }, getActivity());
         System.out.println(apiData);
 
 
@@ -223,14 +217,12 @@ public class CommunityFragment extends Fragment {
         super.onStart();
         loading.setVisibility(View.VISIBLE);
         apiData.clear();
-        Amplify.API.query(ModelQuery.list(Post.class), res->{
-            for (Post post:res.getData()){
+        Amplify.API.query(ModelQuery.list(Post.class), res -> {
+            for (Post post : res.getData()) {
                 apiData.add(post);
 
 
-
             }
-
 
 
             mHandler.post(new Runnable() {
@@ -241,7 +233,7 @@ public class CommunityFragment extends Fragment {
                 }
             });
 
-        },err->{
+        }, err -> {
 
         });
     }

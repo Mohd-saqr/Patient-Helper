@@ -34,11 +34,11 @@ public class RecyclerAdapterPost extends RecyclerView.Adapter<RecyclerAdapterPos
         this.itemClick = rowClick;
     }
 
-    public RecyclerAdapterPost(List<Post> data, itemClick rowClick, commentBtnClick commentBtnClick,Activity context) {
+    public RecyclerAdapterPost(List<Post> data, itemClick rowClick, commentBtnClick commentBtnClick, Activity context) {
         this.data = data;
         this.itemClick = rowClick;
         this.commentBtnClick = commentBtnClick;
-        this.context=context;
+        this.context = context;
     }
 
     @NonNull
@@ -106,7 +106,7 @@ public class RecyclerAdapterPost extends RecyclerView.Adapter<RecyclerAdapterPos
             create_at = itemView.findViewById(R.id.text_view_post_body);
             posts_body = itemView.findViewById(R.id.text_view_post_body);
             comment = itemView.findViewById(R.id.btn_comment);
-            imageView =itemView.findViewById(R.id.img_prof);
+            imageView = itemView.findViewById(R.id.img_prof);
 
         }
     }
@@ -119,7 +119,7 @@ public class RecyclerAdapterPost extends RecyclerView.Adapter<RecyclerAdapterPos
         void OnButtonClick(Post Post);
     }
 
-    private void getUrl(String email){
+    private void getUrl(String email) {
 
     }
 }

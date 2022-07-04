@@ -43,48 +43,46 @@ public class DrugActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drug);
-        sharedPreferences= new MySharedPreferences(this);
+        sharedPreferences = new MySharedPreferences(this);
         findViewById();
 
 //        progressBarForDrugs.setVisibility(View.VISIBLE);
-
-
 
 
         filter();
         setAdapter();
 
 
-
     }
 
     private void filter() {
-        String userDisease =getDiseaseName();
-        Disease disease= (Disease) hashTable.get(userDisease);
-        drugs=disease.getDrugs_names();
+        String userDisease = getDiseaseName();
+        Disease disease = (Disease) hashTable.get(userDisease);
+        drugs = disease.getDrugs_names();
     }
 
 
-    private void findViewById(){
-        recyclerView= findViewById(R.id.DrugRecyclerView);
+    private void findViewById() {
+        recyclerView = findViewById(R.id.DrugRecyclerView);
     }
 
     private void setAdapter() {
 
         recyclerAdapterForDrugs = new DrugRecyclerAdapter(drugs, disease -> {
-            Intent intent=new Intent(this,ShowInfoActivity.class);
-            intent.putExtra("drugName",disease);
+            Intent intent = new Intent(this, ShowInfoActivity.class);
+            intent.putExtra("drugName", disease);
             startActivity(intent);
-        },this);
+        }, this);
         recyclerView.setAdapter(recyclerAdapterForDrugs);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this ){
+        recyclerView.setLayoutManager(new LinearLayoutManager(this) {
 
         });
     }
-    private String getDiseaseName(){
+
+    private String getDiseaseName() {
         Gson gson = new Gson();
-        userLogIn =gson.fromJson(sharedPreferences.getString("userLog",null),UserLogIn.class);
-        hashTable=gson.fromJson(sharedPreferences.getString("ApiData",null),HashTable.class);
+        userLogIn = gson.fromJson(sharedPreferences.getString("userLog", null), UserLogIn.class);
+        hashTable = gson.fromJson(sharedPreferences.getString("ApiData", null), HashTable.class);
         return userLogIn.getDiseaseName();
     }
 

@@ -1,6 +1,6 @@
 package com.patient.patienthelper.helperClass.HashTable;
 
-public class Entry<K,V> {
+public class Entry<K, V> {
     private K kay;
     private V value;
 

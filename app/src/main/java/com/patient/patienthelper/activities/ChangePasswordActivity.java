@@ -34,7 +34,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
     private ProgressBar changePasswordProgressBar;
     private CheckBox signOutFromAllDevicesCheckbox;
     private ImageView backBtn;
-    private Animation scaleDown,scaleUp;
+    private Animation scaleDown, scaleUp;
     private UserLogIn userLogIn;
 
 
@@ -48,6 +48,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         setAllViewsAnim();
 
     }
+
     private void setAllViewsAnim() {
         setAnim(saveNewPasswordBtn);
         setAnim(signOutFromAllDevicesCheckbox);
@@ -58,11 +59,9 @@ public class ChangePasswordActivity extends AppCompatActivity {
         view.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction()==MotionEvent.ACTION_DOWN)
-                {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     view.startAnimation(scaleUp);
-                } else if (event.getAction()==MotionEvent.ACTION_UP)
-                {
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     view.startAnimation(scaleDown);
                 }
 
@@ -81,8 +80,8 @@ public class ChangePasswordActivity extends AppCompatActivity {
         changePasswordProgressBar = findViewById(R.id.change_password_progress_bar);
         signOutFromAllDevicesCheckbox = findViewById(R.id.logout_from_all_devices_checkbox);
         backBtn = findViewById(R.id.ivBack);
-        scaleDown= AnimationUtils.loadAnimation(this,(R.anim.scale_down));
-        scaleUp= AnimationUtils.loadAnimation(this,(R.anim.scale_up));
+        scaleDown = AnimationUtils.loadAnimation(this, (R.anim.scale_down));
+        scaleUp = AnimationUtils.loadAnimation(this, (R.anim.scale_up));
     }
 
     private void setOnClickListener() {

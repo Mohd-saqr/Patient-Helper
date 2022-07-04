@@ -45,16 +45,16 @@ import java.util.ArrayList;
 public class EditProfileActivity extends AppCompatActivity {
     private static final String TAG = EditProfileActivity.class.getSimpleName();
     private FloatingActionButton changeProfileImageBtn;
-    private TextInputEditText firstName,lastName;
-    private String firstNameString,lastNameString,currentFirstName,currentLastName,currentFullName,currentUsername,currentUserEmail,currentPassword,currentId;
+    private TextInputEditText firstName, lastName;
+    private String firstNameString, lastNameString, currentFirstName, currentLastName, currentFullName, currentUsername, currentUserEmail, currentPassword, currentId;
     private Boolean email_verified;
     private static String imageToUploadKey;
-    public  final static int REQUEST_CODE=123;
+    public final static int REQUEST_CODE = 123;
     private ProgressBar editProfileProgressBar;
     private ImageView backBtn;
     private AppCompatImageView profileImage;
     private TextView saveInfoBtn;
-    private File file ,fileToDelete;
+    private File file, fileToDelete;
     private OutputStream os;
     private boolean isUserUploadNewImage = false;
     private String downloadedImagePath;
@@ -70,7 +70,7 @@ public class EditProfileActivity extends AppCompatActivity {
         setOnClickListener();
     }
 
-    private void findAllViewById(){
+    private void findAllViewById() {
         firstName = findViewById(R.id.edit_profile_first_name);
         lastName = findViewById(R.id.edit_profile_last_name_fb);
         changeProfileImageBtn = findViewById(R.id.edit_profile_fab_add_photo);
@@ -80,7 +80,7 @@ public class EditProfileActivity extends AppCompatActivity {
         backBtn = findViewById(R.id.ivBack);
     }
 
-    private void getAllCurrentUserInformation(){
+    private void getAllCurrentUserInformation() {
         MySharedPreferences mySharedPreferences = new MySharedPreferences(this);
         if (mySharedPreferences.contains("userLog")) {
             Gson gson = new Gson();
@@ -106,7 +106,7 @@ public class EditProfileActivity extends AppCompatActivity {
         lastName.setText(currentLastName);
     }
 
-    private void setOnClickListener(){
+    private void setOnClickListener() {
 
         changeProfileImageBtn.setOnClickListener(view -> {
             imagePicker();
@@ -127,11 +127,12 @@ public class EditProfileActivity extends AppCompatActivity {
         });
     }
 
-    private  void imagePicker(){
+    private void imagePicker() {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
         startActivityForResult(intent, REQUEST_CODE);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
@@ -157,7 +158,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
             Bitmap bitmap = getBitmapFromUri(currentUri);
             file = new File(getApplicationContext().getFilesDir(), imageToUploadKey + ".jpg");
-            Log.i(TAG, "convertBitmapToFile: "+ file);
+            Log.i(TAG, "convertBitmapToFile: " + file);
             os = new BufferedOutputStream(new FileOutputStream(file));
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
             os.close();
@@ -170,7 +171,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private void imageDownload() {
 
-        File file = new File(this.getFilesDir() + "/"+"userProfile"+".jpg");
+        File file = new File(this.getFilesDir() + "/" + "userProfile" + ".jpg");
         Log.i(TAG, "imageDownload: is the file exist -> " + file.exists());
         if (!file.exists()) {
             Amplify.Storage.downloadFile(
@@ -192,7 +193,7 @@ public class EditProfileActivity extends AppCompatActivity {
                     },
                     error -> Log.e(TAG, "Download Failure", error)
             );
-        }else {
+        } else {
             showTheImageInThePage(file);
         }
     }
@@ -235,14 +236,14 @@ public class EditProfileActivity extends AppCompatActivity {
         if (!imageToUploadKey.isEmpty()) {
             Amplify.Storage.remove(
                     imageToUploadKey,
-                    success ->{
-                        fileToDelete = new File(this.getFilesDir() + "/"+"userProfile"+".jpg");
-                        if (fileToDelete.delete()){
+                    success -> {
+                        fileToDelete = new File(this.getFilesDir() + "/" + "userProfile" + ".jpg");
+                        if (fileToDelete.delete()) {
                             Log.i(TAG, "deleteImageFromS3: The local file deleted -> true");
                             uploadImage();
 
                         }
-                        Log.i(TAG, "Image successfully deleted "+success.getKey());
+                        Log.i(TAG, "Image successfully deleted " + success.getKey());
                     },
                     failure ->
                     {
@@ -252,7 +253,7 @@ public class EditProfileActivity extends AppCompatActivity {
         }
     }
 
-    private void getAllAsString(){
+    private void getAllAsString() {
 
         firstNameString = firstName.getText().toString();
         lastNameString = lastName.getText().toString();
@@ -310,8 +311,8 @@ public class EditProfileActivity extends AppCompatActivity {
         attributes.add(new AuthUserAttribute(AuthUserAttributeKey.name(), firstNameString));
         attributes.add(new AuthUserAttribute(AuthUserAttributeKey.familyName(), lastNameString));
 
-        Log.i(TAG, "First Name: "+firstNameString);
-        Log.i(TAG, "Last Name: "+lastNameString);
+        Log.i(TAG, "First Name: " + firstNameString);
+        Log.i(TAG, "Last Name: " + lastNameString);
 
         Amplify.Auth.updateUserAttributes(
                 attributes,
@@ -337,9 +338,9 @@ public class EditProfileActivity extends AppCompatActivity {
         );
     }
 
-    private void updateUserDataInMySharedPreferences(){
+    private void updateUserDataInMySharedPreferences() {
         MySharedPreferences mySharedPreferences = new MySharedPreferences(this);
-        UserLogIn userLogIn = new UserLogIn(currentFullName,currentUsername,currentId,currentUserEmail,email_verified,imageToUploadKey,firstNameString,lastNameString,currentPassword);
+        UserLogIn userLogIn = new UserLogIn(currentFullName, currentUsername, currentId, currentUserEmail, email_verified, imageToUploadKey, firstNameString, lastNameString, currentPassword);
         final Gson gson = new Gson();
         String serializedObject = gson.toJson(userLogIn);
         mySharedPreferences.putString("userLog", serializedObject);

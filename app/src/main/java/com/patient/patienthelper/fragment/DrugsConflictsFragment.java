@@ -61,7 +61,7 @@ public class DrugsConflictsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_drugs_conflicts, container, false);
-        spinnerArrayAdapter1= new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item);
+        spinnerArrayAdapter1 = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item);
         spinnerArrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item);
         try {
             addItemsOnSpinner1();
@@ -281,7 +281,7 @@ public class DrugsConflictsFragment extends Fragment {
 //                    MotionToast.LONG_DURATION,
 //                    ResourcesCompat.getFont(getContext(), www.sanju.motiontoast.R.font.montserrat_regular));
 
-            IonAlert ionAlert = new IonAlert(getActivity(),IonAlert.ERROR_TYPE);
+            IonAlert ionAlert = new IonAlert(getActivity(), IonAlert.ERROR_TYPE);
 
 
             ionAlert.setTitleText("interaction Found");

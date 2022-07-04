@@ -143,7 +143,8 @@ query GetDrug($id: ID!) {
   getDrug(id: $id) {
     id
     name
-    data
+    start_date
+    end_date
     NumOfTimes
     SpecificTime
     userId
@@ -160,7 +161,8 @@ query ListDrugs(
     items {
       id
       name
-      data
+      start_date
+      end_date
       NumOfTimes
       SpecificTime
       userId

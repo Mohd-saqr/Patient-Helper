@@ -228,7 +228,8 @@ mutation CreateDrug(
   createDrug(input: $input, condition: $condition) {
     id
     name
-    data
+    start_date
+    end_date
     NumOfTimes
     SpecificTime
     userId
@@ -243,7 +244,8 @@ mutation UpdateDrug(
   updateDrug(input: $input, condition: $condition) {
     id
     name
-    data
+    start_date
+    end_date
     NumOfTimes
     SpecificTime
     userId
@@ -258,7 +260,8 @@ mutation DeleteDrug(
   deleteDrug(input: $input, condition: $condition) {
     id
     name
-    data
+    start_date
+    end_date
     NumOfTimes
     SpecificTime
     userId

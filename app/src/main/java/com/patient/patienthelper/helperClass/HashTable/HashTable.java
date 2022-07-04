@@ -56,7 +56,7 @@ public class HashTable<K, V> {
 //        throw new IllegalArgumentException("Empty HashTable");
         if (bucket == null) return null;
         for (Entry entry : bucket) {
-            if (entry.getKay().equals(kay) )
+            if (entry.getKay().equals(kay))
                 return (V) entry.getValue();
         }
 
@@ -114,7 +114,6 @@ public class HashTable<K, V> {
 
         return (Objects.hashCode(key) < 0) ? Objects.hashCode(key) * -1 % (bound) : Objects.hashCode(key) % (bound);
     }
-
 
 
     public int getSize() {

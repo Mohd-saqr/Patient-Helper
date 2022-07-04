@@ -9,14 +9,14 @@ import androidx.annotation.Nullable;
 import java.util.Map;
 import java.util.Set;
 
-public class MySharedPreferences implements SharedPreferences.Editor , SharedPreferences  {
+public class MySharedPreferences implements SharedPreferences.Editor, SharedPreferences {
 
     private final SharedPreferences sharedPreferences;
     private final SharedPreferences.Editor editor;
 
 
     public MySharedPreferences(Context context) {
-        sharedPreferences= PreferenceManager.getDefaultSharedPreferences(context);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         editor = sharedPreferences.edit();
     }
 
@@ -106,7 +106,7 @@ public class MySharedPreferences implements SharedPreferences.Editor , SharedPre
 
     @Override
     public Editor putBoolean(String key, boolean value) {
-        return editor.putBoolean(key,value);
+        return editor.putBoolean(key, value);
     }
 
     @Override

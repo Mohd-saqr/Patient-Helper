@@ -51,24 +51,24 @@ import kotlin.jvm.functions.Function1;
 import kotlin.jvm.internal.Intrinsics;
 
 public class SignUpActivity extends AppCompatActivity {
-    Context context = this ;
+    Context context = this;
     private static final String TAG = SignUpActivity.class.getSimpleName();
-    private TextInputEditText firstNameSignup ;
-    private TextInputEditText lastNameSignup ;
+    private TextInputEditText firstNameSignup;
+    private TextInputEditText lastNameSignup;
     String imageToUploadKey = "";
-    Intent callingIntent ;
+    Intent callingIntent;
     private TextInputEditText emailSignup;
-    private TextInputEditText passwordSignup ;
+    private TextInputEditText passwordSignup;
     private MaterialButton signUpButton;
     private static String firstNameSignupString;
     private static String lastNameSignupString;
     private static String emailSignupString;
     private static String passwordSignupString;
-    private FloatingActionButton addPhoto ;
-    private AppCompatImageView imageView ;
-    Animation scaleDown,scaleUp;
+    private FloatingActionButton addPhoto;
+    private AppCompatImageView imageView;
+    Animation scaleDown, scaleUp;
 
-    private File file ;
+    private File file;
     OutputStream os;
 
     @Override
@@ -83,6 +83,7 @@ public class SignUpActivity extends AppCompatActivity {
         setAllViewsAnim();
 
     }
+
     private void setAllViewsAnim() {
         setAnim(signUpButton);
         setAnim(firstNameSignup);
@@ -95,11 +96,9 @@ public class SignUpActivity extends AppCompatActivity {
         view.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction()==MotionEvent.ACTION_DOWN)
-                {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     view.startAnimation(scaleUp);
-                } else if (event.getAction()==MotionEvent.ACTION_UP)
-                {
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     view.startAnimation(scaleDown);
                 }
 
@@ -107,20 +106,22 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
     }
+
     private void inflateViews() {
         firstNameSignup = findViewById(R.id.first_name);
         lastNameSignup = findViewById(R.id.last_name);
-        emailSignup = (TextInputEditText)findViewById(R.id.signup_email);
+        emailSignup = (TextInputEditText) findViewById(R.id.signup_email);
         passwordSignup = findViewById(R.id.signup_password);
         signUpButton = findViewById(R.id.signup_button);
         addPhoto = findViewById(R.id.fab_add);
-        imageView= findViewById(R.id.img_prof);
-        scaleDown= AnimationUtils.loadAnimation(this,(R.anim.scale_down));
-        scaleUp= AnimationUtils.loadAnimation(this,(R.anim.scale_up));
+        imageView = findViewById(R.id.img_prof);
+        scaleDown = AnimationUtils.loadAnimation(this, (R.anim.scale_down));
+        scaleUp = AnimationUtils.loadAnimation(this, (R.anim.scale_up));
 
 
     }
-    private void setUPpSignUpButton(){
+
+    private void setUPpSignUpButton() {
 
         firstNameSignupString = firstNameSignup.getText().toString().trim();
         lastNameSignupString = lastNameSignup.getText().toString().trim();
@@ -136,7 +137,7 @@ public class SignUpActivity extends AppCompatActivity {
         attributes.add(new AuthUserAttribute(AuthUserAttributeKey.custom("custom:user_disease"), "test"));
 
 
-        Log.i(TAG, "setUPpSignUpButton: "+ emailSignupString+".........."+passwordSignupString);
+        Log.i(TAG, "setUPpSignUpButton: " + emailSignupString + ".........." + passwordSignupString);
 
         Amplify.Auth.signUp(
                 emailSignupString,
@@ -151,12 +152,12 @@ public class SignUpActivity extends AppCompatActivity {
                         Intent intent = new Intent(this, VerificationCodeActivity.class);
                         intent.putExtra("emailFromSignUp", emailSignupString);
                         startActivity(intent);
-                        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+                        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                         finish();
 
                     });
-                    imageToUploadKey=emailSignup.getText().toString();
-                    if (file!=null) {
+                    imageToUploadKey = emailSignup.getText().toString();
+                    if (file != null) {
                         uploadImage();
                     }
                 },
@@ -172,7 +173,8 @@ public class SignUpActivity extends AppCompatActivity {
 
 
     }
-    private void setUPButton(){
+
+    private void setUPButton() {
         signUpButton.setOnClickListener(view -> {
 
             setUPpSignUpButton();
@@ -183,6 +185,7 @@ public class SignUpActivity extends AppCompatActivity {
 
 
     }
+
     // save password to remind it
     private void savePasswordSharedPreferences() {
 
@@ -192,14 +195,15 @@ public class SignUpActivity extends AppCompatActivity {
         preferenceEditor.putString(emailSignupString, passwordSignupString);
         preferenceEditor.apply();
     }
+
     // pick an image from gallery
-    private  void imagePicker(){
+    private void imagePicker() {
         ImagePicker.Companion.with(this)
                 .crop()
                 .cropOval()
-                .maxResultSize(512,512,true)
+                .maxResultSize(512, 512, true)
                 .provider(ImageProvider.BOTH) //Or bothCameraGallery()
-                .createIntentFromDialog((Function1)(new Function1(){
+                .createIntentFromDialog((Function1) (new Function1() {
                     public Object invoke(Object var1) {
                         this.invoke((Intent) var1);
                         return Unit.INSTANCE;
@@ -210,11 +214,10 @@ public class SignUpActivity extends AppCompatActivity {
                         launcher.launch(it);
                     }
                 }));
-        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
 
     }
     // to accept the data from image picker
-
 
 
     private void convertBitmapToFile(Uri currentUri) {
@@ -222,9 +225,9 @@ public class SignUpActivity extends AppCompatActivity {
         try {
 
             Bitmap bitmap = getBitmapFromUri(currentUri);
-            imageToUploadKey = "taskTitleString".toLowerCase().replace(" ", "") + "" ;
+            imageToUploadKey = "taskTitleString".toLowerCase().replace(" ", "") + "";
             file = new File(getApplicationContext().getFilesDir(), imageToUploadKey + ".jpg");
-            Log.i(TAG, "convertBitmapToFile: "+ file.toString());
+            Log.i(TAG, "convertBitmapToFile: " + file.toString());
             os = new BufferedOutputStream(new FileOutputStream(file));
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
             os.close();
@@ -235,6 +238,7 @@ public class SignUpActivity extends AppCompatActivity {
         //Toast.makeText(this, "The URI is => " + currentUri, Toast.LENGTH_SHORT).show();
         return;
     }
+
     private Bitmap getBitmapFromUri(Uri uri) throws IOException {
         ParcelFileDescriptor parcelFileDescriptor =
                 getContentResolver().openFileDescriptor(uri, "r");
@@ -279,14 +283,15 @@ public class SignUpActivity extends AppCompatActivity {
         }
         return result;
     }
+
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
 
-    ActivityResultLauncher<Intent>   launcher =
+    ActivityResultLauncher<Intent> launcher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), (ActivityResult result) -> {
                 if (result.getResultCode() == RESULT_OK) {
                     Uri uri = result.getData().getData();

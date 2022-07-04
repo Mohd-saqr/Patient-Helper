@@ -11,32 +11,28 @@ public class UserLogIn {
 
     private String id;
     private String email;
-    private Boolean email_verified ;
-    private Boolean firstLogIn =true ;
+    private Boolean email_verified;
+    private Boolean firstLogIn = true;
     private String status;
     private String diseaseName;
 
-    private  String imageId;
+    private String imageId;
 
-    public UserLogIn(String fullName, String userName, String id, String email, Boolean email_verified, String imageId, String firstName , String lastName , String password) {
+    public UserLogIn(String fullName, String userName, String id, String email, Boolean email_verified, String imageId, String firstName, String lastName, String password) {
         this.fullName = fullName;
         this.userName = userName;
         this.id = id;
         this.email = email;
-        this.email_verified=email_verified;
-        this.imageId=imageId;
+        this.email_verified = email_verified;
+        this.imageId = imageId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
 
 
-
-
-
-
     }
 
-    public UserLogIn(String fullName, String userName, String firstName, String lastName, String id, String email, Boolean email_verified, Boolean firstLogIn, String status, String imageId,String diseaseName) {
+    public UserLogIn(String fullName, String userName, String firstName, String lastName, String id, String email, Boolean email_verified, Boolean firstLogIn, String status, String imageId, String diseaseName) {
         this.fullName = fullName;
         this.userName = userName;
         this.firstName = firstName;
@@ -47,7 +43,7 @@ public class UserLogIn {
         this.firstLogIn = firstLogIn;
         this.status = status;
         this.imageId = imageId;
-        this.diseaseName=diseaseName;
+        this.diseaseName = diseaseName;
     }
 
 //    public UserLogIn() {

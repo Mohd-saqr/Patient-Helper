@@ -30,12 +30,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void findAllViewById(){
+    private void findAllViewById() {
         bottomNavigationView = findViewById(R.id.bottom_navigation_view);
-        navController = Navigation.findNavController(this,R.id.nav_fragment);
+        navController = Navigation.findNavController(this, R.id.nav_fragment);
 
     }
-    private void setUpTheBottomNavigationMovement(){
+
+    private void setUpTheBottomNavigationMovement() {
         //enable the swap between the fragments by set up the nav controller
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
     }

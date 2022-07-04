@@ -194,7 +194,7 @@ public class PharmacyDetailsActivity extends AppCompatActivity {
 
         dateFormat = new SimpleDateFormat("EEEE");
         dateFormatString = dateFormat.format(calendar.getTime());
-        Log.i(TAG, "getDay: Today"+dateFormatString);
+        Log.i(TAG, "getDay: Today" + dateFormatString);
         return dateFormatString;
     }
 

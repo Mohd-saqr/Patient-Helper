@@ -30,11 +30,12 @@ import retrofit2.Response;
 
 public class Select_illActivity extends AppCompatActivity {
 
-    List<Disease> apiData= new ArrayList<>();
+    List<Disease> apiData = new ArrayList<>();
     RecyclerView recyclerview;
     RecyclerAdapter recyclerAdapter;
     ProgressBar progressBar;
     MySharedPreferences mySharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,8 +45,6 @@ public class Select_illActivity extends AppCompatActivity {
         setAdapter();
         // set visibility for progress bar
         progressBar.setVisibility(View.VISIBLE);
-
-
 
 
         /// fetch data from api
@@ -58,11 +57,10 @@ public class Select_illActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
     public void fetchApi() throws IOException {
@@ -85,23 +83,23 @@ public class Select_illActivity extends AppCompatActivity {
     }
 
 
-    private void findViewById(){
-        progressBar=findViewById(R.id.progressBar_select_ill);
+    private void findViewById() {
+        progressBar = findViewById(R.id.progressBar_select_ill);
         recyclerview = findViewById(R.id.ILLRecyclerView);
 
     }
-    private void  setAdapter(){
-        recyclerAdapter = new RecyclerAdapter(apiData,disease->{
+
+    private void setAdapter() {
+        recyclerAdapter = new RecyclerAdapter(apiData, disease -> {
 
             setUserStatus(disease.getDisease_name());
             Gson gson = new Gson();
             mySharedPreferences.remove("userDisease");
-            mySharedPreferences.putString("userDisease",gson.toJson(disease));
+            mySharedPreferences.putString("userDisease", gson.toJson(disease));
             mySharedPreferences.apply();
-            startActivity(new Intent(getApplicationContext(),MainActivity.class));
-            overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             finish();
-
 
 
         });
@@ -111,7 +109,7 @@ public class Select_illActivity extends AppCompatActivity {
         });
     }
 
-    public void setUserStatus(String status1){
+    public void setUserStatus(String status1) {
         ArrayList<AuthUserAttribute> attributes = new ArrayList<>();
         attributes.add(new AuthUserAttribute(AuthUserAttributeKey.custom("custom:user_disease"), status1));
         Amplify.Auth.updateUserAttributes(

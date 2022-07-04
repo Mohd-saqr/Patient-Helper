@@ -51,7 +51,6 @@ public class LookingForActivity extends AppCompatActivity {
     }
 
 
-
     public void findViews() {
         button = findViewById(R.id.submit_looking_for);
         sp = (Spinner) findViewById(R.id.spinner_looking_for);
@@ -67,9 +66,8 @@ public class LookingForActivity extends AppCompatActivity {
                 setUserStatus("Patient");
                 Intent i = new Intent(this, Select_illActivity.class);
                 startActivity(i);
-                overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 finish();
-
 
 
             } else if (Selected.equals("Drug conflict")) {
@@ -77,7 +75,7 @@ public class LookingForActivity extends AppCompatActivity {
                 setUserStatus("Drug conflict");
                 Intent i = new Intent(this, MainActivity.class);
                 startActivity(i);
-                overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 finish();
 
             } else {
@@ -86,7 +84,7 @@ public class LookingForActivity extends AppCompatActivity {
 
                 Intent i = new Intent(this, MainActivity.class);
                 startActivity(i);
-                overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 finish();
 
             }
@@ -95,31 +93,33 @@ public class LookingForActivity extends AppCompatActivity {
 
 
     }
+
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
-    public void setUserStatus(String status1){
-     ArrayList<AuthUserAttribute> attributes = new ArrayList<>();
-     attributes.add(new AuthUserAttribute(AuthUserAttributeKey.custom("custom:status1"), status1));
-     Amplify.Auth.updateUserAttributes(
-             attributes,
-             result -> {
-                 Log.i(TAG, "Result: " + result);
-             },
-             error -> {
-                 Log.e(TAG, "update failed", error);
-                 runOnUiThread(() -> {
+    public void setUserStatus(String status1) {
+        ArrayList<AuthUserAttribute> attributes = new ArrayList<>();
+        attributes.add(new AuthUserAttribute(AuthUserAttributeKey.custom("custom:status1"), status1));
+        Amplify.Auth.updateUserAttributes(
+                attributes,
+                result -> {
+                    Log.i(TAG, "Result: " + result);
+                },
+                error -> {
+                    Log.e(TAG, "update failed", error);
+                    runOnUiThread(() -> {
 
-                 });
-             }
-     );
- }
+                    });
+                }
+        );
+    }
+
     private void saveData(String status) {
         Gson gson = new Gson();
-    userLogIn = gson.fromJson(preferences.getString("userLog",null),UserLogIn.class);
+        userLogIn = gson.fromJson(preferences.getString("userLog", null), UserLogIn.class);
         userLogIn.setStatus(status);
 
         String serializedObject = gson.toJson(userLogIn);
@@ -127,25 +127,24 @@ public class LookingForActivity extends AppCompatActivity {
         preferences.apply();
     }
 
-    private void getDeviceToken(String userId){
+    private void getDeviceToken(String userId) {
         FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
             @Override
             public void onComplete(@NonNull Task<String> task) {
-                if (!task.isSuccessful()){
+                if (!task.isSuccessful()) {
                     return;
                 }
                 Toast.makeText(LookingForActivity.this, task.getResult(), Toast.LENGTH_SHORT).show();
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("Toast",task.getResult());
+                ClipData clip = ClipData.newPlainText("Toast", task.getResult());
                 clipboard.setPrimaryClip(clip);
-                Log.i(TAG, "onComplete: token -> "+task.getResult());
-                addTokenToCloud(task.getResult(),userId);
+                Log.i(TAG, "onComplete: token -> " + task.getResult());
+                addTokenToCloud(task.getResult(), userId);
             }
         });
     }
 
-    private void addTokenToCloud(String tokenString,String userId) {
-
+    private void addTokenToCloud(String tokenString, String userId) {
 
 
         Token token = Token.builder()

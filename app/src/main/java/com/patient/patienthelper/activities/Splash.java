@@ -2,6 +2,8 @@ package com.patient.patienthelper.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,6 +15,7 @@ import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
 import com.google.gson.Gson;
+import com.patient.patienthelper.NotificaionDrug.NotificationReceiver;
 import com.patient.patienthelper.R;
 import com.patient.patienthelper.api.Disease;
 import com.patient.patienthelper.api.GetApi;
@@ -20,6 +23,8 @@ import com.patient.patienthelper.helperClass.HashTable.HashTable;
 import com.patient.patienthelper.helperClass.MySharedPreferences;
 
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -28,8 +33,8 @@ import retrofit2.Response;
 
 public class Splash extends AppCompatActivity {
     // to handle splash
-    Handler splashHandler= new Handler();
-    HashTable<String,Disease> hashTable = new HashTable<>(20);
+    Handler splashHandler = new Handler();
+    HashTable<String, Disease> hashTable = new HashTable<>(20);
     MySharedPreferences sharedPreferences;
 
     private static final String TAG = Splash.class.getSimpleName();
@@ -46,19 +51,41 @@ public class Splash extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        MydrugsAlarm();
+    }
+
+    private void MydrugsAlarm() {
+
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 10);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+
+        if (calendar.getTime().compareTo(new Date()) < 0)
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
+
+        Intent intent = new Intent(getApplicationContext(), NotificationReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+        if (alarmManager != null) {
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+
+        }
+
 
     }
+
     // this method for display the splash for a few seconds
-    public void splashDelay(){
+    public void splashDelay() {
         splashHandler.postDelayed(() -> {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
 
 
-        },3000);
+        }, 3000);
     }
-
-
 
 
     /**
@@ -81,8 +108,8 @@ public class Splash extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Disease>> call, Response<List<Disease>> response) {
                 assert response.body() != null;
-                for (Disease d :response.body()){
-                    hashTable.put(d.getDisease_name(),d);
+                for (Disease d : response.body()) {
+                    hashTable.put(d.getDisease_name(), d);
                 }
                 saveApiData();
                 splashDelay();
@@ -97,12 +124,11 @@ public class Splash extends AppCompatActivity {
         });
     }
 
-    private void saveApiData(){
+    private void saveApiData() {
         Gson gson = new Gson();
-        sharedPreferences.putString("ApiData",gson.toJson(hashTable));
+        sharedPreferences.putString("ApiData", gson.toJson(hashTable));
         sharedPreferences.apply();
     }
-
 
 
 }
