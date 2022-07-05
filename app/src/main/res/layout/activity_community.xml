@@ -89,7 +89,7 @@ app:iconTint="@android:color/black"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginHorizontal="@dimen/_10sdp"
-        android:text="Write Some thing ...."
+        android:text="Write Something ...."
 
 
 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -104,19 +104,20 @@ style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_height="@dimen/_480sdp">
 
 
-
-
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rc_posts"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_445sdp"
                     android:layout_marginHorizontal="@dimen/_3sdp"
-android:layout_marginBottom="@dimen/_15sdp"
+                    android:layout_marginBottom="@dimen/_15sdp"
                     android:background="#FFFFFF"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintHorizontal_bias="0.428"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.615" />
+
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/loading_com"
                     app:layout_constraintTop_toTopOf="parent"
@@ -132,7 +133,22 @@ android:layout_marginBottom="@dimen/_15sdp"
                     app:lottie_loop="true"
                     app:lottie_autoPlay="true"
                     app:lottie_rawRes="@raw/loading"/>
+
+                <TextView
+                    android:id="@+id/text_view_no_posts"
+                    android:textSize="@dimen/_24sdp"
+                    android:visibility="invisible"
+                    android:textColor="#4E4D4D"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No Posts yet"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
 
 

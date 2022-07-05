@@ -6,23 +6,167 @@
     android:layout_height="match_parent"
     tools:context=".activities.MyPosts"
     tools:ignore="MissingDefaultResource">
+<com.sothree.slidinguppanel.SlidingUpPanelLayout
+    android:gravity="bottom"
+    app:umanoPanelHeight="5dp"
+    app:umanoShadowHeight="4dp"
+    app:umanoInitialState="hidden"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/my_posts_recycler"
-        android:layout_marginHorizontal="@dimen/_15sdp"
-        android:layout_marginVertical="@dimen/_15sdp"
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/my_posts_recycler"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_500sdp"/>
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/loading_my_drugs"
+                android:visibility="invisible"
+                android:layout_height="@dimen/_70sdp"
+                android:layout_width="wrap_content"
+                app:lottie_autoPlay="true"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:lottie_rawRes="@raw/loading"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/loading_my_drugs"
-        android:visibility="invisible"
-        android:layout_height="@dimen/_70sdp"
-        android:layout_width="wrap_content"
-app:lottie_autoPlay="true"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:lottie_rawRes="@raw/loading"/>
+
+        android:layout_height="@dimen/_300sdp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/white"
+                app:strokeColor="@color/white"
+                app:iconTint="@color/black"
+                app:iconSize="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_3sdp"
+                style="@style/Widget.MaterialComponents.Button.IconOnly"
+                app:icon="@drawable/icon_back"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Create Post"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:textSize="@dimen/_15sdp"
+
+
+                android:drawablePadding="@dimen/_5sdp"
+                />
+
+        </LinearLayout>
+
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+
+            android:background="#c0c0c0"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/user_image_post"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+
+                android:layout_width="@dimen/_45sdp"
+                android:layout_height="@dimen/_45sdp"
+                android:src="@drawable/user_image"
+                android:layout_margin="@dimen/_5sdp"/>
+
+            <TextView
+                android:id="@+id/username_post"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+
+                android:layout_marginTop="@dimen/_13sdp"
+                android:text="Username"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/user_image"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.193" />
+        </LinearLayout>
+
+
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/post_input_layout"
+            android:layout_width="match_parent"
+            app:boxStrokeColor="@color/white"
+            android:layout_height="wrap_content"
+            app:hintTextColor="@color/black"
+
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="@dimen/_5sdp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+
+
+            <com.google.android.material.textfield.TextInputEditText
+
+                android:id="@+id/post_body"
+                style="@style/ThemeOverlay.Material3.TextInputEditText.FilledBox.Dense"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_60sdp"
+                android:layout_margin="@dimen/_5sdp"
+
+                android:hint="Write Something"/>
+
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/post_btn"
+            android:layout_width="@dimen/_100sdp"
+            app:cornerRadius="@dimen/_3sdp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/holo_blue_dark"
+            android:textAllCaps="false"
+
+            android:textSize="@dimen/_13sdp"
+            android:layout_gravity="end"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:text="Post"
+
+
+
+            />
+
+    </LinearLayout>
+</com.sothree.slidinguppanel.SlidingUpPanelLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

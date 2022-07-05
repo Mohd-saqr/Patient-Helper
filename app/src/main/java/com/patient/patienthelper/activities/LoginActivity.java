@@ -62,6 +62,7 @@ public class LoginActivity extends AppCompatActivity {
     MySharedPreferences mySharedPreferences;
     HashTable hashTable = new HashTable<>(20);
     private static String tokenFromFirebase;
+    private boolean isFirstTime=false;
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -329,72 +330,94 @@ public class LoginActivity extends AppCompatActivity {
         return userLogIn.getFirstLogIn();
     }
 
-    private void getDeviceToken(String userID) {
+    private void addTokenToCloud(String userId,String tokenFromFirebase1) {
+List<Token> tokens =  new ArrayList<>();
+
+        Log.i(TAG, "addTokenToCloud: hello from add token to cloud");
+        Amplify.API.query(
+                ModelQuery.list(Token.class, Token.TOKEN_ID.contains(tokenFromFirebase1)),
+                response -> {
+                    Log.i("hihihashem","nodata");
+                    isFirstTime=true;
+
+
+                    for (Token token1 : response.getData()) {
+                        Log.i(TAG, "Token id -> " + token1.getTokenId());
+                        tokens.add(token1);
+                        deleteToken(token1,userId,tokenFromFirebase1);
+                    }
+
+                    if (tokens.size()==0){
+                        createNewToken(userId,tokenFromFirebase1);
+                    }
+
+
+                },
+                error -> Log.e(TAG, "Query failure", error)
+        );
+
+        Log.i(TAG, "addTokenToCloud: good bye from add token to cloud");
+        if (!isFirstTime){
+
+        }
+    }
+
+//    private void filterToken() {
+//
+//        Amplify.API.query(
+//                ModelQuery.list(Token.class, Token.USER_ID.contains("null")),
+//                response -> {
+//                    for (Token token1 : response.getData()) {
+//                        Log.i("TokenId -> ", token1.getTokenId());
+//                        Amplify.API.mutate(ModelMutation.delete(token1),
+//                                pass -> Log.i(TAG, "Token with id: " + pass.getData().getId()),
+//                                error -> Log.e(TAG, "Create failed -> " + error)
+//                        );
+//                    }
+//                },
+//                error -> Log.e(TAG, "Query failure", error)
+//        );
+//    }
+
+    private void deleteToken(Token token,String userID,String tokenFromFirebase2) {
+
+
+        Amplify.API.mutate(ModelMutation.delete(token),
+                response -> {
+
+                        createNewToken(userID,tokenFromFirebase2);
+
+                },
+                error -> {
+                    Log.e(TAG, "delete failed", error);
+                }
+        );
+    }
+
+    private void createNewToken(String userID,String tokenId) {
+        Token createdToken = Token.builder()
+                .tokenId(tokenId)
+                .userId(userID)
+                .build();
+        Amplify.API.mutate(
+                ModelMutation.create(createdToken),
+                pass -> Log.i(TAG, "Added Token with id: " + pass.getData().getId()),
+                error -> Log.e(TAG, "Create failed", error)
+        );
+
+    }
+    private void getDeviceToken(String userId) {
         FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
             @Override
             public void onComplete(@NonNull Task<String> task) {
                 if (!task.isSuccessful()) {
                     return;
                 }
-                Toast.makeText(LoginActivity.this, task.getResult(), Toast.LENGTH_SHORT).show();
-                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("Toast", task.getResult());
-                clipboard.setPrimaryClip(clip);
-                Log.i(TAG, "onComplete: token -> " + task.getResult());
-                Log.i(TAG, "onComplete: userID -> " + userID);
+                Log.i(TAG, "onComplete: Token from google -> " + task.getResult());
                 tokenFromFirebase = task.getResult();
-                addTokenToCloud();
+                addTokenToCloud(userId,tokenFromFirebase);
             }
         });
     }
 
-    private void addTokenToCloud() {
-
-
-        Amplify.API.query(
-                ModelQuery.list(Token.class, Token.TOKEN_ID.contains(tokenFromFirebase)),
-                response -> {
-                    for (Token token1 : response.getData()) {
-                        Log.i(TAG, token1.getTokenId());
-                        Log.i(TAG, "token1.getTokenId() -> " + token1.getTokenId());
-                        Log.i(TAG, "token1.getUserId() -> " + token1.getUserId());
-                        deleteTokenFromCloud(token1);
-                    }
-                },
-                error -> {
-                    Log.e(TAG, "Query failure", error);
-                }
-        );
-
-
-    }
-
-    private void deleteTokenFromCloud(Token token) {
-        Log.i(TAG, "tokenString -> " + token.getTokenId());
-        Log.i(TAG, "userAttributes.get(0).getValue()-> " + userAttributes.get(0).getValue());
-
-        Amplify.API.mutate(
-                ModelMutation.delete(token),
-                response -> {
-
-                    Log.i(TAG, "Deleted Token with id: " + response.getData().getTokenId());
-                    createNewTokenInCloud();
-                },
-                error -> {
-                    Log.e(TAG, "Update failed", error);
-                }
-        );
-    }
-
-    private void createNewTokenInCloud() {
-        Token token = Token.builder()
-                .tokenId(tokenFromFirebase)
-                .userId(userAttributes.get(0).getValue())
-                .build();
-        Amplify.API.mutate(
-                ModelMutation.create(token),
-                response -> Log.i(TAG, "Added Token with id: " + response.getData().getId()),
-                error -> Log.e(TAG, "Create failed", error)
-        );
-    }
 }

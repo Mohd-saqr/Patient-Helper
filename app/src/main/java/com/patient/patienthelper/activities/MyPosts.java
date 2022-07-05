@@ -6,9 +6,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Post;
@@ -17,6 +19,8 @@ import com.patient.patienthelper.R;
 import com.patient.patienthelper.adapters.RecyclerAdapterPost;
 import com.patient.patienthelper.helperClass.MySharedPreferences;
 import com.patient.patienthelper.helperClass.UserLogIn;
+import com.skydoves.powermenu.OnMenuItemClickListener;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,9 +61,76 @@ public class MyPosts extends AppCompatActivity {
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             finish();
 
-        }, this);
-        recyclerView.setAdapter(recyclerAdapterPost);
+        }, this, new RecyclerAdapterPost.InflateMenu() {
+            @Override
+            public void inflate(Post post, boolean isUser, View view) {
+editDeletePost(post,isUser,view);
+            }
+        });
+                recyclerView.setAdapter(recyclerAdapterPost);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    private void editDeletePost(Post post, boolean isUser, View view) {
+//        if (TextUtils.isEmpty(postBody.getText())) {
+//            postBody.setError("Your post shouldn't be empty");
+//        } else {
+//
+//
+//            if (flage) {
+//                hideKeypord();
+//
+//                String body = postBody.getText().toString();
+//                Post post = Post.builder().body(body)
+//                        .createBy(userLogIn.getFullName())
+//                        .userId(userLogIn.getId())
+//                        .id(postId)
+//                        .build();
+//                loading.setVisibility(View.VISIBLE);
+//                Amplify.API.mutate(ModelMutation.update(post), res -> {
+//
+//
+//                    mHandler.post(() -> {
+//                        postBody.setText("");
+//                        loading.setVisibility(View.INVISIBLE);
+//                        slidingPaneLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+//                        buttonPost.setText("Post");
+//                        flage=false;
+//
+//                        onStart();
+//                    });
+//
+//
+//                }, err -> {
+//
+//                });
+//            } else {
+//                hideKeypord();
+//                String body = postBody.getText().toString();
+//                Post post = Post.builder().body(body)
+//                        .createBy(userLogIn.getFullName())
+//                        .userId(userLogIn.getId())
+//                        .build();
+//                loading.setVisibility(View.VISIBLE);
+//                Amplify.API.mutate(ModelMutation.create(post), res -> {
+//
+//
+//                    mHandler.post(() -> {
+//                        postBody.setText("");
+//                        loading.setVisibility(View.INVISIBLE);
+//                        slidingPaneLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+//                        onStart();
+//                    });
+//
+//
+//                }, err -> {
+//
+//                });
+//            }
+//
+//
+//        }
+
     }
 
     private void getMySharedPreferences() {

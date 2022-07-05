@@ -2,9 +2,11 @@ package com.patient.patienthelper.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -56,6 +58,10 @@ public class HomeFragment extends Fragment {
 
     ImageView setting;
 
+    View.OnClickListener findDrugs;
+    View.OnClickListener SeeConflict;
+
+
 
     private final List<Advice> adviceListApi = new ArrayList<>();
     private LottieAnimationView adviceLoading;
@@ -82,6 +88,7 @@ public class HomeFragment extends Fragment {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -89,6 +96,7 @@ public class HomeFragment extends Fragment {
         sharedPreferences = new MySharedPreferences(getContext());
 
         findAllViewById(view);
+        setOnCkick();
         fetchDataFromApi();
         checkStatus();
 
@@ -101,30 +109,55 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
+    private void setOnCkick() {
+        this.findDrugs=new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onClick(View view) {
+                Fragment fragment;
+                fragment = new FindDrugs();
+
+                FragmentManager fragmentManager = getFragmentManager(); // For AppCompat use getSupportFragmentManager
+                fragmentManager.beginTransaction()
+                        .replace(R.id.nav_fragment, fragment)
+                        .commit();
+                getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+            }
+        };
+
+        this.SeeConflict= new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment fragment;
+                fragment = new DrugsConflictsFragment();
+
+                FragmentManager fragmentManager = getFragmentManager(); // For AppCompat use getSupportFragmentManager
+                fragmentManager.beginTransaction()
+                        .replace(R.id.nav_fragment, fragment)
+                        .commit();
+                getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+            }
+        };
+    }
+
 
     private void updateUri(String checkStatus) {
-//        if (checkStatus.equals("Patient")){
-//
-//
-//                Gson gson = new Gson();
-//                Disease disease = gson.fromJson(getDesisName(), Disease.class);
-//
-//                diseaseDisc.setText(disease.getDescription_t());
-//
-//                desName.setText(disease.getDisease_name());
-//            getAdviceToHomePage(adviceListApi);
-//        }else {
-//
-//
-//
-//
-//        }
+
         Gson gson = new Gson();
         Disease disease = gson.fromJson(getDesisName(), Disease.class);
+        if (checkStatus.equals("Patient")){
+            findDrug.setOnClickListener(findDrugs);
 
-        diseaseDisc.setText(disease.getDescription_t());
+            diseaseDisc.setText(disease.getDescription_t());
 
-        desName.setText(disease.getDisease_name());
+            desName.setText(disease.getDisease_name());
+
+        }else {
+            findDrug.setOnClickListener(SeeConflict);
+
+        }
+
+
         Status.setText(userLogIn.getStatus());
         userName.setText("Hello, " + userLogIn.getFullName());
         getAdviceToHomePage(adviceListApi);
@@ -180,6 +213,7 @@ public class HomeFragment extends Fragment {
         adviceLoading.setVisibility(View.INVISIBLE);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void setOnClickListener() {
         findDrug.setOnClickListener(view -> {
             Intent i = new Intent(getContext(), DrugActivity.class);
