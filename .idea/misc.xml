@@ -28,13 +28,19 @@
         <entry key="..\:/Users/Lenovo/AppData/Local/Android/Sdk/platforms/android-32/data/res/layout/simple_spinner_item.xml" value="0.3482789855072464" />
         <entry key="..\:/Users/Lenovo/Desktop/Advanced Java/Android/Final-project/Push/Patient-Helper/app/src/main/res/drawable-v24/warning_delete_account.xml" value="0.1" />
         <entry key="..\:/Users/Lenovo/Desktop/Advanced Java/Android/Final-project/Push/Patient-Helper/app/src/main/res/drawable/my_location_vector_asset.xml" value="0.1" />
-        <entry key="..\:/Users/Lenovo/Desktop/Advanced Java/Android/Final-project/Push/Patient-Helper/app/src/main/res/layout/activity_change_password.xml" value="0.1" />
+        <entry key="..\:/Users/Lenovo/Desktop/Advanced Java/Android/Final-project/Push/Patient-Helper/app/src/main/res/layout/activity_change_password.xml" value="0.18" />
+        <entry key="..\:/Users/Lenovo/Desktop/Advanced Java/Android/Final-project/Push/Patient-Helper/app/src/main/res/layout/activity_community.xml" value="0.17831813576494426" />
         <entry key="..\:/Users/Lenovo/Desktop/Advanced Java/Android/Final-project/Push/Patient-Helper/app/src/main/res/layout/activity_delete_account.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Lenovo/Desktop/Advanced Java/Android/Final-project/Push/Patient-Helper/app/src/main/res/layout/activity_edit_profile.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/Lenovo/Desktop/Advanced Java/Android/Final-project/Push/Patient-Helper/app/src/main/res/layout/activity_login.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Lenovo/Desktop/Advanced Java/Android/Final-project/Push/Patient-Helper/app/src/main/res/layout/activity_forget_password.xml" value="0.33" />
+        <entry key="..\:/Users/Lenovo/Desktop/Advanced Java/Android/Final-project/Push/Patient-Helper/app/src/main/res/layout/activity_login.xml" value="0.25" />
+        <entry key="..\:/Users/Lenovo/Desktop/Advanced Java/Android/Final-project/Push/Patient-Helper/app/src/main/res/layout/activity_my_posts.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Lenovo/Desktop/Advanced Java/Android/Final-project/Push/Patient-Helper/app/src/main/res/layout/activity_nearby_pharmacies.xml" value="0.1" />
         <entry key="..\:/Users/Lenovo/Desktop/Advanced Java/Android/Final-project/Push/Patient-Helper/app/src/main/res/layout/activity_pharmacy_details.xml" value="0.1" />
+        <entry key="..\:/Users/Lenovo/Desktop/Advanced Java/Android/Final-project/Push/Patient-Helper/app/src/main/res/layout/activity_post.xml" value="0.1" />
+        <entry key="..\:/Users/Lenovo/Desktop/Advanced Java/Android/Final-project/Push/Patient-Helper/app/src/main/res/layout/activity_sign_up.xml" value="0.17806484295845998" />
         <entry key="..\:/Users/Lenovo/Desktop/Advanced Java/Android/Final-project/Push/Patient-Helper/app/src/main/res/layout/activity_user_profile.xml" value="0.1" />
+        <entry key="..\:/Users/Lenovo/Desktop/Advanced Java/Android/Final-project/Push/Patient-Helper/app/src/main/res/layout/activity_varification_code.xml" value="0.17806484295845998" />
         <entry key="..\:/Users/Lenovo/Desktop/Advanced Java/Android/Final-project/Push/Patient-Helper/app/src/main/res/layout/fragment_home.xml" value="0.33" />
         <entry key="..\:/Users/Lenovo/Desktop/Advanced Java/Android/Final-project/Push/Patient-Helper/app/src/main/res/layout/fragment_nearby_pharmacies_list_view.xml" value="0.1" />
         <entry key="..\:/Users/Lenovo/Desktop/Advanced Java/Android/Final-project/Push/Patient-Helper/app/src/main/res/layout/fragment_nearby_pharmacies_map_view.xml" value="0.1" />

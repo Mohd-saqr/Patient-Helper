@@ -52,6 +52,7 @@
                 android:textSize="@dimen/_20sdp" />
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/login_email_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_10sdp"
@@ -70,6 +71,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/login_password_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_10sdp"

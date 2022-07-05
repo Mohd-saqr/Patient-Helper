@@ -109,9 +109,9 @@ public class NearbyPharmaciesMapViewFragment extends Fragment {
 
     private void initializeSpinner() {
         //initialize array of place type
-        placeTypeList = new String[]{"pharmacy", "hospital", "doctor", "صيدلية", "طبيب", "دكتور", "الدكتور"};
+        placeTypeList = new String[]{"pharmacy", "hospital", "doctor"};
         //initialize array of place name
-        String[] placeNameList = {"Pharmacy", "Hospital", "Doctor", "صيدلية", "طبيب", "دكتور", "الدكتور"};
+        String[] placeNameList = {"Pharmacy", "Hospital", "Doctor"};
         //set adapter on spinner
         spType.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, placeNameList));
         spType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

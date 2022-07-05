@@ -74,7 +74,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="Closed"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/_10sdp"
                         android:textStyle="bold" />
 

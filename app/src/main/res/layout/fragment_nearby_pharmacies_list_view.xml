@@ -10,8 +10,11 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/title_text_layout"
         android:layout_width="match_parent"
-        android:background="@drawable/round_textview"
         android:layout_height="wrap_content"
+        android:background="@drawable/round_textview"
+        app:layout_constraintBottom_toTopOf="@+id/swipe_refresh_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -19,9 +22,9 @@
             android:id="@+id/text_view"
             android:layout_width="@dimen/_230sdp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/_60sdp"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_60sdp"
             android:text="List of Nearby Pharmacies"
             android:textColor="@color/black"
             android:textSize="25sp"
@@ -31,30 +34,29 @@
         <Button
             android:id="@+id/map_view_button"
             android:layout_width="wrap_content"
-            app:layout_constraintStart_toEndOf="@id/view_mode_text"
-            app:layout_constraintTop_toBottomOf="@id/text_view"
             android:layout_height="@dimen/_30sdp"
-            android:gravity="center_vertical"
-            android:backgroundTint="#4285F4"
-            android:layout_marginTop="@dimen/_5sdp"
             android:layout_marginLeft="@dimen/_10sdp"
-            android:text="Map"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:backgroundTint="#4285F4"
             android:drawableLeft="@drawable/map"
-            />
+            android:gravity="center_vertical"
+            android:text="Map"
+            app:layout_constraintStart_toEndOf="@id/view_mode_text"
+            app:layout_constraintTop_toBottomOf="@id/text_view" />
 
         <TextView
             android:id="@+id/view_mode_text"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_30sdp"
-            android:gravity="center_vertical"
-            android:layout_marginEnd="@dimen/_60sdp"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_60sdp"
+            android:gravity="center_vertical"
             android:text="Switch to Map view"
             android:textColor="@color/black"
             android:textSize="20sp"
-            app:layout_constraintTop_toBottomOf="@id/text_view"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_view" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -75,16 +77,16 @@
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/_485sdp"
         app:layout_constraintTop_toBottomOf="@id/title_text_layout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="@dimen/_50sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
         >
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/nearby_pharmacies_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginHorizontal="@dimen/_5sdp" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

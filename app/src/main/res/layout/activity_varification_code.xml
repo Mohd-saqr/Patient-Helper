@@ -33,6 +33,7 @@
                 android:textSize="25sp" />
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/verification_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_10sdp"
@@ -94,4 +95,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_login_back" />
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/loading_verification"
+        app:layout_constraintTop_toBottomOf="@+id/cardView"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_70sdp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:lottie_loop="true"
+        app:lottie_autoPlay="true"
+        app:lottie_rawRes="@raw/loading"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

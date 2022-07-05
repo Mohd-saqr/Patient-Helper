@@ -71,7 +71,7 @@ public class CommunityFragment extends Fragment {
     LottieAnimationView loading;
     SlidingUpPanelLayout slidingPaneLayout;
     boolean flage = false;
-    String postId="";
+    String postId = "";
     TextView text_view_no_posts;
 
     private Handler mHandler = new Handler(Looper.getMainLooper());
@@ -136,7 +136,7 @@ public class CommunityFragment extends Fragment {
 
         findViewById(view);
         postHandel();
-        btn_back.setOnClickListener(v->{
+        btn_back.setOnClickListener(v -> {
             hideKeypord();
             slidingPaneLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
         });
@@ -159,7 +159,7 @@ public class CommunityFragment extends Fragment {
 
         buttonPost.setOnClickListener(v -> {
             if (TextUtils.isEmpty(postBody.getText())) {
-postBody.setError("Your post shouldn't be empty");
+                postBody.setError("Your post shouldn't be empty");
             } else {
 
 
@@ -181,7 +181,7 @@ postBody.setError("Your post shouldn't be empty");
                             loading.setVisibility(View.INVISIBLE);
                             slidingPaneLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
                             buttonPost.setText("Post");
-                            flage=false;
+                            flage = false;
 
                             onStart();
                         });
@@ -230,8 +230,8 @@ postBody.setError("Your post shouldn't be empty");
         postBody = view.findViewById(R.id.post_body);
         Username_posts = view.findViewById(R.id.username_post);
         loading = view.findViewById(R.id.loading_com);
-        text_view_no_posts=view.findViewById(R.id.text_view_no_posts);
-        btn_back=view.findViewById(R.id.btn_back);
+        text_view_no_posts = view.findViewById(R.id.text_view_no_posts);
+        btn_back = view.findViewById(R.id.btn_back);
     }
 
     private void fetchData() {
@@ -299,14 +299,13 @@ postBody.setError("Your post shouldn't be empty");
 
                                         });
                                     } else {
-                                        flage=true;
+                                        flage = true;
                                         buttonPost.setText("Save");
-                                        postId=post.getId();
+                                        postId = post.getId();
                                         powerMenu.dismiss();
                                         slidingPaneLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
                                         postBody.setText(post.getBody());
                                         slidingPaneLayout.setTouchEnabled(false);
-
 
 
                                     }
@@ -344,9 +343,9 @@ postBody.setError("Your post shouldn't be empty");
                 public void run() {
                     loading.setVisibility(View.INVISIBLE);
                     recyclerAdapter.notifyDataSetChanged();
-                    if (apiData.size()==0){
+                    if (apiData.size() == 0) {
                         text_view_no_posts.setVisibility(View.VISIBLE);
-                    }else {
+                    } else {
                         text_view_no_posts.setVisibility(View.INVISIBLE);
 
                     }
@@ -358,13 +357,13 @@ postBody.setError("Your post shouldn't be empty");
         });
     }
 
-    private void hideKeypord( ) {
+    private void hideKeypord() {
 
         View view2 = getActivity().getCurrentFocus();
-if (view2!=null){
-    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-    imm.hideSoftInputFromWindow(view2.getWindowToken(), 0);
-}
+        if (view2 != null) {
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view2.getWindowToken(), 0);
+        }
 
 
     }

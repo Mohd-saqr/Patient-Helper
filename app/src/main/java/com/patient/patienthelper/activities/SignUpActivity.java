@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.preference.PreferenceManager;
 import android.provider.OpenableColumns;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,6 +26,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.amplifyframework.auth.AuthUserAttribute;
 import com.amplifyframework.auth.AuthUserAttributeKey;
 import com.amplifyframework.auth.options.AuthSignUpOptions;
@@ -34,6 +36,7 @@ import com.github.drjacky.imagepicker.constant.ImageProvider;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.patient.patienthelper.R;
 
 import org.jetbrains.annotations.NotNull;
@@ -57,8 +60,8 @@ public class SignUpActivity extends AppCompatActivity {
     private TextInputEditText lastNameSignup;
     String imageToUploadKey = "";
     Intent callingIntent;
-    private TextInputEditText emailSignup;
-    private TextInputEditText passwordSignup;
+    private TextInputEditText emailSignup, passwordSignup;
+    private TextInputLayout passwordLayout, emailLayout, firstnameLayout, lastnameLayout;
     private MaterialButton signUpButton;
     private static String firstNameSignupString;
     private static String lastNameSignupString;
@@ -66,7 +69,9 @@ public class SignUpActivity extends AppCompatActivity {
     private static String passwordSignupString;
     private FloatingActionButton addPhoto;
     private AppCompatImageView imageView;
-    Animation scaleDown, scaleUp;
+    private Animation scaleDown, scaleUp;
+    private LottieAnimationView loading;
+
 
     private File file;
     OutputStream os;
@@ -117,8 +122,11 @@ public class SignUpActivity extends AppCompatActivity {
         imageView = findViewById(R.id.img_prof);
         scaleDown = AnimationUtils.loadAnimation(this, (R.anim.scale_down));
         scaleUp = AnimationUtils.loadAnimation(this, (R.anim.scale_up));
-
-
+        passwordLayout = findViewById(R.id.password_input_layout);
+        emailLayout = findViewById(R.id.email_input_layout);
+        firstnameLayout = findViewById(R.id.firstname_input_layout);
+        lastnameLayout = findViewById(R.id.lastname_input_layout);
+        loading = findViewById(R.id.loading_sign_up);
     }
 
     private void setUPpSignUpButton() {
@@ -151,6 +159,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                         Intent intent = new Intent(this, VerificationCodeActivity.class);
                         intent.putExtra("emailFromSignUp", emailSignupString);
+                        loading.setVisibility(View.INVISIBLE);
                         startActivity(intent);
                         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                         finish();
@@ -165,6 +174,7 @@ public class SignUpActivity extends AppCompatActivity {
                     Log.e(TAG, "Sign up failed", error);
                     runOnUiThread(() -> {
                         Toast.makeText(context, "Signup can't complete something went wrong", Toast.LENGTH_SHORT).show();
+                        loading.setVisibility(View.INVISIBLE);
                         onResume();
                     });
 
@@ -176,8 +186,18 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void setUPButton() {
         signUpButton.setOnClickListener(view -> {
-
-            setUPpSignUpButton();
+            if (TextUtils.isEmpty(firstNameSignup.getText())) {
+                firstnameLayout.setError("Enter First name");
+            } else if (TextUtils.isEmpty(lastNameSignup.getText())) {
+                lastnameLayout.setError("Enter Last name");
+            } else if (TextUtils.isEmpty(passwordSignup.getText())) {
+                passwordLayout.setError("Enter password");
+            } else if (TextUtils.isEmpty(emailSignup.getText())) {
+                emailLayout.setError("Enter Email");
+            } else {
+                loading.setVisibility(View.VISIBLE);
+                setUPpSignUpButton();
+            }
         });
         addPhoto.setOnClickListener(view -> {
             imagePicker();
