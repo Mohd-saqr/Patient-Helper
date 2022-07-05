@@ -100,6 +100,9 @@ dependencies {
     //navbar
     implementation 'nl.joery.animatedbottombar:library:1.1.0'
 
+    implementation "com.github.skydoves:powermenu:2.2.0"
+    implementation("io.github.androidpoet:dropdown:1.0.1")
+
 
 
 

@@ -16,8 +16,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
-        android:layout_marginHorizontal="@dimen/_2sdp"
-        android:layout_marginTop="@dimen/_2sdp"
+
+
         android:padding="@dimen/_3sdp"
         app:cardCornerRadius="@dimen/_2sdp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -234,15 +234,16 @@
                 android:fontFamily="@font/roboto_regular"
                 android:text="Find Drugs"
 
-                android:textSize="@dimen/_18sdp"
+                android:textSize="@dimen/_13sdp"
                 android:textStyle="bold"
+
                 app:icon="@drawable/icon_find"
-                app:iconGravity="end"
+                app:iconGravity="start"
 
                 app:iconPadding="@dimen/_5sdp"
 
                 app:iconSize="@dimen/_20sdp"
-                app:iconTint="@color/purple_700"
+                app:iconTint="@color/white"
                 tools:layout_editor_absoluteX="235dp"
                 tools:layout_editor_absoluteY="16dp" />
 
@@ -328,14 +329,18 @@
     <!--        app:layout_constraintStart_toStartOf="parent"-->
     <!--        app:layout_constraintEnd_toEndOf="parent"/>-->
 
-    <ImageView
+
+
+    <com.airbnb.lottie.LottieAnimationView
         android:layout_width="match_parent"
         android:layout_height="@dimen/_140sdp"
-        android:src="@drawable/dcrors_t"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.973"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:lottie_rawRes="@raw/dectors"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:layout_constraintStart_toStartOf="parent"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,14 +2,19 @@ package com.patient.patienthelper.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +36,10 @@ import com.patient.patienthelper.activities.CommentsActivity;
 import com.patient.patienthelper.adapters.RecyclerAdapterPost;
 import com.patient.patienthelper.helperClass.MySharedPreferences;
 import com.patient.patienthelper.helperClass.UserLogIn;
+import com.skydoves.powermenu.MenuAnimation;
+import com.skydoves.powermenu.OnMenuItemClickListener;
+import com.skydoves.powermenu.PowerMenu;
+import com.skydoves.powermenu.PowerMenuItem;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.ArrayList;
@@ -48,14 +57,22 @@ public class CommunityFragment extends Fragment {
     RecyclerAdapterPost recyclerAdapter;
 
     List<Post> apiData = new ArrayList<>();
-    Button post;
+    Button buttonPost;
     Button writeSome;
     EditText postBody;
     UserLogIn userLogIn;
     TextView Username_posts;
+    PowerMenu powerMenu;
+    View.OnClickListener editPostListener;
+    View.OnClickListener postListener;
+    Button btn_back;
+
 
     LottieAnimationView loading;
     SlidingUpPanelLayout slidingPaneLayout;
+    boolean flage = false;
+    String postId="";
+    TextView text_view_no_posts;
 
     private Handler mHandler = new Handler(Looper.getMainLooper());
 
@@ -119,11 +136,16 @@ public class CommunityFragment extends Fragment {
 
         findViewById(view);
         postHandel();
+        btn_back.setOnClickListener(v->{
+            hideKeypord();
+            slidingPaneLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+        });
 
         writeSome.setShowSoftInputOnFocus(false);
         writeSome.setOnClickListener(view1 -> {
 
             slidingPaneLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+            slidingPaneLayout.setTouchEnabled(false);
             Username_posts.setText(userLogIn.getFullName());
         });
 
@@ -135,47 +157,81 @@ public class CommunityFragment extends Fragment {
     private void postHandel() {
 
 
-        post.setOnClickListener(v -> {
+        buttonPost.setOnClickListener(v -> {
+            if (TextUtils.isEmpty(postBody.getText())) {
+postBody.setError("Your post shouldn't be empty");
+            } else {
 
-            View view2 = getActivity().getCurrentFocus();
-            if (view2 != null) {
 
-                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(view2.getWindowToken(), 0);
+                if (flage) {
+                    hideKeypord();
+
+                    String body = postBody.getText().toString();
+                    Post post = Post.builder().body(body)
+                            .createBy(userLogIn.getFullName())
+                            .userId(userLogIn.getId())
+                            .id(postId)
+                            .build();
+                    loading.setVisibility(View.VISIBLE);
+                    Amplify.API.mutate(ModelMutation.update(post), res -> {
+
+
+                        mHandler.post(() -> {
+                            postBody.setText("");
+                            loading.setVisibility(View.INVISIBLE);
+                            slidingPaneLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+                            buttonPost.setText("Post");
+                            flage=false;
+
+                            onStart();
+                        });
+
+
+                    }, err -> {
+
+                    });
+                } else {
+                    hideKeypord();
+                    String body = postBody.getText().toString();
+                    Post post = Post.builder().body(body)
+                            .createBy(userLogIn.getFullName())
+                            .userId(userLogIn.getId())
+                            .build();
+                    loading.setVisibility(View.VISIBLE);
+                    Amplify.API.mutate(ModelMutation.create(post), res -> {
+
+
+                        mHandler.post(() -> {
+                            postBody.setText("");
+                            loading.setVisibility(View.INVISIBLE);
+                            slidingPaneLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+                            onStart();
+                        });
+
+
+                    }, err -> {
+
+                    });
+                }
+
+
             }
-            slidingPaneLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
-            String body = postBody.getText().toString();
-            Post post = Post.builder().body(body)
-                    .createBy(userLogIn.getFullName())
-                    .userId(userLogIn.getId())
-                    .build();
-            loading.setVisibility(View.VISIBLE);
-            Amplify.API.mutate(ModelMutation.create(post), res -> {
 
 
-                mHandler.post(() -> {
-                    postBody.setText("");
-                    loading.setVisibility(View.INVISIBLE);
-                    onResume();
-                });
-
-
-            }, err -> {
-
-            });
-            System.out.println(body + "dasdass");
         });
 
 
     }
 
     private void findViewById(View view) {
-        post = view.findViewById(R.id.post_btn);
+        buttonPost = view.findViewById(R.id.post_btn);
         writeSome = view.findViewById(R.id.btn_write);
         slidingPaneLayout = view.findViewById(R.id.sliding_layout_post);
         postBody = view.findViewById(R.id.post_body);
         Username_posts = view.findViewById(R.id.username_post);
         loading = view.findViewById(R.id.loading_com);
+        text_view_no_posts=view.findViewById(R.id.text_view_no_posts);
+        btn_back=view.findViewById(R.id.btn_back);
     }
 
     private void fetchData() {
@@ -203,13 +259,71 @@ public class CommunityFragment extends Fragment {
             intent.putExtra("Post", post);
             intent.putExtra("PostCreatedAt", Post.getCreatedAt().format());
             startActivity(intent);
-        }, getActivity());
+        }, getActivity(), new RecyclerAdapterPost.InflateMenu() {
+            @Override
+            public void inflate(Post post, boolean isUser, View view) {
+
+                if (isUser) {
+
+                    powerMenu = new PowerMenu.Builder(getContext())
+                            .addItem(new PowerMenuItem("Delete", false)) // add an item.
+                            .addItem(new PowerMenuItem("Edit", false)) // aad an item list.
+                            .setAnimation(MenuAnimation.SHOWUP_TOP_LEFT) // Animation start point (TOP | LEFT).
+                            .setMenuRadius(10f) // sets the corner radius.
+                            .setMenuShadow(10f) // sets the shadow.
+                            .setTextColor(ContextCompat.getColor(getContext(), R.color.black))
+                            .setTextGravity(Gravity.CENTER)
+
+                            .setTextTypeface(Typeface.create("sans-serif-medium", Typeface.BOLD))
+                            .setSelectedTextColor(Color.RED)
+                            .setMenuColor(Color.parseColor("#E3E5E8"))
+                            .setSelectedMenuColor(ContextCompat.getColor(getContext(), R.color.red))
+                            .setOnMenuItemClickListener(new OnMenuItemClickListener<PowerMenuItem>() {
+
+                                @Override
+                                public void onItemClick(int position, PowerMenuItem item) {
+                                    if (position == 0) {
+                                        Amplify.API.mutate(ModelMutation.delete(post), res -> {
+                                            getActivity().runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+
+                                                    if (powerMenu.isShowing()) {
+                                                        powerMenu.dismiss();
+                                                    }
+                                                    onStart();
+                                                }
+                                            });
+
+                                        }, err -> {
+
+                                        });
+                                    } else {
+                                        flage=true;
+                                        buttonPost.setText("Save");
+                                        postId=post.getId();
+                                        powerMenu.dismiss();
+                                        slidingPaneLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+                                        postBody.setText(post.getBody());
+                                        slidingPaneLayout.setTouchEnabled(false);
+
+
+
+                                    }
+                                }
+                            })
+                            .build();
+                    powerMenu.showAsDropDown(view, -370, 0);
+                }
+            }
+        });
         System.out.println(apiData);
 
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerview.setLayoutManager(layoutManager);
         recyclerview.setAdapter(recyclerAdapter);
+
     }
 
     @Override
@@ -230,11 +344,28 @@ public class CommunityFragment extends Fragment {
                 public void run() {
                     loading.setVisibility(View.INVISIBLE);
                     recyclerAdapter.notifyDataSetChanged();
+                    if (apiData.size()==0){
+                        text_view_no_posts.setVisibility(View.VISIBLE);
+                    }else {
+                        text_view_no_posts.setVisibility(View.INVISIBLE);
+
+                    }
                 }
             });
 
         }, err -> {
 
         });
+    }
+
+    private void hideKeypord( ) {
+
+        View view2 = getActivity().getCurrentFocus();
+if (view2!=null){
+    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+    imm.hideSoftInputFromWindow(view2.getWindowToken(), 0);
+}
+
+
     }
 }

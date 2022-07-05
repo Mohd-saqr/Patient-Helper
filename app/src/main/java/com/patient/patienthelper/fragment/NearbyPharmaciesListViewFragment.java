@@ -9,6 +9,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
 import android.util.Log;
@@ -84,7 +85,7 @@ public class NearbyPharmaciesListViewFragment extends Fragment {
     private IonAlert ionAlert;
     private static boolean isFirstLogin = true;
     private final int PERMISSION_ID = 44;
-
+    Handler handler = new Handler();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -377,11 +378,14 @@ public class NearbyPharmaciesListViewFragment extends Fragment {
                     pharmacies.add(pharmacy);
                 }
                 Log.i(TAG, "doInBackground: getPharmaciesListToListFragment size -> " + pharmacies);
-                getActivity().runOnUiThread(() -> {
-                    getPharmaciesListToListFragment(pharmacies);
-                    recyclerAdapterPharmacy.notifyDataSetChanged();
-                    loading.setVisibility(View.INVISIBLE);
-                });
+               handler.post(new Runnable() {
+                   @Override
+                   public void run() {
+                       getPharmaciesListToListFragment(pharmacies);
+                       recyclerAdapterPharmacy.notifyDataSetChanged();
+                       loading.setVisibility(View.INVISIBLE);
+                   }
+               });
 
             } catch (JSONException e) {
                 e.printStackTrace();

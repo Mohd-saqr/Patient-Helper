@@ -1,16 +1,25 @@
 package com.patient.patienthelper.activities;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.patient.patienthelper.R;
 import com.patient.patienthelper.api.DrugDetails;
 import com.patient.patienthelper.api.GetApi;
+import com.skydoves.powermenu.MenuAnimation;
+import com.skydoves.powermenu.PowerMenu;
+import com.skydoves.powermenu.PowerMenuItem;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,13 +35,17 @@ public class ShowInfoActivity extends AppCompatActivity {
     TextView textViewDesc;
     ProgressBar progressBar;
 
+    LottieAnimationView loading;
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.show_details);
         textViewName = findViewById(R.id.drugName);
         textViewDesc = findViewById(R.id.drugDesc);
-        progressBar = findViewById(R.id.progressBar_ShowInfo);
+        loading = findViewById(R.id.progressBar_ShowInfo);
+
         try {
             fetchdATA();
         } catch (IOException e) {
@@ -43,7 +56,7 @@ public class ShowInfoActivity extends AppCompatActivity {
     }
 
     private void fetchdATA() throws IOException {
-
+loading.setVisibility(View.VISIBLE);
         GetApi.getDrugDetails().enqueue(new Callback<List<DrugDetails>>() {
             @Override
             public void onResponse(Call<List<DrugDetails>> call, Response<List<DrugDetails>> response) {
@@ -51,6 +64,7 @@ public class ShowInfoActivity extends AppCompatActivity {
                 drugDetailsList.addAll(details);
 
                 setUriData();
+                loading.setVisibility(View.INVISIBLE);
 
 
             }

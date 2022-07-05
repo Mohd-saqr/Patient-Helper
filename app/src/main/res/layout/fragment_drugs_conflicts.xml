@@ -15,9 +15,9 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView_top_drug"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_60sdp"
+        android:layout_height="@dimen/_50sdp"
 
-        app:cardCornerRadius="@dimen/_2sdp"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -43,10 +43,10 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintHorizontal_bias="0.074"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.666" />
+                app:layout_constraintVertical_bias="0.23" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -137,7 +137,7 @@
         app:iconGravity="start"
         app:iconPadding="@dimen/_5sdp"
         app:iconSize="@dimen/_20sdp"
-        app:iconTint="@color/black"
+        app:iconTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.468"
