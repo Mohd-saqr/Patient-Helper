@@ -33,6 +33,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.patient.patienthelper.R;
@@ -62,7 +63,8 @@ public class LoginActivity extends AppCompatActivity {
     MySharedPreferences mySharedPreferences;
     HashTable hashTable = new HashTable<>(20);
     private static String tokenFromFirebase;
-    private boolean isFirstTime=false;
+    private boolean isFirstTime = false;
+    private TextInputLayout emailLayout, passwordLayout;
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -113,6 +115,8 @@ public class LoginActivity extends AppCompatActivity {
         deviceRememberCheckBox = findViewById(R.id.remember_device_checkBox);
         loading = findViewById(R.id.loading);
         forgetPassword = findViewById(R.id.forget_password);
+        emailLayout = findViewById(R.id.login_email_input_layout);
+        passwordLayout = findViewById(R.id.login_password_input_layout);
 
     }
 
@@ -153,12 +157,12 @@ public class LoginActivity extends AppCompatActivity {
 
         if (TextUtils.isEmpty(emailString) || !emailString.contains("@")) {
 
-            email.setError("Enter valid Email");
+            emailLayout.setError("Enter valid Email");
             loading.setVisibility(View.INVISIBLE);
 
         } else if (TextUtils.isEmpty(passwordString)) {
 
-            password.setError("Enter Password");
+            passwordLayout.setError("Enter Password");
             loading.setVisibility(View.INVISIBLE);
 
         } else {
@@ -187,18 +191,16 @@ public class LoginActivity extends AppCompatActivity {
                     Log.i(TAG, result.isSignInComplete() ? "Sign in succeeded" : "Sign in not complete");
                     if (result.isSignInComplete()) {
                         if (deviceRememberCheckBox.isChecked()) {
-
                             rememberDevice();
                         }
                         onlineFetchCurrentUserAttributes();
-
                         savePasswordSharedPreferences();
-
-
+                        loading.setVisibility(View.INVISIBLE);
                     } else {
 
                         runOnUiThread(() -> {
                             Toast.makeText(LoginActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
+                            loading.setVisibility(View.INVISIBLE);
                             onResume();
                         });
                     }
@@ -237,7 +239,6 @@ public class LoginActivity extends AppCompatActivity {
 
                         if (checkFirstLogin()) {
                             loading.setVisibility(View.INVISIBLE);
-
                             startActivity(new Intent(LoginActivity.this, LookingForActivity.class));
                             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                             finish();
@@ -330,63 +331,51 @@ public class LoginActivity extends AppCompatActivity {
         return userLogIn.getFirstLogIn();
     }
 
-    private void addTokenToCloud(String userId,String tokenFromFirebase1) {
-List<Token> tokens =  new ArrayList<>();
+    private void getDeviceToken(String userId) {
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                if (!task.isSuccessful()) {
+                    return;
+                }
+                Log.i(TAG, "onComplete: Token from google -> " + task.getResult());
+                tokenFromFirebase = task.getResult();
+                addTokenToCloud(userId, tokenFromFirebase);
+            }
+        });
+    }
 
-        Log.i(TAG, "addTokenToCloud: hello from add token to cloud");
+    private void addTokenToCloud(String userId, String tokenFromFirebase1) {
+        List<Token> tokens = new ArrayList<>();
+
         Amplify.API.query(
                 ModelQuery.list(Token.class, Token.TOKEN_ID.contains(tokenFromFirebase1)),
                 response -> {
-                    Log.i("hihihashem","nodata");
-                    isFirstTime=true;
+                    Log.i("hihihashem", "nodata");
+                    isFirstTime = true;
 
 
                     for (Token token1 : response.getData()) {
                         Log.i(TAG, "Token id -> " + token1.getTokenId());
                         tokens.add(token1);
-                        deleteToken(token1,userId,tokenFromFirebase1);
+                        deleteToken(token1, userId, tokenFromFirebase1);
                     }
 
-                    if (tokens.size()==0){
-                        createNewToken(userId,tokenFromFirebase1);
+                    if (tokens.size() == 0) {
+                        createNewToken(userId, tokenFromFirebase1);
                     }
 
 
                 },
                 error -> Log.e(TAG, "Query failure", error)
         );
-
-        Log.i(TAG, "addTokenToCloud: good bye from add token to cloud");
-        if (!isFirstTime){
-
-        }
     }
 
-//    private void filterToken() {
-//
-//        Amplify.API.query(
-//                ModelQuery.list(Token.class, Token.USER_ID.contains("null")),
-//                response -> {
-//                    for (Token token1 : response.getData()) {
-//                        Log.i("TokenId -> ", token1.getTokenId());
-//                        Amplify.API.mutate(ModelMutation.delete(token1),
-//                                pass -> Log.i(TAG, "Token with id: " + pass.getData().getId()),
-//                                error -> Log.e(TAG, "Create failed -> " + error)
-//                        );
-//                    }
-//                },
-//                error -> Log.e(TAG, "Query failure", error)
-//        );
-//    }
-
-    private void deleteToken(Token token,String userID,String tokenFromFirebase2) {
-
+    private void deleteToken(Token token, String userID, String tokenFromFirebase2) {
 
         Amplify.API.mutate(ModelMutation.delete(token),
                 response -> {
-
-                        createNewToken(userID,tokenFromFirebase2);
-
+                    createNewToken(userID, tokenFromFirebase2);
                 },
                 error -> {
                     Log.e(TAG, "delete failed", error);
@@ -394,7 +383,7 @@ List<Token> tokens =  new ArrayList<>();
         );
     }
 
-    private void createNewToken(String userID,String tokenId) {
+    private void createNewToken(String userID, String tokenId) {
         Token createdToken = Token.builder()
                 .tokenId(tokenId)
                 .userId(userID)
@@ -406,18 +395,4 @@ List<Token> tokens =  new ArrayList<>();
         );
 
     }
-    private void getDeviceToken(String userId) {
-        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
-            @Override
-            public void onComplete(@NonNull Task<String> task) {
-                if (!task.isSuccessful()) {
-                    return;
-                }
-                Log.i(TAG, "onComplete: Token from google -> " + task.getResult());
-                tokenFromFirebase = task.getResult();
-                addTokenToCloud(userId,tokenFromFirebase);
-            }
-        });
-    }
-
 }

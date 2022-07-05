@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:padding="@dimen/_5sdp"
+    android:layout_marginTop="@dimen/_120sdp"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/_10sdp"
+    >
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardBackgroundColor="#E3E5E8"
+        app:cardCornerRadius="@dimen/_5sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        >
+
+        <LinearLayout
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraint_layout_post"
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/user_image_post"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_margin="@dimen/_5sdp"
+
+                    android:layout_marginStart="12dp"
+                    android:src="@drawable/user_image"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="1.0" />
+
+                <TextView
+                    android:id="@+id/username_post"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_3sdp"
+                    android:layout_marginStart="16dp"
+                    android:text="Username"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12sdp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/user_image_post"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.193" />
+
+                <TextView
+                    android:id="@+id/text_view_post_date_post"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="15/5/2022 10:19:02 PM"
+                    app:layout_constraintTop_toBottomOf="@id/username_post"
+                    app:layout_constraintStart_toEndOf="@id/user_image_post"
+                    android:layout_marginHorizontal="@dimen/_3sdp"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_view_post_body_post"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/opensans_medium"
+                android:text="Sometimes it pays to stay in bed on Monday, rather than spending the rest of the week debugging Monday’s code"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:outlineAmbientShadowColor="@color/black"
+                android:padding="@dimen/_5sdp"
+                android:layout_marginHorizontal="@dimen/_5sdp"
+                android:textColor="#373535"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_comment_post_post"
+                android:layout_width="match_parent"
+                app:cornerRadius="@dimen/_3sdp"
+                android:textAllCaps="false"
+                android:layout_height="wrap_content"
+                app:strokeColor="@android:color/darker_gray"
+                android:textColor="@android:color/background_light"
+                android:backgroundTint="@android:color/holo_blue_dark"
+                android:layout_marginHorizontal="@dimen/_5sdp"
+                android:text="Comment"/>
+
+
+
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

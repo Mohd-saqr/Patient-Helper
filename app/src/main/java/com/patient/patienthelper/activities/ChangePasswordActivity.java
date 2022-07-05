@@ -21,6 +21,7 @@ import com.amplifyframework.auth.options.AuthSignOutOptions;
 import com.amplifyframework.core.Amplify;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
 import com.patient.patienthelper.R;
 import com.patient.patienthelper.helperClass.MySharedPreferences;
@@ -36,6 +37,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
     private ImageView backBtn;
     private Animation scaleDown, scaleUp;
     private UserLogIn userLogIn;
+    private TextInputLayout newPasswordLayout, confirmPasswordLayout, currentPasswordLayout;
 
 
     @Override
@@ -82,6 +84,9 @@ public class ChangePasswordActivity extends AppCompatActivity {
         backBtn = findViewById(R.id.ivBack);
         scaleDown = AnimationUtils.loadAnimation(this, (R.anim.scale_down));
         scaleUp = AnimationUtils.loadAnimation(this, (R.anim.scale_up));
+        newPasswordLayout = findViewById(R.id.change_password_new_input_layout);
+        confirmPasswordLayout = findViewById(R.id.change_password_confirm_input_layout);
+        currentPasswordLayout = findViewById(R.id.change_password_current_input_layout);
     }
 
     private void setOnClickListener() {
@@ -106,24 +111,24 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
         if (TextUtils.isEmpty(newPasswordEditText.getText())) {
 
-            newPasswordEditText.setError("Enter new Password");
+            newPasswordLayout.setError("Enter new Password");
 
         } else if (TextUtils.isEmpty(confirmNewPasswordEditText.getText())) {
 
-            confirmNewPasswordEditText.setError("Confirm new Password!");
+            confirmPasswordLayout.setError("Confirm new Password!");
 
         } else if (!newPasswordString.equals(confirmNewPasswordString)) {
 
-            newPasswordEditText.setError("Password Mismatch");
-            confirmNewPasswordEditText.setError("Password Mismatch");
+            newPasswordLayout.setError("Password Mismatch");
+            confirmPasswordLayout.setError("Password Mismatch");
 
         } else if (newPasswordString.length() < 8) {
 
-            newPasswordEditText.setError("Password too short");
-            confirmNewPasswordEditText.setError("Password too short");
+            newPasswordLayout.setError("Password too short");
+            confirmPasswordLayout.setError("Password too short");
 
         } else if (TextUtils.isEmpty(currentPasswordEditText.getText())) {
-            currentPasswordEditText.setError("Enter current password");
+            currentPasswordLayout.setError("Enter current password");
 
         } else {
             changePasswordProgressBar.setVisibility(View.VISIBLE);

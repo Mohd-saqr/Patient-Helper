@@ -2,6 +2,7 @@ package com.patient.patienthelper.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -54,6 +55,7 @@ public class Splash extends AppCompatActivity {
         MydrugsAlarm();
     }
 
+    @SuppressLint("UnspecifiedImmutableFlag")
     private void MydrugsAlarm() {
 
 
@@ -66,7 +68,18 @@ public class Splash extends AppCompatActivity {
             calendar.add(Calendar.DAY_OF_MONTH, 1);
 
         Intent intent = new Intent(getApplicationContext(), NotificationReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        PendingIntent pendingIntent = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            pendingIntent = PendingIntent.getBroadcast
+                    (getApplicationContext(), 0, intent, PendingIntent.FLAG_MUTABLE);
+        }
+        else
+        {
+            pendingIntent = PendingIntent.getBroadcast
+                    (getApplicationContext(), 0, intent, PendingIntent.FLAG_ONE_SHOT);
+        }
+
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
         if (alarmManager != null) {

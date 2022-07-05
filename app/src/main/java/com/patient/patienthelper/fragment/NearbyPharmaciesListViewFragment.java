@@ -80,12 +80,8 @@ public class NearbyPharmaciesListViewFragment extends Fragment {
     private SwipeRefreshLayout swipeContainer;
     private LottieAnimationView loading;
     private Button mapView;
-    private UserLogIn userLogIn;
-    private MySharedPreferences sharedPreferences;
-    private IonAlert ionAlert;
-    private static boolean isFirstLogin = true;
     private final int PERMISSION_ID = 44;
-    Handler handler = new Handler();
+    private Handler handler = new Handler();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -110,8 +106,6 @@ public class NearbyPharmaciesListViewFragment extends Fragment {
 
         loading.setVisibility(View.VISIBLE);
 
-        if (isFirstLogin) showInstructionAlertDialog();
-
         initializeFusedLocationProviderClient();
 
         askLocationPermission();
@@ -130,28 +124,6 @@ public class NearbyPharmaciesListViewFragment extends Fragment {
         loading = view.findViewById(R.id.loading_in_pharmacies_list);
         swipeContainer = view.findViewById(R.id.swipe_refresh_layout);
         mapView = view.findViewById(R.id.map_view_button);
-        sharedPreferences = new MySharedPreferences(getContext());
-    }
-
-    private boolean isThisFirstLogin() {
-        Gson gson = new Gson();
-        userLogIn = gson.fromJson(sharedPreferences.getString("userLog", null), UserLogIn.class);
-        return userLogIn.getFirstLogIn();
-    }
-
-    private void showInstructionAlertDialog() {
-
-        if (isThisFirstLogin()) {
-            ionAlert = new IonAlert(getContext(), IonAlert.NORMAL_TYPE);
-
-            ionAlert.setTitleText("You can switch to map view from upper right of the page")
-                    .setConfirmText("Got it")
-                    .setConfirmClickListener(ionAlert1 -> {
-                        onResume();
-                    })
-                    .show();
-            isFirstLogin = false;
-        }
     }
 
     private void initializeFusedLocationProviderClient() {

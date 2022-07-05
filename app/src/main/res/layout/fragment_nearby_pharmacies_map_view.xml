@@ -66,14 +66,16 @@
         android:orientation="vertical"
         android:padding="8dp">
 
-        <androidx.appcompat.widget.AppCompatSpinner
-            style="@style/Base.Widget.AppCompat.Spinner"
-            android:id="@+id/sp_type"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/round_text_input"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
-            app:theme="@style/ThemeOverlay.AppCompat.Dark"/>
+        <Spinner
+        android:id="@+id/sp_type"
+        style="@style/spinner_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawSelectorOnTop="true"
+        android:dropDownVerticalOffset="-53dp"
+        android:spinnerMode="dropdown"
+        android:textAlignment="center"
+        />
 
     </LinearLayout>
 

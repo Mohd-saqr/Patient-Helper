@@ -15,12 +15,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.amplifyframework.core.Amplify;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.patient.patienthelper.R;
 
 public class ForgetPasswordActivity extends AppCompatActivity {
-    TextInputEditText email, verification, newPass;
-    MaterialButton btn;
-    Animation scaleDown, scaleUp;
+    private TextInputEditText email, verification, newPass;
+    private MaterialButton btn;
+    private Animation scaleDown, scaleUp;
+    private TextInputLayout emailLayout, verificationLayout, newPasswordLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +59,9 @@ public class ForgetPasswordActivity extends AppCompatActivity {
         btn = findViewById(R.id.save_new_password_button);
         scaleDown = AnimationUtils.loadAnimation(this, (R.anim.scale_down));
         scaleUp = AnimationUtils.loadAnimation(this, (R.anim.scale_up));
-
+        emailLayout = findViewById(R.id.forget_password_email_input_layout);
+        verificationLayout = findViewById(R.id.forget_password_verification_input_layout);
+        newPasswordLayout = findViewById(R.id.forget_password_new_input_layout);
     }
 
     private void resetPasswordAction() {
@@ -74,27 +78,37 @@ public class ForgetPasswordActivity extends AppCompatActivity {
 
         if (btn.getText().toString().equals("Send Code")) {
             if (TextUtils.isEmpty(email.getText())) {
-                email.setError("Enter Email");
+                emailLayout.setError("Enter Email");
             } else
                 sendVerificationCode();
         } else {
+            if (TextUtils.isEmpty(newPass.getText())) {
+                newPasswordLayout.setError("Please enter password");
+            } else if (TextUtils.isEmpty(verification.getText())) {
+                verificationLayout.setError("Enter verification code");
+            } else {
 
-
-            Amplify.Auth.confirmResetPassword(
-                    newPass.getText().toString(),
-                    verification.getText().toString(),
-                    () -> {
-                        Log.i("TAG", "New password confirmed");
-                        startActivity(new Intent(this, LoginActivity.class));
-                        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-                        finish();
-                    },
-                    error -> {
-                        Log.e("TAG", error.toString());
-                        runOnUiThread(() -> {
-                            Toast.makeText(this, "Change can't complete something went wrong", Toast.LENGTH_SHORT).show();
+                Amplify.Auth.confirmResetPassword(
+                        newPass.getText().toString(),
+                        verification.getText().toString(),
+                        () -> {
+                            Log.i("TAG", "New password confirmed");
+                            startActivity(new Intent(this, LoginActivity.class));
+                            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                            finish();
+                        },
+                        error -> {
+                            Log.e("TAG", error.toString());
+                            if (error.getMessage().equals("The password given is invalid.")){
+                                newPasswordLayout.setError(error.getMessage());
+                            }else {
+                                verificationLayout.setError(error.getMessage());
+                            }
+                            runOnUiThread(() -> {
+                                Toast.makeText(this, "Change can't complete something went wrong", Toast.LENGTH_SHORT).show();
+                            });
                         });
-                    });
+            }
         }
 
     }

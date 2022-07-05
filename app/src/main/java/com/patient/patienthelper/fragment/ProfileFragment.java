@@ -71,7 +71,6 @@ public class ProfileFragment extends Fragment {
             "        Delete your account"};
 
     File file;
-    Handler handler = new Handler();
     private static final String TAG = MainActivity.class.getSimpleName() + " Profile Fragment";
 
     @Override
@@ -98,16 +97,12 @@ public class ProfileFragment extends Fragment {
         super.onResume();
         getCurrentUserImageKey();
         imageDownload();
-
-
     }
 
 
     @Override
     public void onStart() {
         super.onStart();
-
-
     }
 
     private void findAllViewById(View view) {
@@ -143,10 +138,7 @@ public class ProfileFragment extends Fragment {
                             .load(res.getUrl())
                             .circleCrop()
                             .centerInside()
-
                             .into(profileImage);
-
-
                 }
             });
         }, err -> {
@@ -199,7 +191,6 @@ public class ProfileFragment extends Fragment {
 
                 TextView name = view.findViewById(android.R.id.text1);
                 TextView subItem = view.findViewById(android.R.id.text2);
-
 
                 /*
                  * How to set the text style from java side
