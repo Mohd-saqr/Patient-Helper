@@ -77,17 +77,20 @@
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_485sdp"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/title_text_layout"
-        android:layout_marginBottom="@dimen/_50sdp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         >
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/nearby_pharmacies_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            app:layout_constraintTop_toBottomOf="@id/title_text_layout"
+            android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_5sdp" />
+
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

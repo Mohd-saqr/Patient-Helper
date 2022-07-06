@@ -1,7 +1,5 @@
 package com.patient.patienthelper.activities;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -33,7 +31,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.patient.patienthelper.R;
@@ -57,14 +54,12 @@ public class LoginActivity extends AppCompatActivity {
     private TextView forgetPassword;
     private String emailString;
     private String passwordString;
-    Animation scaleDown, scaleUp;
+    Animation scaleDown,scaleUp;
     LottieAnimationView loading;
     UserLogIn userLogIn;
     MySharedPreferences mySharedPreferences;
     HashTable hashTable = new HashTable<>(20);
-    private static String tokenFromFirebase;
-    private boolean isFirstTime = false;
-    private TextInputLayout emailLayout, passwordLayout;
+    private String tokenFromFirebase;
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -78,7 +73,6 @@ public class LoginActivity extends AppCompatActivity {
         setAllViewsAnim();
 
     }
-
     private void setAllViewsAnim() {
         setAnim(forgetPassword);
         setAnim(email);
@@ -93,9 +87,11 @@ public class LoginActivity extends AppCompatActivity {
         view.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                if (event.getAction()==MotionEvent.ACTION_DOWN)
+                {
                     view.startAnimation(scaleUp);
-                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                } else if (event.getAction()==MotionEvent.ACTION_UP)
+                {
                     view.startAnimation(scaleDown);
                 }
 
@@ -106,8 +102,8 @@ public class LoginActivity extends AppCompatActivity {
 
     //    inflate all views to be able to reach
     private void inflateViews() {
-        scaleDown = AnimationUtils.loadAnimation(this, (R.anim.scale_down));
-        scaleUp = AnimationUtils.loadAnimation(this, (R.anim.scale_up));
+        scaleDown= AnimationUtils.loadAnimation(this,(R.anim.scale_down));
+        scaleUp= AnimationUtils.loadAnimation(this,(R.anim.scale_up));
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
         loginBtn = findViewById(R.id.signin_btn);
@@ -115,8 +111,6 @@ public class LoginActivity extends AppCompatActivity {
         deviceRememberCheckBox = findViewById(R.id.remember_device_checkBox);
         loading = findViewById(R.id.loading);
         forgetPassword = findViewById(R.id.forget_password);
-        emailLayout = findViewById(R.id.login_email_input_layout);
-        passwordLayout = findViewById(R.id.login_password_input_layout);
 
     }
 
@@ -126,7 +120,7 @@ public class LoginActivity extends AppCompatActivity {
 
         signupBtn.setOnClickListener(view -> {
             startActivity(new Intent(this, SignUpActivity.class));
-            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+            overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
 
 
         });
@@ -139,7 +133,7 @@ public class LoginActivity extends AppCompatActivity {
 
         forgetPassword.setOnClickListener(view -> {
             startActivity(new Intent(this, ForgetPasswordActivity.class));
-            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+            overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
 
         });
     }
@@ -157,12 +151,12 @@ public class LoginActivity extends AppCompatActivity {
 
         if (TextUtils.isEmpty(emailString) || !emailString.contains("@")) {
 
-            emailLayout.setError("Enter valid Email");
+            email.setError("Enter valid Email");
             loading.setVisibility(View.INVISIBLE);
 
         } else if (TextUtils.isEmpty(passwordString)) {
 
-            passwordLayout.setError("Enter Password");
+            password.setError("Enter Password");
             loading.setVisibility(View.INVISIBLE);
 
         } else {
@@ -191,16 +185,18 @@ public class LoginActivity extends AppCompatActivity {
                     Log.i(TAG, result.isSignInComplete() ? "Sign in succeeded" : "Sign in not complete");
                     if (result.isSignInComplete()) {
                         if (deviceRememberCheckBox.isChecked()) {
+
                             rememberDevice();
                         }
                         onlineFetchCurrentUserAttributes();
+
                         savePasswordSharedPreferences();
-                        loading.setVisibility(View.INVISIBLE);
+
+
                     } else {
 
                         runOnUiThread(() -> {
                             Toast.makeText(LoginActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
-                            loading.setVisibility(View.INVISIBLE);
                             onResume();
                         });
                     }
@@ -239,14 +235,15 @@ public class LoginActivity extends AppCompatActivity {
 
                         if (checkFirstLogin()) {
                             loading.setVisibility(View.INVISIBLE);
+
                             startActivity(new Intent(LoginActivity.this, LookingForActivity.class));
-                            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                            overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
                             finish();
                         } else {
                             getDisease();
                             loading.setVisibility(View.INVISIBLE);
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                            overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
                             finish();
                         }
                         finish();
@@ -255,19 +252,17 @@ public class LoginActivity extends AppCompatActivity {
                 error -> Log.e(TAG, "Failed to fetch user attributes.", error)
         );
     }
-
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
     }
-
     private void getDisease() {
         Gson gson = new Gson();
 
-        hashTable = gson.fromJson(mySharedPreferences.getString("ApiData", null), HashTable.class);
+        hashTable=gson.fromJson(mySharedPreferences.getString("ApiData",null),HashTable.class);
         Disease disease = (Disease) hashTable.get(userLogIn.getDiseaseName());
-        mySharedPreferences.putString("userDisease", gson.toJson(disease));
+        mySharedPreferences.putString("userDisease",gson.toJson(disease));
         mySharedPreferences.apply();
     }
 
@@ -291,7 +286,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void saveUserData() {
 
-        System.out.println(userAttributes + "oooooooooooooo");
+
 
 
         String fullName = userAttributes.get(3).getValue() + " " + userAttributes.get(5).getValue();
@@ -305,7 +300,7 @@ public class LoginActivity extends AppCompatActivity {
         Boolean firstLogin = status.equals("test");
         String imageId = email.replace("@", "")
                 .replace("_", "").replace("-", "")
-                .replace(".", "") + "jpg";
+                .replace(".", "") ;
 
         userLogIn = new UserLogIn(fullName, firstName, firstName, lastName, id, email, email_verified, firstLogin, status, imageId, diseaseName);
         userLogIn.setPassword(passwordString);
@@ -331,7 +326,7 @@ public class LoginActivity extends AppCompatActivity {
         return userLogIn.getFirstLogIn();
     }
 
-    private void getDeviceToken(String userId) {
+        private void getDeviceToken(String userId) {
         FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
             @Override
             public void onComplete(@NonNull Task<String> task) {
@@ -352,13 +347,13 @@ public class LoginActivity extends AppCompatActivity {
                 ModelQuery.list(Token.class, Token.TOKEN_ID.contains(tokenFromFirebase1)),
                 response -> {
                     Log.i("hihihashem", "nodata");
-                    isFirstTime = true;
+
 
 
                     for (Token token1 : response.getData()) {
                         Log.i(TAG, "Token id -> " + token1.getTokenId());
                         tokens.add(token1);
-                        deleteToken(token1, userId, tokenFromFirebase1);
+//                        deleteToken(token1, userId, tokenFromFirebase1);
                     }
 
                     if (tokens.size() == 0) {
@@ -375,7 +370,7 @@ public class LoginActivity extends AppCompatActivity {
 
         Amplify.API.mutate(ModelMutation.delete(token),
                 response -> {
-                    createNewToken(userID, tokenFromFirebase2);
+
                 },
                 error -> {
                     Log.e(TAG, "delete failed", error);
@@ -395,4 +390,7 @@ public class LoginActivity extends AppCompatActivity {
         );
 
     }
+
+
 }
+

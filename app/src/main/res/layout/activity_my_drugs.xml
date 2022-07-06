@@ -4,27 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#C3E0F6"
+    android:background="@color/white"
     tools:context=".activities.MyDrugs">
+
+
 
 
     <TextView
         android:id="@+id/MyDrugs"
-        android:layout_width="380dp"
-        android:layout_height="66dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_45sdp"
+        android:background="@drawable/round_textview"
         android:text="My Drugs"
-        android:textAlignment="center"
+        android:textAlignment="textStart"
+        android:padding="@dimen/_5sdp"
         android:textColor="@color/black"
-        android:textSize="@dimen/_30sdp"
-        android:textStyle="bold"
+        android:textSize="@dimen/_24sdp"
+
         app:layout_constraintBottom_toTopOf="@+id/MyDrugsRecycle"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.486"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.149"
+        app:layout_constraintVertical_bias="0.0"
         tools:ignore="MissingConstraints" />
-
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/MyDrugsRecycle"

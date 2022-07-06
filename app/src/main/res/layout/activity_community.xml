@@ -54,6 +54,7 @@
 
 
 <LinearLayout
+
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
 
@@ -62,7 +63,7 @@
 
 
     <ImageView
-        android:id="@+id/user_image"
+        android:id="@+id/user_image_com"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -96,13 +97,23 @@ style="@style/Widget.MaterialComponents.Button.OutlinedButton"
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
+
 </LinearLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/vvvv"
                 android:layout_width="match_parent"
                 android:layout_marginBottom="@dimen/_10sdp"
                 android:layout_height="@dimen/_480sdp">
+                <View
+                    app:layout_constraintTop_toTopOf="@+id/vvvv"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
 
+
+                    android:background="#c0c0c0"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rc_posts"

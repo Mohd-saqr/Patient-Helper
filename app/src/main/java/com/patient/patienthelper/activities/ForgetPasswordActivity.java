@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +24,8 @@ public class ForgetPasswordActivity extends AppCompatActivity {
     private MaterialButton btn;
     private Animation scaleDown, scaleUp;
     private TextInputLayout emailLayout, verificationLayout, newPasswordLayout;
+    private ImageView backBtn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +34,11 @@ public class ForgetPasswordActivity extends AppCompatActivity {
         findAllViewById();
         resetPasswordAction();
         setAllViewsAnim();
+
+
+        backBtn.setOnClickListener(view -> {
+            finish();
+        });
     }
 
     private void setAllViewsAnim() {
@@ -62,6 +70,7 @@ public class ForgetPasswordActivity extends AppCompatActivity {
         emailLayout = findViewById(R.id.forget_password_email_input_layout);
         verificationLayout = findViewById(R.id.forget_password_verification_input_layout);
         newPasswordLayout = findViewById(R.id.forget_password_new_input_layout);
+        backBtn=findViewById(R.id.ivBack_for);
     }
 
     private void resetPasswordAction() {

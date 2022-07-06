@@ -25,10 +25,12 @@ public final class Post implements Model {
   public static final QueryField BODY = field("Post", "body");
   public static final QueryField CREATE_BY = field("Post", "create_by");
   public static final QueryField USER_ID = field("Post", "user_id");
+  public static final QueryField USER_EMAIL = field("Post", "user_email");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String", isRequired = true) String body;
   private final @ModelField(targetType="String", isRequired = true) String create_by;
   private final @ModelField(targetType="String", isRequired = true) String user_id;
+  private final @ModelField(targetType="String", isRequired = true) String user_email;
   private final @ModelField(targetType="Comment") @HasMany(associatedWith = "post", type = Comment.class) List<Comment> comments = null;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
@@ -48,6 +50,10 @@ public final class Post implements Model {
       return user_id;
   }
   
+  public String getUserEmail() {
+      return user_email;
+  }
+  
   public List<Comment> getComments() {
       return comments;
   }
@@ -60,11 +66,12 @@ public final class Post implements Model {
       return updatedAt;
   }
   
-  private Post(String id, String body, String create_by, String user_id) {
+  private Post(String id, String body, String create_by, String user_id, String user_email) {
     this.id = id;
     this.body = body;
     this.create_by = create_by;
     this.user_id = user_id;
+    this.user_email = user_email;
   }
   
   @Override
@@ -79,6 +86,7 @@ public final class Post implements Model {
               ObjectsCompat.equals(getBody(), post.getBody()) &&
               ObjectsCompat.equals(getCreateBy(), post.getCreateBy()) &&
               ObjectsCompat.equals(getUserId(), post.getUserId()) &&
+              ObjectsCompat.equals(getUserEmail(), post.getUserEmail()) &&
               ObjectsCompat.equals(getCreatedAt(), post.getCreatedAt()) &&
               ObjectsCompat.equals(getUpdatedAt(), post.getUpdatedAt());
       }
@@ -91,6 +99,7 @@ public final class Post implements Model {
       .append(getBody())
       .append(getCreateBy())
       .append(getUserId())
+      .append(getUserEmail())
       .append(getCreatedAt())
       .append(getUpdatedAt())
       .toString()
@@ -105,6 +114,7 @@ public final class Post implements Model {
       .append("body=" + String.valueOf(getBody()) + ", ")
       .append("create_by=" + String.valueOf(getCreateBy()) + ", ")
       .append("user_id=" + String.valueOf(getUserId()) + ", ")
+      .append("user_email=" + String.valueOf(getUserEmail()) + ", ")
       .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
       .append("updatedAt=" + String.valueOf(getUpdatedAt()))
       .append("}")
@@ -128,6 +138,7 @@ public final class Post implements Model {
       id,
       null,
       null,
+      null,
       null
     );
   }
@@ -136,7 +147,8 @@ public final class Post implements Model {
     return new CopyOfBuilder(id,
       body,
       create_by,
-      user_id);
+      user_id,
+      user_email);
   }
   public interface BodyStep {
     CreateByStep body(String body);
@@ -149,7 +161,12 @@ public final class Post implements Model {
   
 
   public interface UserIdStep {
-    BuildStep userId(String userId);
+    UserEmailStep userId(String userId);
+  }
+  
+
+  public interface UserEmailStep {
+    BuildStep userEmail(String userEmail);
   }
   
 
@@ -159,11 +176,12 @@ public final class Post implements Model {
   }
   
 
-  public static class Builder implements BodyStep, CreateByStep, UserIdStep, BuildStep {
+  public static class Builder implements BodyStep, CreateByStep, UserIdStep, UserEmailStep, BuildStep {
     private String id;
     private String body;
     private String create_by;
     private String user_id;
+    private String user_email;
     @Override
      public Post build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -172,7 +190,8 @@ public final class Post implements Model {
           id,
           body,
           create_by,
-          user_id);
+          user_id,
+          user_email);
     }
     
     @Override
@@ -190,9 +209,16 @@ public final class Post implements Model {
     }
     
     @Override
-     public BuildStep userId(String userId) {
+     public UserEmailStep userId(String userId) {
         Objects.requireNonNull(userId);
         this.user_id = userId;
+        return this;
+    }
+    
+    @Override
+     public BuildStep userEmail(String userEmail) {
+        Objects.requireNonNull(userEmail);
+        this.user_email = userEmail;
         return this;
     }
     
@@ -208,11 +234,12 @@ public final class Post implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String body, String createBy, String userId) {
+    private CopyOfBuilder(String id, String body, String createBy, String userId, String userEmail) {
       super.id(id);
       super.body(body)
         .createBy(createBy)
-        .userId(userId);
+        .userId(userId)
+        .userEmail(userEmail);
     }
     
     @Override
@@ -228,6 +255,11 @@ public final class Post implements Model {
     @Override
      public CopyOfBuilder userId(String userId) {
       return (CopyOfBuilder) super.userId(userId);
+    }
+    
+    @Override
+     public CopyOfBuilder userEmail(String userEmail) {
+      return (CopyOfBuilder) super.userEmail(userEmail);
     }
   }
   

@@ -15,7 +15,7 @@
         android:text="What you are Looking for ?"
         android:textAlignment="center"
         android:textSize="@dimen/_30sdp"
-        app:layout_constraintBottom_toTopOf="@+id/spinner_looking_for"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -25,15 +25,15 @@
         android:id="@+id/spinner_looking_for"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:entries="@array/chose"
         android:layout_marginHorizontal="@dimen/_10sdp"
+        android:layout_marginTop="60dp"
+        android:entries="@array/chose"
+
         android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/submit_looking_for"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.48"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Looking_For_TextView"
-        app:layout_constraintVertical_bias="0.201"
         tools:ignore="MissingConstraints" />
 
     <Button
@@ -42,11 +42,26 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/_10sdp"
         android:text="Submit"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_looking_for" />
+        app:layout_constraintTop_toBottomOf="@+id/spinner_looking_for"
+        app:layout_constraintVertical_bias="0.126" />
+
+    <com.airbnb.lottie.LottieAnimationView
+
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_250sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_marginBottom="4dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/confusion"
+        tools:layout_editor_absoluteX="-12dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -28,6 +28,7 @@ import com.patient.patienthelper.R;
 import com.patient.patienthelper.adapters.RecyclerAdapterComment;
 import com.patient.patienthelper.helperClass.MySharedPreferences;
 import com.patient.patienthelper.helperClass.UserLogIn;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +48,7 @@ public class CommentsActivity extends AppCompatActivity {
     Post post;
     String PostCreatedAt = "";
     private Handler mHandler = new Handler(Looper.getMainLooper());
+    SlidingUpPanelLayout slidingUpPanelLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +89,9 @@ public class CommentsActivity extends AppCompatActivity {
                     .body(commentBodyStr)
 
                     .createBy(userLogIn.getFullName())
+                    .userImageId(userLogIn.getImageId())
                     .commentPostId(post.getId())
+
                     .build();
 
             Amplify.API.mutate(ModelMutation.create(comment), res -> {
@@ -151,7 +155,7 @@ public class CommentsActivity extends AppCompatActivity {
     private void setAdapter() {
         recyclerAdapter = new RecyclerAdapterComment(apiData, comment -> {
             Toast.makeText(this, comment, Toast.LENGTH_SHORT).show();
-        });
+        },this);
 
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);

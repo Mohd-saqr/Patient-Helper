@@ -72,7 +72,10 @@ public class RecyclerAdapterPost extends RecyclerView.Adapter<RecyclerAdapterPos
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        Log.i("sdadasdasasd",data.get(position).getCreateBy()+"sdadadas");
         holder.username.setText(data.get(position).getCreateBy());
+        System.out.println(data.get(position).getCreateBy()+"sdadadas");
+
         Date date1 = data.get(position).getCreatedAt().toDate();
         android.text.format.DateFormat df = new android.text.format.DateFormat();
         holder.create_at.setText(df.format("hh:mm:ss a dd-MM-yyyy ", date1));
@@ -102,28 +105,28 @@ public class RecyclerAdapterPost extends RecyclerView.Adapter<RecyclerAdapterPos
 
         });
 
+        checkStatus();
+        Amplify.Storage.getUrl(
+                data.get(position).getUserEmail(),
+                result ->
+                {
+Log.i(data.get(position).getUserEmail(),"++++ hashemsmadi98gmailcom");
 
-//        Amplify.Storage.getUrl(
-//                data.get(position).getUserId(),
-//                result ->
-//                {
-//
-//
-//                           context.runOnUiThread(new Runnable() {
-//                               @Override
-//                               public void run() {
-//                                   Glide
-//                                           .with(context)
-//                                           .load(result.getUrl())
-//                                           .circleCrop()
-//                                           .into(holder.imageView);
-//                               }
-//                           });
-//
-//
-//                },
-//                error -> Log.e("MyAmplifyApp", "URL generation failure", error)
-//        );
+                           context.runOnUiThread(new Runnable() {
+                               @Override
+                               public void run() {
+                                   Glide
+                                           .with(context)
+                                           .load(result.getUrl())
+                                           .circleCrop()
+                                           .into(holder.imageView);
+                               }
+                           });
+
+
+                },
+                error -> Log.e("MyAmplifyApp", "URL generation failure", error)
+        );
 
     }
 
@@ -144,10 +147,10 @@ public class RecyclerAdapterPost extends RecyclerView.Adapter<RecyclerAdapterPos
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             username = itemView.findViewById(R.id.username);
-            create_at = itemView.findViewById(R.id.text_view_post_body);
+            create_at = itemView.findViewById(R.id.text_view_post_date);
             posts_body = itemView.findViewById(R.id.text_view_post_body);
             comment = itemView.findViewById(R.id.btn_comment);
-            imageView = itemView.findViewById(R.id.img_prof);
+            imageView = itemView.findViewById(R.id.user_image);
 
             post_menu = itemView.findViewById(R.id.post_menu);
 

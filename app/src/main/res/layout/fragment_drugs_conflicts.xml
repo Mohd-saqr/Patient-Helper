@@ -37,7 +37,7 @@
                 android:layout_marginEnd="256dp"
                 android:layout_marginBottom="36dp"
                 android:fontFamily="@font/roboto_regular"
-                android:text="Drugs Conflict"
+                android:text="Drugs Interaction"
                 android:textColor="#2B2828"
                 android:textSize="@dimen/_20sdp"
                 android:textStyle="bold"
@@ -52,98 +52,127 @@
 
     </androidx.cardview.widget.CardView>
 
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="279dp"
-        android:layout_height="53dp"
-        android:layout_marginTop="@dimen/_40sdp"
-        android:layout_marginBottom="-30dp"
-        android:gravity="center_vertical"
-        android:text="Select Drug"
-        android:textColor="@color/black"
-        android:textSize="@dimen/_12sdp"
-        app:layout_constraintBottom_toTopOf="@+id/testView1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.727"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView_top_drug"
-        app:layout_constraintVertical_bias="0.0" />
 
-    <TextView
-        android:id="@+id/testView"
-        android:layout_width="@dimen/_170sdp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_68sdp"
-        android:layout_marginEnd="@dimen/_40sdp"
-        android:layout_marginBottom="224dp"
-        android:background="@android:drawable/editbox_background"
-        android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
-        android:gravity="center_vertical"
-        android:padding="@dimen/_8sdp"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+
+        android:layout_width="@dimen/_280sdp"
+        android:layout_height="@dimen/_200sdp"
+        app:cardElevation="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_100sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.37">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_5sdp"
+
+                android:layout_marginTop="@dimen/_15sdp"
+                android:gravity="center_vertical"
+                android:text="Select Drug"
+
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.461"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/testView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_5sdp"
+
+                android:layout_marginTop="36dp"
+                android:background="@android:drawable/editbox_background"
+                android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
+                android:gravity="center_vertical"
+
+                android:padding="@dimen/_8sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.461"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/testView1" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_5sdp"
+
+                android:gravity="center_vertical"
+                android:text="Select Drug"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintBottom_toTopOf="@+id/testView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/testView1"
+                app:layout_constraintVertical_bias="0.507" />
+
+            <TextView
+                android:id="@+id/testView1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_toEndOf="@+id/testView"
+                android:background="@android:drawable/editbox_background"
+                android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
+                android:gravity="center_vertical"
+                android:padding="@dimen/_8sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/Check"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#4285F4"
+                android:elevation="@dimen/_10sdp"
+                android:text="Check Conflict"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_14sdp"
+                app:icon="@drawable/check"
+                app:iconGravity="start"
+                app:iconPadding="@dimen/_5sdp"
+                app:iconSize="@dimen/_20sdp"
+                app:iconTint="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.503"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/testView"
+                app:layout_constraintVertical_bias="0.186" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/progressBar_ShowInfo"
+
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_200sdp"
+        android:visibility="visible"
+        android:layout_marginBottom="@dimen/_5sdp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/testView1"
-        app:layout_constraintVertical_bias="0.385" />
+        app:lottie_loop="true"
+        app:lottie_autoPlay="true"
+        app:lottie_rawRes="@raw/chemistry"/>
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="279dp"
-        android:layout_height="53dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="-40dp"
-        android:gravity="center_vertical"
-
-        android:text="Select Drug"
-        android:textColor="@color/black"
-        android:textSize="@dimen/_12sdp"
-        app:layout_constraintBottom_toTopOf="@+id/testView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.72"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/testView1"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/testView1"
-        android:layout_width="@dimen/_170sdp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="-10dp"
-        android:layout_toEndOf="@+id/testView"
-        android:background="@android:drawable/editbox_background"
-        android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
-        android:gravity="center_vertical"
-        android:padding="@dimen/_8sdp"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.463"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/Check"
-        style="?attr/materialButtonOutlinedStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
-        android:backgroundTint="#4285F4"
-        android:elevation="@dimen/_10sdp"
-        android:text="Check Conflict"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="@dimen/_14sdp"
-        app:icon="@drawable/check"
-        app:iconGravity="start"
-        app:iconPadding="@dimen/_5sdp"
-        app:iconSize="@dimen/_20sdp"
-        app:iconTint="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.468"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/testView"
-        app:layout_constraintVertical_bias="0.03" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
