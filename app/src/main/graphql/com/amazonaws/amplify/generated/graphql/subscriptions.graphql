@@ -32,11 +32,13 @@ subscription OnCreatePost {
     body
     create_by
     user_id
+    user_email
     comments {
       items {
         id
         body
         create_by
+        userImageId
         createdAt
         updatedAt
         postCommentsId
@@ -54,11 +56,13 @@ subscription OnUpdatePost {
     body
     create_by
     user_id
+    user_email
     comments {
       items {
         id
         body
         create_by
+        userImageId
         createdAt
         updatedAt
         postCommentsId
@@ -76,11 +80,13 @@ subscription OnDeletePost {
     body
     create_by
     user_id
+    user_email
     comments {
       items {
         id
         body
         create_by
+        userImageId
         createdAt
         updatedAt
         postCommentsId
@@ -97,11 +103,13 @@ subscription OnCreateComment {
     id
     body
     create_by
+    userImageId
     post {
       id
       body
       create_by
       user_id
+      user_email
       comments {
         nextToken
       }
@@ -119,11 +127,13 @@ subscription OnUpdateComment {
     id
     body
     create_by
+    userImageId
     post {
       id
       body
       create_by
       user_id
+      user_email
       comments {
         nextToken
       }
@@ -141,11 +151,13 @@ subscription OnDeleteComment {
     id
     body
     create_by
+    userImageId
     post {
       id
       body
       create_by
       user_id
+      user_email
       comments {
         nextToken
       }

@@ -62,7 +62,7 @@
             android:outlineAmbientShadowColor="@color/black"
             android:padding="@dimen/_5sdp"
             android:layout_marginHorizontal="@dimen/_5sdp"
-            android:background="#E3E0E0"
+            android:background="#E3E5E8"
             android:textColor="#373535"/>
 
 

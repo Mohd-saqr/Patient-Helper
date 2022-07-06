@@ -30,11 +30,13 @@ query GetPost($id: ID!) {
     body
     create_by
     user_id
+    user_email
     comments {
       items {
         id
         body
         create_by
+        userImageId
         createdAt
         updatedAt
         postCommentsId
@@ -57,6 +59,7 @@ query ListPosts(
       body
       create_by
       user_id
+      user_email
       comments {
         nextToken
       }
@@ -71,11 +74,13 @@ query GetComment($id: ID!) {
     id
     body
     create_by
+    userImageId
     post {
       id
       body
       create_by
       user_id
+      user_email
       comments {
         nextToken
       }
@@ -98,11 +103,13 @@ query ListComments(
       id
       body
       create_by
+      userImageId
       post {
         id
         body
         create_by
         user_id
+        user_email
         createdAt
         updatedAt
       }

@@ -165,7 +165,9 @@ public class SignUpActivity extends AppCompatActivity {
                         finish();
 
                     });
-                    imageToUploadKey = emailSignup.getText().toString();
+                    imageToUploadKey = emailSignup.getText().toString().replace("@", "")
+                            .replace("_", "").replace("-", "")
+                            .replace(".", "");
                     if (file != null) {
                         uploadImage();
                     }
@@ -316,6 +318,7 @@ public class SignUpActivity extends AppCompatActivity {
                 if (result.getResultCode() == RESULT_OK) {
                     Uri uri = result.getData().getData();
                     imageView.setImageURI(uri);
+                    convertBitmapToFile(uri);
                 } else if (result.getResultCode() == ImagePicker.RESULT_ERROR) {
                     // Use ImagePicker.Companion.getError(result.getData()) to show an error
                 }

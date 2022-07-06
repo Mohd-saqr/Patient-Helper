@@ -7,6 +7,7 @@
     tools:context=".activities.MyPosts"
     tools:ignore="MissingDefaultResource">
 <com.sothree.slidinguppanel.SlidingUpPanelLayout
+    android:id="@+id/my_post_slide"
     android:gravity="bottom"
     app:umanoPanelHeight="5dp"
     app:umanoShadowHeight="4dp"
@@ -18,14 +19,14 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/my_posts_recycler"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_500sdp"/>
+                android:layout_height="match_parent"/>
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/loading_my_drugs"
                 android:visibility="invisible"
@@ -65,7 +66,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Create Post"
+                android:text="Edit Comment"
                 android:layout_marginTop="@dimen/_3sdp"
                 android:textSize="@dimen/_15sdp"
 
@@ -119,7 +120,7 @@
 
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/post_input_layout"
+            android:id="@+id/mY_posts_post_input_layout_"
             android:layout_width="match_parent"
             app:boxStrokeColor="@color/white"
             android:layout_height="wrap_content"
@@ -136,7 +137,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
 
-                android:id="@+id/post_body"
+                android:id="@+id/mY_posts_commentpody"
                 style="@style/ThemeOverlay.Material3.TextInputEditText.FilledBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_60sdp"
@@ -148,7 +149,7 @@
 
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/post_btn"
+            android:id="@+id/Save"
             android:layout_width="@dimen/_100sdp"
             app:cornerRadius="@dimen/_3sdp"
             android:layout_height="wrap_content"
@@ -159,7 +160,7 @@
             android:layout_gravity="end"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginHorizontal="@dimen/_10sdp"
-            android:text="Post"
+            android:text="Save"
 
 
 

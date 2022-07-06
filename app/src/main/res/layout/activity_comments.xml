@@ -45,7 +45,7 @@
         android:id="@+id/comment_rc"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_450sdp"
-        android:layout_marginTop="@dimen/_30sdp"
+        android:layout_marginTop="@dimen/_1sdp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

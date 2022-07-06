@@ -13,6 +13,7 @@ type Post @model {
   body: String!
   create_by: String!
   user_id:String!
+  user_email:String !
   comments:[Comment] @hasMany
 
 }
@@ -21,6 +22,7 @@ type Comment @model {
   id: ID!
   body: String!
   create_by:String!
+  userImageId:String !
   post: Post @hasOne
 
 }
@@ -29,7 +31,9 @@ type Token @model{
   id: ID!
   tokenId: String!
   userId: String!
+
 }
+
 
 
 type Drug @model {

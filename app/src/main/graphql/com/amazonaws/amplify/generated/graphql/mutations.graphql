@@ -44,11 +44,13 @@ mutation CreatePost(
     body
     create_by
     user_id
+    user_email
     comments {
       items {
         id
         body
         create_by
+        userImageId
         createdAt
         updatedAt
         postCommentsId
@@ -69,11 +71,13 @@ mutation UpdatePost(
     body
     create_by
     user_id
+    user_email
     comments {
       items {
         id
         body
         create_by
+        userImageId
         createdAt
         updatedAt
         postCommentsId
@@ -94,11 +98,13 @@ mutation DeletePost(
     body
     create_by
     user_id
+    user_email
     comments {
       items {
         id
         body
         create_by
+        userImageId
         createdAt
         updatedAt
         postCommentsId
@@ -118,11 +124,13 @@ mutation CreateComment(
     id
     body
     create_by
+    userImageId
     post {
       id
       body
       create_by
       user_id
+      user_email
       comments {
         nextToken
       }
@@ -143,11 +151,13 @@ mutation UpdateComment(
     id
     body
     create_by
+    userImageId
     post {
       id
       body
       create_by
       user_id
+      user_email
       comments {
         nextToken
       }
@@ -168,11 +178,13 @@ mutation DeleteComment(
     id
     body
     create_by
+    userImageId
     post {
       id
       body
       create_by
       user_id
+      user_email
       comments {
         nextToken
       }

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +32,7 @@ import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Post;
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.patient.patienthelper.R;
 import com.patient.patienthelper.activities.CommentsActivity;
@@ -73,6 +76,7 @@ public class CommunityFragment extends Fragment {
     boolean flage = false;
     String postId = "";
     TextView text_view_no_posts;
+    ImageView user_image_com;
 
     private Handler mHandler = new Handler(Looper.getMainLooper());
 
@@ -170,6 +174,7 @@ public class CommunityFragment extends Fragment {
                     Post post = Post.builder().body(body)
                             .createBy(userLogIn.getFullName())
                             .userId(userLogIn.getId())
+                            .userEmail(userLogIn.getImageId())
                             .id(postId)
                             .build();
                     loading.setVisibility(View.VISIBLE);
@@ -196,6 +201,7 @@ public class CommunityFragment extends Fragment {
                     Post post = Post.builder().body(body)
                             .createBy(userLogIn.getFullName())
                             .userId(userLogIn.getId())
+                            .userEmail(userLogIn.getImageId())
                             .build();
                     loading.setVisibility(View.VISIBLE);
                     Amplify.API.mutate(ModelMutation.create(post), res -> {
@@ -232,6 +238,7 @@ public class CommunityFragment extends Fragment {
         loading = view.findViewById(R.id.loading_com);
         text_view_no_posts = view.findViewById(R.id.text_view_no_posts);
         btn_back = view.findViewById(R.id.btn_back);
+        user_image_com=view.findViewById(R.id.user_image_com);
     }
 
     private void fetchData() {
@@ -335,6 +342,7 @@ public class CommunityFragment extends Fragment {
                 apiData.add(post);
 
 
+
             }
 
 
@@ -342,6 +350,7 @@ public class CommunityFragment extends Fragment {
                 @Override
                 public void run() {
                     loading.setVisibility(View.INVISIBLE);
+
                     recyclerAdapter.notifyDataSetChanged();
                     if (apiData.size() == 0) {
                         text_view_no_posts.setVisibility(View.VISIBLE);
@@ -355,6 +364,28 @@ public class CommunityFragment extends Fragment {
         }, err -> {
 
         });
+
+        Amplify.Storage.getUrl(
+                userLogIn.getImageId(),
+                result ->
+                {
+
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Glide
+                                    .with(getContext())
+                                    .load(result.getUrl())
+                                    .circleCrop()
+                                    .into(user_image_com);
+                        }
+                    });
+
+
+                },
+                error -> Log.e("MyAmplifyApp", "URL generation failure", error)
+        );
     }
 
     private void hideKeypord() {

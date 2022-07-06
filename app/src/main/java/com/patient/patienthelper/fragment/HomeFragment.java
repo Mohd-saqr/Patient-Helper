@@ -2,6 +2,7 @@ package com.patient.patienthelper.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -94,7 +96,9 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         sharedPreferences = new MySharedPreferences(getContext());
-
+//       getActivity(). getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+//                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+//        getActivity().   getWindow().setStatusBarColor(Color.TRANSPARENT);
         findAllViewById(view);
         setOnCkick();
         fetchDataFromApi();
@@ -128,6 +132,7 @@ public class HomeFragment extends Fragment {
         this.SeeConflict= new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Fragment fragment;
                 fragment = new DrugsConflictsFragment();
 
@@ -153,6 +158,7 @@ public class HomeFragment extends Fragment {
             desName.setText(disease.getDisease_name());
 
         }else {
+            findDrug.setText("See Interaction");
             findDrug.setOnClickListener(SeeConflict);
 
         }

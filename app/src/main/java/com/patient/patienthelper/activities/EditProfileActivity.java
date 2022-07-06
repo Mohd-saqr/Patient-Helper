@@ -18,6 +18,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,12 +29,17 @@ import androidx.appcompat.widget.AppCompatImageView;
 import com.amplifyframework.auth.AuthUserAttribute;
 import com.amplifyframework.auth.AuthUserAttributeKey;
 import com.amplifyframework.core.Amplify;
+import com.bumptech.glide.Glide;
+import com.github.drjacky.imagepicker.ImagePicker;
+import com.github.drjacky.imagepicker.constant.ImageProvider;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 import com.patient.patienthelper.R;
 import com.patient.patienthelper.helperClass.MySharedPreferences;
 import com.patient.patienthelper.helperClass.UserLogIn;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -40,6 +48,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
+import kotlin.jvm.internal.Intrinsics;
 
 @SuppressLint("SdCardPath")
 public class EditProfileActivity extends AppCompatActivity {
@@ -58,7 +70,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private OutputStream os;
     private boolean isUserUploadNewImage = false;
     private String downloadedImagePath;
-
+    UserLogIn userLogIn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,7 +96,7 @@ public class EditProfileActivity extends AppCompatActivity {
         MySharedPreferences mySharedPreferences = new MySharedPreferences(this);
         if (mySharedPreferences.contains("userLog")) {
             Gson gson = new Gson();
-            UserLogIn userLogIn = gson.fromJson(mySharedPreferences.getString("userLog", "noData"), UserLogIn.class);
+             userLogIn = gson.fromJson(mySharedPreferences.getString("userLog", "noData"), UserLogIn.class);
 
             currentFirstName = userLogIn.getFirstName();
             currentLastName = userLogIn.getLastName();
@@ -94,7 +106,7 @@ public class EditProfileActivity extends AppCompatActivity {
             currentPassword = userLogIn.getPassword();
             currentUsername = userLogIn.getUserName();
             email_verified = userLogIn.getEmail_verified();
-            imageToUploadKey = currentUserEmail.replace(".", "").replace("@", "").replace("_", "");
+            imageToUploadKey = userLogIn.getImageId();
 
             initializeAllString();
         }
@@ -128,36 +140,50 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     private void imagePicker() {
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType("image/*");
-        startActivityForResult(intent, REQUEST_CODE);
+        ImagePicker.Companion.with(this)
+                .crop()
+                .cropOval()
+                .maxResultSize(512, 512, true)
+                .provider(ImageProvider.BOTH) //Or bothCameraGallery()
+                .createIntentFromDialog((Function1) (new Function1() {
+                    public Object invoke(Object var1) {
+                        this.invoke((Intent) var1);
+                        return Unit.INSTANCE;
+                    }
+
+                    public final void invoke(@NotNull Intent it) {
+                        Intrinsics.checkNotNullParameter(it, "it");
+                        launcher.launch(it);
+                    }
+                }));
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-
-        super.onActivityResult(requestCode, resultCode, data);
-        Uri uri = data.getData();
-        if (resultCode != Activity.RESULT_OK) {
-            Toast.makeText(this, "Upload Failed", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if (requestCode == REQUEST_CODE) {// Get photo picker response for single select.
-            convertBitmapToFile(uri);
-            // Do stuff with the photo/video URI.
-        }
-        isUserUploadNewImage = true;
-        Bitmap bMap = BitmapFactory.decodeFile(String.valueOf(file));
-        profileImage.setImageBitmap(bMap);
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//
+//        super.onActivityResult(requestCode, resultCode, data);
+//        Uri uri = data.getData();
+//        if (resultCode != Activity.RESULT_OK) {
+//            Toast.makeText(this, "Upload Failed", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//
+//        if (requestCode == REQUEST_CODE) {// Get photo picker response for single select.
+//            convertBitmapToFile(uri);
+//            // Do stuff with the photo/video URI.
+//        }
+//        isUserUploadNewImage = true;
+//        Bitmap bMap = BitmapFactory.decodeFile(String.valueOf(file));
+//        profileImage.setImageBitmap(bMap);
+//    }
 
     private void convertBitmapToFile(Uri currentUri) {
 
         try {
 
             Bitmap bitmap = getBitmapFromUri(currentUri);
-            file = new File(getApplicationContext().getFilesDir(), imageToUploadKey + ".jpg");
+            file = new File(getApplicationContext().getFilesDir(), userLogIn.getImageId() + ".jpg");
             Log.i(TAG, "convertBitmapToFile: " + file);
             os = new BufferedOutputStream(new FileOutputStream(file));
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
@@ -169,33 +195,56 @@ public class EditProfileActivity extends AppCompatActivity {
         return;
     }
 
+//    private void imageDownload() {
+//
+//        File file = new File(this.getFilesDir() + "/" + userLogIn.getImageId() + ".jpg");
+//        Log.i(TAG, "imageDownload: is the file exist -> " + file.exists());
+//        if (!file.exists()) {
+//            Amplify.Storage.downloadFile(
+//                    imageToUploadKey,
+//                    file,
+//                    result -> {
+//                        Log.i(TAG, "The root path is: " + this.getFilesDir());
+//                        Log.i(TAG, "Successfully downloaded: " + result.getFile().getName());
+//
+//
+//                        runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                downloadedImagePath = result.getFile().getPath();
+//                                showTheImageInThePage(file);
+//                            }
+//                        });
+//
+//                    },
+//                    error -> Log.e(TAG, "Download Failure", error)
+//            );
+//        } else {
+//            showTheImageInThePage(file);
+//        }
+//    }
+
     private void imageDownload() {
 
-        File file = new File(this.getFilesDir() + "/" + "userProfile" + ".jpg");
+        File file = new File(this.getFilesDir() + "/" + userLogIn.getImageId() + ".jpg");
         Log.i(TAG, "imageDownload: is the file exist -> " + file.exists());
-        if (!file.exists()) {
-            Amplify.Storage.downloadFile(
-                    imageToUploadKey,
-                    file,
-                    result -> {
-                        Log.i(TAG, "The root path is: " + this.getFilesDir());
-                        Log.i(TAG, "Successfully downloaded: " + result.getFile().getName());
+        Amplify.Storage.getUrl(imageToUploadKey,res->{
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Glide
+                            .with(getApplicationContext())
+                            .load(res.getUrl())
+                            .circleCrop()
+                            .into(profileImage);
+                }
+            });
+        },err->{
 
 
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                downloadedImagePath = result.getFile().getPath();
-                                showTheImageInThePage(file);
-                            }
-                        });
-
-                    },
-                    error -> Log.e(TAG, "Download Failure", error)
-            );
-        } else {
-            showTheImageInThePage(file);
-        }
+        });
+//        showTheImageInThePage(file);
     }
 
     private void showTheImageInThePage(File file) {
@@ -237,12 +286,11 @@ public class EditProfileActivity extends AppCompatActivity {
             Amplify.Storage.remove(
                     imageToUploadKey,
                     success -> {
-                        fileToDelete = new File(this.getFilesDir() + "/" + "userProfile" + ".jpg");
-                        if (fileToDelete.delete()) {
+                        fileToDelete = new File(this.getFilesDir() + "/" + userLogIn.getImageId() + ".jpg");
+
                             Log.i(TAG, "deleteImageFromS3: The local file deleted -> true");
                             uploadImage();
 
-                        }
                         Log.i(TAG, "Image successfully deleted " + success.getKey());
                     },
                     failure ->
@@ -340,7 +388,11 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private void updateUserDataInMySharedPreferences() {
         MySharedPreferences mySharedPreferences = new MySharedPreferences(this);
-        UserLogIn userLogIn = new UserLogIn(currentFullName, currentUsername, currentId, currentUserEmail, email_verified, imageToUploadKey, firstNameString, lastNameString, currentPassword);
+//        UserLogIn userLogIn = new UserLogIn(currentFullName, currentUsername, currentId, currentUserEmail, email_verified, imageToUploadKey, firstNameString, lastNameString, currentPassword);
+        userLogIn.setFullName(firstNameString + " " + lastNameString);
+        userLogIn.setLastName(lastNameString);
+        userLogIn.setFirstName(firstNameString);
+
         final Gson gson = new Gson();
         String serializedObject = gson.toJson(userLogIn);
         mySharedPreferences.putString("userLog", serializedObject);
@@ -351,4 +403,15 @@ public class EditProfileActivity extends AppCompatActivity {
         onBackPressed();
         finish();
     }
+    ActivityResultLauncher<Intent> launcher =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), (ActivityResult result) -> {
+                if (result.getResultCode() == RESULT_OK) {
+                    Uri uri = result.getData().getData();
+                    isUserUploadNewImage = true;
+                    profileImage.setImageURI(uri);
+                    convertBitmapToFile(uri);
+                } else if (result.getResultCode() == ImagePicker.RESULT_ERROR) {
+                    // Use ImagePicker.Companion.getError(result.getData()) to show an error
+                }
+            });
 }

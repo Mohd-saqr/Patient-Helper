@@ -8,8 +8,10 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="red">#DB4437</color>
-    <color name="green">#2FFF00</color>
+    <color name="green">#209d2f</color>
     <color name="lightGrey">#d3d3d3</color>
     <color name="duskYellow">#ffd700</color>
+    <color name="google_blue">#4285F4</color>
+
 </resources>
 

@@ -24,10 +24,12 @@ public final class Comment implements Model {
   public static final QueryField ID = field("Comment", "id");
   public static final QueryField BODY = field("Comment", "body");
   public static final QueryField CREATE_BY = field("Comment", "create_by");
+  public static final QueryField USER_IMAGE_ID = field("Comment", "userImageId");
   public static final QueryField COMMENT_POST_ID = field("Comment", "commentPostId");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String", isRequired = true) String body;
   private final @ModelField(targetType="String", isRequired = true) String create_by;
+  private final @ModelField(targetType="String", isRequired = true) String userImageId;
   private final @ModelField(targetType="Post") @HasOne(associatedWith = "id", type = Post.class) Post post = null;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
@@ -42,6 +44,10 @@ public final class Comment implements Model {
   
   public String getCreateBy() {
       return create_by;
+  }
+  
+  public String getUserImageId() {
+      return userImageId;
   }
   
   public Post getPost() {
@@ -60,10 +66,11 @@ public final class Comment implements Model {
       return commentPostId;
   }
   
-  private Comment(String id, String body, String create_by, String commentPostId) {
+  private Comment(String id, String body, String create_by, String userImageId, String commentPostId) {
     this.id = id;
     this.body = body;
     this.create_by = create_by;
+    this.userImageId = userImageId;
     this.commentPostId = commentPostId;
   }
   
@@ -78,6 +85,7 @@ public final class Comment implements Model {
       return ObjectsCompat.equals(getId(), comment.getId()) &&
               ObjectsCompat.equals(getBody(), comment.getBody()) &&
               ObjectsCompat.equals(getCreateBy(), comment.getCreateBy()) &&
+              ObjectsCompat.equals(getUserImageId(), comment.getUserImageId()) &&
               ObjectsCompat.equals(getCreatedAt(), comment.getCreatedAt()) &&
               ObjectsCompat.equals(getUpdatedAt(), comment.getUpdatedAt()) &&
               ObjectsCompat.equals(getCommentPostId(), comment.getCommentPostId());
@@ -90,6 +98,7 @@ public final class Comment implements Model {
       .append(getId())
       .append(getBody())
       .append(getCreateBy())
+      .append(getUserImageId())
       .append(getCreatedAt())
       .append(getUpdatedAt())
       .append(getCommentPostId())
@@ -104,6 +113,7 @@ public final class Comment implements Model {
       .append("id=" + String.valueOf(getId()) + ", ")
       .append("body=" + String.valueOf(getBody()) + ", ")
       .append("create_by=" + String.valueOf(getCreateBy()) + ", ")
+      .append("userImageId=" + String.valueOf(getUserImageId()) + ", ")
       .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
       .append("updatedAt=" + String.valueOf(getUpdatedAt()) + ", ")
       .append("commentPostId=" + String.valueOf(getCommentPostId()))
@@ -128,6 +138,7 @@ public final class Comment implements Model {
       id,
       null,
       null,
+      null,
       null
     );
   }
@@ -136,6 +147,7 @@ public final class Comment implements Model {
     return new CopyOfBuilder(id,
       body,
       create_by,
+      userImageId,
       commentPostId);
   }
   public interface BodyStep {
@@ -144,7 +156,12 @@ public final class Comment implements Model {
   
 
   public interface CreateByStep {
-    BuildStep createBy(String createBy);
+    UserImageIdStep createBy(String createBy);
+  }
+  
+
+  public interface UserImageIdStep {
+    BuildStep userImageId(String userImageId);
   }
   
 
@@ -155,10 +172,11 @@ public final class Comment implements Model {
   }
   
 
-  public static class Builder implements BodyStep, CreateByStep, BuildStep {
+  public static class Builder implements BodyStep, CreateByStep, UserImageIdStep, BuildStep {
     private String id;
     private String body;
     private String create_by;
+    private String userImageId;
     private String commentPostId;
     @Override
      public Comment build() {
@@ -168,6 +186,7 @@ public final class Comment implements Model {
           id,
           body,
           create_by,
+          userImageId,
           commentPostId);
     }
     
@@ -179,9 +198,16 @@ public final class Comment implements Model {
     }
     
     @Override
-     public BuildStep createBy(String createBy) {
+     public UserImageIdStep createBy(String createBy) {
         Objects.requireNonNull(createBy);
         this.create_by = createBy;
+        return this;
+    }
+    
+    @Override
+     public BuildStep userImageId(String userImageId) {
+        Objects.requireNonNull(userImageId);
+        this.userImageId = userImageId;
         return this;
     }
     
@@ -203,10 +229,11 @@ public final class Comment implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String body, String createBy, String commentPostId) {
+    private CopyOfBuilder(String id, String body, String createBy, String userImageId, String commentPostId) {
       super.id(id);
       super.body(body)
         .createBy(createBy)
+        .userImageId(userImageId)
         .commentPostId(commentPostId);
     }
     
@@ -218,6 +245,11 @@ public final class Comment implements Model {
     @Override
      public CopyOfBuilder createBy(String createBy) {
       return (CopyOfBuilder) super.createBy(createBy);
+    }
+    
+    @Override
+     public CopyOfBuilder userImageId(String userImageId) {
+      return (CopyOfBuilder) super.userImageId(userImageId);
     }
     
     @Override

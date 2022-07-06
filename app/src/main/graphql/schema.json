@@ -1146,6 +1146,22 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "user_email",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "comments",
                         "description": null,
                         "args": [
@@ -1264,6 +1280,16 @@
                     },
                     {
                         "name": "create_by",
+                        "description": null,
+                        "type": {
+                            "kind": "INPUT_OBJECT",
+                            "name": "ModelStringInput",
+                            "ofType": null
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "userImageId",
                         "description": null,
                         "type": {
                             "kind": "INPUT_OBJECT",
@@ -1455,6 +1481,22 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "userImageId",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "post",
                         "description": null,
                         "args": [],
@@ -1566,6 +1608,16 @@
                     },
                     {
                         "name": "user_id",
+                        "description": null,
+                        "type": {
+                            "kind": "INPUT_OBJECT",
+                            "name": "ModelStringInput",
+                            "ofType": null
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "user_email",
                         "description": null,
                         "type": {
                             "kind": "INPUT_OBJECT",
@@ -2981,6 +3033,20 @@
                             }
                         },
                         "defaultValue": null
+                    },
+                    {
+                        "name": "user_email",
+                        "description": null,
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
+                        },
+                        "defaultValue": null
                     }
                 ],
                 "interfaces": null,
@@ -3015,6 +3081,16 @@
                     },
                     {
                         "name": "user_id",
+                        "description": null,
+                        "type": {
+                            "kind": "INPUT_OBJECT",
+                            "name": "ModelStringInput",
+                            "ofType": null
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "user_email",
                         "description": null,
                         "type": {
                             "kind": "INPUT_OBJECT",
@@ -3115,6 +3191,16 @@
                             "ofType": null
                         },
                         "defaultValue": null
+                    },
+                    {
+                        "name": "user_email",
+                        "description": null,
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        },
+                        "defaultValue": null
                     }
                 ],
                 "interfaces": null,
@@ -3191,6 +3277,20 @@
                         "defaultValue": null
                     },
                     {
+                        "name": "userImageId",
+                        "description": null,
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
+                        },
+                        "defaultValue": null
+                    },
+                    {
                         "name": "postCommentsId",
                         "description": null,
                         "type": {
@@ -3233,6 +3333,16 @@
                     },
                     {
                         "name": "create_by",
+                        "description": null,
+                        "type": {
+                            "kind": "INPUT_OBJECT",
+                            "name": "ModelStringInput",
+                            "ofType": null
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "userImageId",
                         "description": null,
                         "type": {
                             "kind": "INPUT_OBJECT",
@@ -3336,6 +3446,16 @@
                     },
                     {
                         "name": "create_by",
+                        "description": null,
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "userImageId",
                         "description": null,
                         "type": {
                             "kind": "SCALAR",

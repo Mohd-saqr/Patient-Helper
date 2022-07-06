@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -46,7 +45,7 @@ public class LookingForActivity extends AppCompatActivity {
 
         SpinnerSelected();
 
-        getDeviceToken("null");
+
 
     }
 
@@ -127,37 +126,8 @@ public class LookingForActivity extends AppCompatActivity {
         preferences.apply();
     }
 
-    private void getDeviceToken(String userId) {
-        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
-            @Override
-            public void onComplete(@NonNull Task<String> task) {
-                if (!task.isSuccessful()) {
-                    return;
-                }
-                Toast.makeText(LookingForActivity.this, task.getResult(), Toast.LENGTH_SHORT).show();
-                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("Toast", task.getResult());
-                clipboard.setPrimaryClip(clip);
-                Log.i(TAG, "onComplete: token -> " + task.getResult());
-                addTokenToCloud(task.getResult(), userId);
-            }
-        });
-    }
-
-    private void addTokenToCloud(String tokenString, String userId) {
 
 
-        Token token = Token.builder()
-                .tokenId(tokenString)
-                .userId(userId)
-                .build();
 
-        Amplify.API.mutate(
-                ModelMutation.create(token),
-                response -> Log.i(TAG, "Added Token with id: " + response.getData().getId()),
-                error -> Log.e(TAG, "Create failed", error)
-        );
-
-    }
 
 }

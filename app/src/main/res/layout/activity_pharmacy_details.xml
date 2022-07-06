@@ -115,7 +115,7 @@
                 android:background="@drawable/round_text_input"
                 android:backgroundTint="#4285F4"
                 android:gravity="center"
-                android:text="Direction Me"
+                android:text="Direction"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_15sdp" />
         </LinearLayout>
